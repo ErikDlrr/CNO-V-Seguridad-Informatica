@@ -212,20 +212,19 @@
         <!-- CONTACTO (FORM REAL) -->
         <form class="card form" action="https://formsubmit.co/erikdlr@aol.com" method="POST" autocomplete="on">
 
-            <!-- Autorespuesta automática (GRATIS) -->
+            <input type="hidden" name="_subject" value="Contacto desde Portafolio PF01 - Maizimo" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_captcha" value="false" />
+
+            <!-- Regresar a tu GitHub Pages (PROYECTO) -->
+            <input type="hidden" name="_next"
+                value="https://erikdlrr.github.io/CNO-V-Seguridad-Informatica/#contacto" />
+
+            <!-- Autorespuesta automática -->
             <input type="hidden" name="_autoresponse"
                 value="Recibí tu mensaje. Gracias por contactarme. En breve te respondo. — Erik (Maizimo)" />
 
-            <!-- Asunto del correo que te llega -->
-            <input type="hidden" name="_subject" value="Contacto desde Portafolio PF01 - Maizimo" />
-
-            <!-- Formato del correo -->
-            <input type="hidden" name="_template" value="table" />
-
-            <!-- Quita captcha (opcional). Si te llega mucho spam, cámbialo a true -->
-            <input type="hidden" name="_captcha" value="false" />
-
-            <!-- Honeypot antispam (oculto). Si un bot lo llena, FormSubmit lo bloquea -->
+            <!-- Anti-spam -->
             <input type="text" name="_honey" style="display:none">
 
             <label>
@@ -235,7 +234,8 @@
 
             <label>
                 Correo
-                <input required name="correo" type="email" placeholder="tucorreo@ejemplo.com" />
+                <!-- CLAVE: debe llamarse email -->
+                <input required name="email" type="email" placeholder="tucorreo@ejemplo.com" />
             </label>
 
             <label>
