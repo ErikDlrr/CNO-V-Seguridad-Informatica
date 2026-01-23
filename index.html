@@ -36,9 +36,7 @@
                 </button>
                 <ul class="nav__menu" id="navMenu">
                     <li><a class="active" href="#inicio">Inicio</a></li>
-                    <li><a href="#inventario" class="ghostlink" title="Definido para PF02">Inventario</a></li>
-                    <li><a href="#mod10212" class="ghostlink" title="Definido para siguientes parciales">10212</a></li>
-                    <li><a href="#pruebas" class="ghostlink" title="Definido para PF03">Pruebas</a></li>
+                    <li><a href="#actividades">Actividades</a></li>
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
             </nav>
@@ -69,6 +67,7 @@
                         <span class="chip">CSS</span>
                         <span class="chip">JavaScript</span>
                         <span class="chip chip--ok">HTTPS</span>
+                        <span class="chip chip--ok">PF01</span>
                     </div>
 
                     <div class="cta">
@@ -77,7 +76,7 @@
                     </div>
 
                     <div class="mini muted">
-                        <span class="mini__item">Estado: <b class="ok">PF01 completo</b></span>
+                        <span class="mini__item">Estado: <b class="ok">PF01 Entregado</b></span>
                         <span class="mini__sep">/</span>
                         <span class="mini__item">Actualizado: <span id="lastUpdate"></span></span>
                     </div>
@@ -86,18 +85,15 @@
                 <aside class="hero__right">
                     <div class="panel">
                         <div class="panel__top">
-                            <span class="panel__badge">Mapa del portafolio</span>
-                            <span class="panel__hint muted">Apartados definidos</span>
+                            <span class="panel__badge">Estado del curso</span>
+                            <span class="panel__hint muted">Avance</span>
                         </div>
 
                         <ul class="stack">
-                            <li class="stack__item"><span class="stack__dot"></span> Inicio (PF01)</li>
-                            <li class="stack__item ghost"><span class="stack__dot"></span> Inventario de software (PF02)
-                            </li>
-                            <li class="stack__item ghost"><span class="stack__dot"></span> 10212 (pendiente)</li>
-                            <li class="stack__item ghost"><span class="stack__dot"></span> Pruebas / Evidencias (PF03)
-                            </li>
-                            <li class="stack__item ghost"><span class="stack__dot"></span> Entrega final</li>
+                            <li class="stack__item"><span class="stack__dot"></span> Parcial I (Completado)</li>
+                            <li class="stack__item ghost"><span class="stack__dot"></span> Parcial II (Pendiente)</li>
+                            <li class="stack__item ghost"><span class="stack__dot"></span> Parcial III (Pendiente)</li>
+                            <li class="stack__item ghost"><span class="stack__dot"></span> Final (Pendiente)</li>
                         </ul>
 
                         <div class="rune" aria-hidden="true">✶ 𖤐 ⟡ 𖤓 ✶</div>
@@ -184,28 +180,59 @@
             </div>
         </section>
 
-        <!-- APARTADOS DEFINIDOS (PLACEHOLDERS) -->
-        <section class="section">
-            <div class="container grid2">
-                <article id="inventario" class="card card--ghost">
-                    <h2>Inventario de software (PF02)</h2>
-                    <p class="muted">Apartado definido. Se integrará con listado, clasificación y evidencia.</p>
-                </article>
+        <!-- ACTIVIDADES POR PARCIAL -->
+        <section id="actividades" class="section">
+            <div class="container">
+                <div class="section__head">
+                    <h2>Mapa de Actividades y Evidencias</h2>
+                    <p class="muted">Estructura del curso dividida por parciales.</p>
+                </div>
 
-                <article id="mod10212" class="card card--ghost">
-                    <h2>10212</h2>
-                    <p class="muted">Apartado definido. Pendiente de especificación/entregable formal.</p>
-                </article>
+                <div class="grid2">
+                    <!-- PRIMER PARCIAL -->
+                    <article id="parcial1" class="card">
+                        <div class="panel__badge">Primer Parcial</div>
+                        <h3>Fundamentos del Hacking Ético</h3>
+                        <p class="muted">PD01 - Portafolio Digital</p>
+                        <div class="divider"></div>
+                        <ul class="bullets">
+                            <li><a href="#inicio">PD01: Estructura del Portafolio</a> (Completado)</li>
+                        </ul>
+                    </article>
 
-                <article id="pruebas" class="card card--ghost">
-                    <h2>Pruebas / Evidencias</h2>
-                    <p class="muted">Apartado definido. Capturas, reportes, resultados y conclusiones por práctica.</p>
-                </article>
+                    <!-- SEGUNDO PARCIAL -->
+                    <article id="parcial2" class="card card--ghost">
+                        <div class="panel__badge">Segundo Parcial</div>
+                        <h3>Inventario y Análisis</h3>
+                        <p class="muted">Pendiente de asignar actividades.</p>
+                        <div class="divider"></div>
+                        <ul class="bullets">
+                            <li><i>Próximamente...</i></li>
+                        </ul>
+                    </article>
 
-                <article class="card card--ghost">
-                    <h2>Entrega final</h2>
-                    <p class="muted">Integración total del portafolio + evidencias finales y cierre.</p>
-                </article>
+                    <!-- TERCER PARCIAL -->
+                    <article id="parcial3" class="card card--ghost">
+                        <div class="panel__badge">Tercer Parcial</div>
+                        <h3>Pruebas de Penetración</h3>
+                        <p class="muted">Pendiente de asignar actividades.</p>
+                        <div class="divider"></div>
+                        <ul class="bullets">
+                            <li><i>Próximamente...</i></li>
+                        </ul>
+                    </article>
+
+                    <!-- FINAL -->
+                    <article id="final" class="card card--ghost">
+                        <div class="panel__badge">Entrega Final</div>
+                        <h3>Proyecto Integrador</h3>
+                        <p class="muted">Cierre y presentación final.</p>
+                        <div class="divider"></div>
+                        <ul class="bullets">
+                            <li><i>Próximamente...</i></li>
+                        </ul>
+                    </article>
+                </div>
             </div>
         </section>
 

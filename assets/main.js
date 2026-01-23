@@ -28,6 +28,15 @@
   if (form && status) {
     form.addEventListener("submit", () => {
       status.textContent = "Enviando…";
+
+      // Inyectar mensaje del usuario en la autorespuesta
+      const name = form.querySelector('[name="nombre"]').value;
+      const msg = form.querySelector('[name="mensaje"]').value;
+      const autoResponseInput = form.querySelector('[name="_autoresponse"]');
+
+      if (autoResponseInput) {
+        autoResponseInput.value = `Hola ${name},\n\nHe recibido tu mensaje correctamente:\n\n"${msg}"\n\nGracias por escribirme. Te responderé en breve.\n\n— Erik (Maizimo)`;
+      }
     });
   }
 })();
