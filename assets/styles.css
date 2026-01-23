@@ -7,13 +7,8 @@
     --accent: #ffffff;
     --accent-glow: rgba(255, 255, 255, 0.5);
     --success: #33ff33;
-    /* Terminal green for success states */
-
     --radius: 2px;
-    /* Minimalist, sharp corners */
     --max: 1000px;
-    /* Slightly tighter measure for elegance */
-
     --mono: "Courier Prime", "Courier New", monospace;
     --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -31,7 +26,6 @@ body {
     font-family: var(--sans);
     color: var(--text);
     background-color: var(--bg);
-    /* Subtle grid pattern for hacker vibe */
     background-image:
         linear-gradient(rgba(20, 20, 20, 0.5) 1px, transparent 1px),
         linear-gradient(90deg, rgba(20, 20, 20, 0.5) 1px, transparent 1px);
@@ -60,7 +54,6 @@ a {
     z-index: 9999;
 }
 
-/* TYPOGRAPHY OVERRIDES */
 h1,
 h2,
 h3,
@@ -93,7 +86,6 @@ p.lead {
     text-shadow: 0 0 12px var(--accent-glow);
 }
 
-/* TOPBAR */
 .topbar {
     position: sticky;
     top: 0;
@@ -120,15 +112,10 @@ p.lead {
 
 .sigil {
     font-size: 1.1rem;
-    /* Ajustado para 2 letras */
     font-weight: 800;
-    /* Extra bold */
     letter-spacing: -1px;
-    /* Letras juntas */
     color: var(--bg);
-    /* Texto negro */
     background: var(--text);
-    /* Fondo blanco (invertido) */
     width: 40px;
     height: 40px;
     border: 1px solid var(--text);
@@ -147,7 +134,6 @@ p.lead {
 .sigil:hover {
     box-shadow: 0 0 20px var(--accent-glow);
     transform: rotate(5deg);
-    /* Pequeño tilt al hover */
     cursor: default;
 }
 
@@ -294,7 +280,6 @@ p.lead {
     box-shadow: none;
 }
 
-/* SIDE PANEL */
 .panel {
     border: 1px solid var(--stroke);
     padding: 20px;
@@ -356,7 +341,6 @@ p.lead {
     font-size: 0.8rem;
 }
 
-/* CONTENT SECTIONS */
 .section {
     padding: 60px 0;
 }
@@ -443,7 +427,6 @@ p.lead {
     background: rgba(255, 255, 255, 0.1);
 }
 
-/* FORM */
 .form label {
     display: block;
     font-family: var(--mono);
@@ -471,7 +454,6 @@ textarea:focus {
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
 }
 
-/* FOOTER */
 .footer {
     padding: 40px 0;
     border-top: 1px solid var(--stroke);
@@ -499,7 +481,6 @@ textarea:focus {
     color: var(--success);
 }
 
-/* RESPONSIVE */
 @media (max-width: 850px) {
     .hero .container {
         grid-template-columns: 1fr;

@@ -29,7 +29,6 @@
     form.addEventListener("submit", () => {
       status.textContent = "Enviando…";
 
-      // Inyectar mensaje del usuario en la autorespuesta
       const name = form.querySelector('[name="nombre"]').value;
       const msg = form.querySelector('[name="mensaje"]').value;
       const autoResponseInput = form.querySelector('[name="_autoresponse"]');
