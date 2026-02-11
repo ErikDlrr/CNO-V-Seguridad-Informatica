@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC05 - Metodologías de Pentesting | Erik De La Rosa</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <a href="../../index.html" class="back-link">← Volver al inicio</a>
+            </div>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main class="article" id="pdf-content">
+        <header class="article__header">
+            <div class="article__meta">
+                <span>CNO V - Seguridad Informática</span>
+                <span>•</span>
+                <span>Primer Parcial</span>
+                <span>•</span>
+                <span>Actividad 05</span>
+            </div>
+            <h1>Cartografiando el pentesting: análisis comparativo de metodologías</h1>
+            <p class="lead">Revisión de los estándares PTES, OSSTMM, ISSAF y NIST SP 800-115 para pruebas de
+                penetración.</p>
+        </header>
+
+        <section class="article__content">
+
+            <h2>1. Introducción</h2>
+            <p>
+                Realizar un test de penetración sin una metodología es simplemente "hackear a lo loco". Para garantizar
+                resultados
+                consistentes, repetibles y profesionales, la industria ha desarrollado varios marcos de trabajo.
+            </p>
+            <p>
+                Esta actividad compara las metodologías más relevantes para entender sus fortalezas, debilidades y casos
+                de uso ideales.
+            </p>
+
+            <h2>2. Desarrollo Técnico</h2>
+
+            <h3>Comparativa de Metodologías</h3>
+
+            <h4>PTES (Penetration Testing Execution Standard)</h4>
+            <p>
+                <strong>Enfoque:</strong> Técnico y de negocio. Define 7 fases claras, desde la pre-interacción hasta el
+                reporte.
+                <br><strong>Uso ideal:</strong> Pentesting general, muy popular por su flexibilidad y enfoque práctico.
+            </p>
+
+            <h4>OSSTMM (Open Source Security Testing Methodology Manual)</h4>
+            <p>
+                <strong>Enfoque:</strong> Científico y métrico. Se centra en verificar controles operativos (RAV - Risk
+                Assessment Values).
+                <br><strong>Uso ideal:</strong> Auditorías que requieren métricas precisas y verificables, menos
+                enfocado en "romper" y más en "medir".
+            </p>
+
+            <h4>NIST SP 800-115</h4>
+            <p>
+                <strong>Enfoque:</strong> Estándar gubernamental (USA). Enfocado en la evaluación de seguridad técnica.
+                <br><strong>Uso ideal:</strong> Cumplimiento normativo (FISMA, HIPAA) y entornos corporativos rígidos.
+            </p>
+
+            <h3>Fases Comunes</h3>
+            <p>
+                A pesar de sus diferencias, todas coinciden en un flujo lógico:
+            </p>
+            <ol>
+                <li><strong>Reconocimiento (OSINT):</strong> Recolección de información.</li>
+                <li><strong>Escaneo:</strong> Descubrimiento de activos y vulnerabilidades.</li>
+                <li><strong>Explotación:</strong> Validación de vulnerabilidades (acceso).</li>
+                <li><strong>Post-Explotación:</strong> Movimiento lateral y persistencia.</li>
+                <li><strong>Reporte:</strong> Documentación de hallazgos.</li>
+            </ol>
+
+            <h2>3. Material Multimedia</h2>
+
+            <figure class="figure">
+                <img src="https://mermaid.ink/img/pako:eNpVkM1qwzAQhF9F7KmF_AGHHHzIodSXQkl7KKS1sSWw1JKsOIT8965jp4fSnsZvZme1g7K9j9qRfN63Sn8ZD0rPlrTj5B37I3sk7woopWEIE_xJenTWeyWHoVOWv07fCSX9V7_ppdh8PlbisX74lNYatMYHDWd1vf70W3FwOE1413DcaengqVP-f8PlvQ8OLuFhB2fwtOAk4TnhTf6S8JrwNnsjvCV8y94J7wmPeU_CE96X7IT3hCe8KzgpOEl4STgpHCU8S3hOOCkcJbwkPCscJbwknBSOEp4lPCccJawj5X_COtxOFEVpxweson4A1gB0fQ?type=png"
+                    alt="Comparativa de Fases">
+                <!-- Nota: Placeholder, debería ser una tabla comparativa o diagrama de Venn -->
+                <figcaption>Fig 1. Diagrama conceptual de las fases del PTES, el estándar de facto actual.</figcaption>
+            </figure>
+
+            <h2>4. Reflexión Personal</h2>
+            <div class="reflection">
+                <h3>El Mapa no es el Territorio</h3>
+                <p>
+                    Ninguna metodología cubre el 100% de los escenarios. Un buen pentester debe conocerlas todas pero
+                    saber cuándo
+                    adaptarse. Personalmente, encuentro que PTES ofrece el mejor equilibrio entre la necesidad técnica
+                    de los pentesters
+                    y la necesidad de negocio de los clientes.
+                </p>
+                <p>
+                    OSSTMM es excelente para cuantificar seguridad, pero puede resultar árido. NIST es obligatorio en
+                    ciertos sectores.
+                    La elección depende del contexto del cliente.
+                </p>
+            </div>
+
+            <div class="references">
+                <h3>5. Referencias Técnicas</h3>
+                <ul>
+                    <li>PTES Team. (2014). <em>The Penetration Testing Execution Standard</em>.</li>
+                    <li>ISECOM. (2010). <em>OSSTMM 3.0</em>.</li>
+                    <li>NIST. (2008). <em>SP 800-115: Technical Guide to Information Security Testing and
+                            Assessment</em>.</li>
+                </ul>
+            </div>
+
+        </section>
+    </main>
+
+    <button onclick="generatePDF()" class="pdf-btn" title="Exportar a PDF" aria-label="Exportar a PDF">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </button>
+
+    <script>
+        function generatePDF() {
+            const element = document.getElementById('pdf-content');
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: 'AC05_Metodologias_Pentesting_Erik_DeLaRosa.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+</body>
+
+</html>

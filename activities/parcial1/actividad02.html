@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC02 - Análisis X.800 y RFC 4949 | Erik De La Rosa</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <a href="../../index.html" class="back-link">← Volver al inicio</a>
+            </div>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main class="article" id="pdf-content">
+        <header class="article__header">
+            <div class="article__meta">
+                <span>CNO V - Seguridad Informática</span>
+                <span>•</span>
+                <span>Primer Parcial</span>
+                <span>•</span>
+                <span>Actividad 02</span>
+            </div>
+            <h1>Análisis de servicios de seguridad (X.800 y RFC 4949)</h1>
+            <p class="lead">Estudio comparativo y definiciones fundamentales de los estándares de seguridad de la OSI y
+                la IETF.</p>
+        </header>
+
+        <section class="article__content">
+
+            <h2>1. Introducción</h2>
+            <p>
+                La seguridad de la información se rige por estándares internacionales que definen un lenguaje común y
+                una arquitectura de referencia.
+                Los dos pilares fundamentales en este ámbito son la recomendación <strong>X.800 de la UIT-T</strong>
+                (Arquitectura de seguridad para OSI)
+                y el <strong>RFC 4949</strong> (Glosario de Seguridad de Sistemas de Información de Internet).
+            </p>
+            <p>
+                Esta actividad analiza las definiciones de servicios de seguridad, mecanismos y ataques según estos
+                documentos, estableciendo las bases teóricas
+                para la implementación de defensas.
+            </p>
+
+            <h2>2. Desarrollo Técnico</h2>
+
+            <h3>Servicios de Seguridad (X.800)</h3>
+            <p>
+                La norma X.800 define cinco categorías principales de servicios de seguridad que deben ser
+                proporcionados por las capas del modelo OSI:
+            </p>
+            <ul>
+                <li><strong>Autenticación:</strong> Garantiza que la entidad comunicante es quien dice ser (e.g.,
+                    Autenticación de origen de datos).</li>
+                <li><strong>Control de Acceso:</strong> Protección contra el uso no autorizado de recursos.</li>
+                <li><strong>Confidencialidad:</strong> Protección de datos contra revelación no autorizada.</li>
+                <li><strong>Integridad:</strong> Garantía de que los datos no han sido alterados o destruidos de manera
+                    no autorizada.</li>
+                <li><strong>No Repudio:</strong> Prevención de la negación de haber realizado una acción (e.g., No
+                    repudio de origen).</li>
+            </ul>
+
+            <h3>Conceptos Clave del RFC 4949</h3>
+            <p>
+                El RFC 4949 proporciona definiciones precisas para evitar ambigüedades. Algunos términos críticos
+                analizados son:
+            </p>
+            <div class="code-block">
+                Risk (Riesgo): La expectativa de pérdida expresada como la probabilidad de que una amenaza particular
+                explote una vulnerabilidad particular con un resultado dañino particular.
+
+                Threat (Amenaza): Un potencial de violación de la seguridad, que existe cuando hay una circunstancia,
+                capacidad, acción o evento que podría violar la seguridad y causar daño.
+
+                Vulnerability (Vulnerabilidad): Una debilidad en un sistema de información, procedimientos de seguridad
+                del sistema, controles internos o implementación que podría ser explotada por una fuente de amenaza.
+            </div>
+
+            <h2>3. Material Multimedia</h2>
+
+            <figure class="figure">
+                <img src="https://mermaid.ink/img/pako:eNpVkU1rwzAMxv9KoZMdst102GEw2G0w2G0wSg-i2Gms-CF2MgbDf59cp-0oO_hIeuT3SLrT1o2ikL6e91J_Gg9Kz5a04-Qd-yN7JK_lQCsN75_gT9Kjsd4rOQyDsvw1-k4o6b_6Qy_F5vO-E4_1T6e01qA1HjSc1fX6y2_FweE04U3Dcaelg4dO-f8Nl7c-OLiChx2cweOEnbCCs4TnhJ3wglMJLwk74RWvEl4TdsK3vCvx9oRveU_iHQlveU_iPbvgLDhOeEHYCes4S3hJ2AnrOJVwT9gJ63iVcJewE9bxrcR7wjo-SnyUsA63E0VROvABq6hvVA?type=png"
+                    alt="Relación entre Servicios y Mecanismos X.800">
+                <!-- Nota: Usando la misma imagen de ejemplo por ahora, se debería reemplazar con un diagrama específico de X.800 -->
+                <figcaption>Fig 1. Relación conceptual entre Servicios de Seguridad y Mecanismos según X.800.
+                </figcaption>
+            </figure>
+
+
+            <h2>4. Reflexión Personal</h2>
+            <div class="reflection">
+                <h3>Importancia de la Estandarización</h3>
+                <p>
+                    El estudio de la X.800 y el RFC 4949 no es un mero ejercicio académico; es vital para la
+                    interoperabilidad.
+                    Si dos sistemas "seguros" entienden "autenticación" de manera diferente, la seguridad global del
+                    sistema falla.
+                </p>
+                <p>
+                    Entender la diferencia entre un servicio (qué queremos lograr, e.g., confidencialidad) y un
+                    mecanismo
+                    (cómo lo logramos, e.g., cifrado AES) es crucial para diseñar arquitecturas de seguridad robustas y
+                    escalables.
+                    Muchas fallas de seguridad provienen de confundir la herramienta con el objetivo.
+                </p>
+            </div>
+
+            <div class="references">
+                <h3>5. Referencias Técnicas</h3>
+                <ul>
+                    <li>ITU-T. (1991). <em>Recommendation X.800: Security architecture for Open Systems Interconnection
+                            for CCITT applications</em>.</li>
+                    <li>IETF. (2007). <em>RFC 4949: Internet Security Glossary, Version 2</em>.</li>
+                </ul>
+            </div>
+
+        </section>
+    </main>
+
+    <button onclick="generatePDF()" class="pdf-btn" title="Exportar a PDF" aria-label="Exportar a PDF">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </button>
+
+    <script>
+        function generatePDF() {
+            const element = document.getElementById('pdf-content');
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: 'AC02_X800_RFC4949_Erik_DeLaRosa.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+    </script>
+</body>
+
+</html>
