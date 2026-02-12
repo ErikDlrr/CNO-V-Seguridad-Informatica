@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC02 - Análisis X.800 y RFC 4949 | Erik De La Rosa</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <a href="../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main class="article">
+        <header class="article__header">
+            <div class="article__meta">
+                <span>CNO V - Seguridad Informática</span>
+                <span>•</span>
+                <span>Primer Parcial</span>
+                <span>•</span>
+                <span>Actividad 02</span>
+            </div>
+            <h1>Análisis de servicios de seguridad (X.800 y RFC 4949)</h1>
+            <p class="lead">
+                Análisis de escenarios de seguridad utilizando los servicios de la recomendación
+                <strong>ITU-T X.800</strong> y la terminología del <strong>RFC 4949</strong>.
+            </p>
+        </header>
+
+        <section class="article__content">
+
+            <h2>1. Introducción</h2>
+            <p>
+                La seguridad informática requiere marcos conceptuales claros para analizar
+                incidentes y comunicar resultados de forma estructurada. La recomendación
+                <strong>ITU-T X.800</strong> define los servicios fundamentales de seguridad,
+                mientras que el <strong>RFC 4949</strong> establece la terminología estándar
+                para describir amenazas, vulnerabilidades y ataques.
+            </p>
+            <p>
+                Ambos documentos se complementan: X.800 permite identificar qué propiedad
+                de seguridad fue comprometida, y el RFC 4949 permite describir cómo ocurrió
+                el incidente y qué tipo de amenaza estuvo involucrada.
+            </p>
+
+            <h2>2. Servicios de seguridad según X.800</h2>
+            <ul>
+                <li><strong>Autenticación</strong></li>
+                <li><strong>Control de acceso</strong></li>
+                <li><strong>Confidencialidad</strong></li>
+                <li><strong>Integridad</strong></li>
+                <li><strong>No repudio</strong></li>
+                <li><strong>Disponibilidad</strong></li>
+            </ul>
+
+            <h2>3. Escenarios de seguridad analizados</h2>
+
+            <div class="reflection">
+                <h3>Escenario 1: Ransomware con exfiltración</h3>
+                <p><strong>X.800:</strong> Confidencialidad, Integridad, Disponibilidad</p>
+                <p><strong>RFC 4949:</strong> Multi-stage attack, Data breach</p>
+            </div>
+
+            <div class="reflection">
+                <h3>Escenario 2: Base de datos expuesta</h3>
+                <p><strong>X.800:</strong> Confidencialidad, Control de acceso</p>
+                <p><strong>RFC 4949:</strong> Misconfiguration, Exposure</p>
+            </div>
+
+            <div class="reflection">
+                <h3>Escenario 3: Ataque a la cadena de suministro</h3>
+                <p><strong>X.800:</strong> Integridad, Confidencialidad</p>
+                <p><strong>RFC 4949:</strong> Supply chain attack</p>
+            </div>
+
+            <div class="reflection">
+                <h3>Escenario 4: Phishing con robo de credenciales</h3>
+                <p><strong>X.800:</strong> Autenticación, Control de acceso</p>
+                <p><strong>RFC 4949:</strong> Credential compromise</p>
+            </div>
+
+            <div class="reflection">
+                <h3>Escenario 5: Eliminación de respaldos</h3>
+                <p><strong>X.800:</strong> Disponibilidad, Integridad</p>
+                <p><strong>RFC 4949:</strong> Data destruction</p>
+            </div>
+
+            <div class="reflection">
+                <h3>Escenario 6: Amenaza interna</h3>
+                <p><strong>X.800:</strong> Confidencialidad, Control de acceso</p>
+                <p><strong>RFC 4949:</strong> Insider threat</p>
+            </div>
+
+            <div class="reflection">
+                <h3>Escenario 7: Alteración de registros</h3>
+                <p><strong>X.800:</strong> Integridad, No repudio</p>
+                <p><strong>RFC 4949:</strong> Audit trail compromise</p>
+            </div>
+
+            <div class="reflection">
+                <h3>Escenario 8: Fallo operativo</h3>
+                <p><strong>X.800:</strong> Disponibilidad</p>
+                <p><strong>RFC 4949:</strong> Operational failure</p>
+            </div>
+
+            <div class="reflection">
+                <h3>Escenario 9: Suplantación de identidad</h3>
+                <p><strong>X.800:</strong> Autenticación, Confidencialidad</p>
+                <p><strong>RFC 4949:</strong> Masquerade, Phishing</p>
+            </div>
+
+            <div class="reflection">
+                <h3>Escenario 10: Ataque destructivo</h3>
+                <p><strong>X.800:</strong> Confidencialidad, Integridad, Disponibilidad</p>
+                <p><strong>RFC 4949:</strong> Destructive attack</p>
+            </div>
+
+            <h2>4. Reflexión técnica</h2>
+            <div class="reflection">
+                <p>
+                    El análisis demuestra que los servicios de seguridad definidos en
+                    X.800 siguen siendo válidos para clasificar incidentes reales.
+                    Por su parte, el RFC 4949 permite describir estos eventos con
+                    terminología precisa y estandarizada.
+                </p>
+                <p>
+                    La combinación de ambos marcos permite documentar incidentes,
+                    evaluar impactos y proponer controles adecuados, considerando
+                    no solo ataques externos sino también errores humanos y fallas
+                    operativas.
+                </p>
+            </div>
+
+            <h2>5. Referencias técnicas</h2>
+            <ul>
+                <li>ITU-T X.800 – Security Architecture for OSI.</li>
+                <li>RFC 4949 – Internet Security Glossary.</li>
+            </ul>
+
+        </section>
+    </main>
+
+    <a href="AC02P1.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
+        rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+
+</body>
+
+</html>

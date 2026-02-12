@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC04 - Mecanismos de defensa en red (iptables) | Erik De La Rosa</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <a href="../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main class="article">
+        <header class="article__header">
+            <div class="article__meta">
+                <span>CNO V - Seguridad Informática</span>
+                <span>•</span>
+                <span>Primer Parcial</span>
+                <span>•</span>
+                <span>Actividad 04</span>
+            </div>
+            <h1>Mecanismos de defensa en red</h1>
+            <p class="lead">
+                Implementación de defensa perimetral con <strong>iptables</strong>:
+                política restrictiva, control de estado (stateful) y reglas específicas para DNS, SMTP y HTTP.
+            </p>
+        </header>
+
+        <section class="article__content">
+
+            <h2>1. Introducción</h2>
+            <p>
+                Un mecanismo básico y efectivo de defensa en red es el filtrado de paquetes. En Linux,
+                <strong>iptables</strong>
+                permite definir políticas y reglas para controlar qué tráfico se acepta o se bloquea. La estrategia más
+                segura
+                parte de una <strong>política por defecto restrictiva</strong> (deny-by-default) y después permite
+                únicamente
+                los servicios necesarios.
+            </p>
+
+            <h2>2. Desarrollo técnico</h2>
+
+            <h3>2.1 Política restrictiva (deny-by-default)</h3>
+            <p>
+                Se establecen políticas por defecto en DROP para reducir la superficie de exposición. Con esto,
+                cualquier
+                tráfico no contemplado explícitamente será bloqueado.
+            </p>
+
+            <div class="code-block">
+                iptables -P INPUT DROP
+                iptables -P OUTPUT DROP
+                iptables -P FORWARD DROP
+            </div>
+
+            <h3>2.2 Permitir conexiones establecidas (Stateful firewall)</h3>
+            <p>
+                Para que las respuestas de conexiones legítimas funcionen, se permite el tráfico marcado como
+                <strong>ESTABLISHED</strong> o <strong>RELATED</strong>. Esto evita romper sesiones válidas y mantiene
+                el control
+                sin abrir “todo”.
+            </p>
+
+            <div class="code-block">
+                iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+                iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+            </div>
+
+            <h3>2.3 Reglas por servicio (DNS, correo y web)</h3>
+            <p>
+                Después de aplicar la política restrictiva, se agregan excepciones para permitir solo el tráfico
+                requerido:
+                <strong>DNS saliente</strong>, <strong>SMTP entrante/saliente</strong> del servidor de correo y
+                <strong>HTTP entrante</strong> al servidor web, además de <strong>HTTP saliente</strong> de la red
+                local.
+            </p>
+
+            <div class="code-block">
+                # 3) Aceptar tráfico DNS (TCP) saliente de la red local 192.1.2.0/24
+                iptables -A OUTPUT -p tcp --dport 53 -s 192.1.2.0/24 -m state --state NEW -j ACCEPT
+
+                # 4) Aceptar correo entrante (SMTP) desde Internet al servidor 192.1.2.10
+                iptables -A INPUT -p tcp --dport 25 -d 192.1.2.10 -m state --state NEW -j ACCEPT
+
+                # 5) Permitir correo saliente (SMTP) a Internet desde el servidor 192.1.2.10
+                iptables -A OUTPUT -p tcp --dport 25 -s 192.1.2.10 -m state --state NEW -j ACCEPT
+
+                # 6) Aceptar conexiones HTTP desde Internet al servidor web 192.1.2.11
+                iptables -A INPUT -p tcp --dport 80 -d 192.1.2.11 -m state --state NEW -j ACCEPT
+
+                # 7) Permitir tráfico HTTP desde la red local a Internet
+                iptables -A OUTPUT -p tcp --dport 80 -s 192.1.2.0/24 -m state --state NEW -j ACCEPT
+            </div>
+
+            <h2>3. Material multimedia</h2>
+            <figure class="figure">
+                <img src="https://mermaid.ink/img/pako:eNpVkM1qwzAQhF9F7KmF_AGHHHzIodSXQkl7KGS1sSWw1JKsOIT8965jp4fSwzAfMzOrHZTXI2pP8nnZKn0ZD0rPlrTj5B37I3sk7woopWEIE_xJenTWeyWHoVOWv0zfCSX9V7_ppdh8PlbisX74lNYatMYHDWd1vf70W3FwOE1413DcaengiVP-f8P1vQ8OLuFhB2fwtOAk4TnhTf6S8JrwNnsjvCV8y94J7wmPeU_CE96X7IT3hCe8KzgpOEl4STgpHCU8S3hOOCkcJbwkPCscJbwknBSOEp4lPCccJawj5X_COtxOFEVpxweson4A1gB0fQ?type=png"
+                    alt="Topología y reglas iptables (conceptual)">
+                <figcaption>
+                    Fig. 1 Enfoque conceptual: política restrictiva (DROP) + permitir ESTABLISHED/RELATED + reglas
+                    específicas por servicio.
+                </figcaption>
+            </figure>
+
+            <h2>4. Reflexión técnica</h2>
+            <div class="reflection">
+                <h3>Defensa realista: menos reglas, mejor control</h3>
+                <p>
+                    La parte “importante” no es escribir muchas reglas; es que la política por defecto sea restrictiva y
+                    que
+                    cada excepción tenga un motivo claro. El control por estado (ESTABLISHED/RELATED) permite que el
+                    firewall
+                    sea usable sin abrir puertas innecesarias.
+                </p>
+                <p>
+                    El riesgo típico es abrir salidas “por comodidad” (por ejemplo OUTPUT ACCEPT). Si OUTPUT queda
+                    abierto,
+                    malware o exfiltración tendrían salida fácil. Por eso, limitar DNS/HTTP/SMTP a lo necesario mejora
+                    la
+                    contención y reduce superficie de ataque.
+                </p>
+            </div>
+
+            <h2>5. Referencias técnicas</h2>
+            <ul>
+                <li>Netfilter/iptables — documentación de filtrado de paquetes en Linux.</li>
+                <li>Concepto de firewall stateful (ESTABLISHED/RELATED).</li>
+            </ul>
+
+        </section>
+    </main>
+
+    <a href="AC04P1.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
+        rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+
+</body>
+
+</html>

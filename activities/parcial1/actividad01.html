@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC01 - Análisis de Ciberataque | Equifax 2017</title>
+    <link rel="stylesheet" href="../../assets/styles.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <a href="../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main class="article">
+        <header class="article__header">
+            <div class="article__meta">
+                <span>CNO V - Seguridad Informática</span>
+                <span>•</span>
+                <span>Primer Parcial</span>
+                <span>•</span>
+                <span>Actividad 01</span>
+            </div>
+
+            <h1>Análisis en grupo de un ciberataque real y su impacto empresarial</h1>
+            <p class="lead">
+                Estudio de caso: <strong>Equifax (2017)</strong>. Explotación de
+                <strong>Apache Struts (CVE-2017-5638)</strong> y sus consecuencias
+                técnicas, financieras y regulatorias.
+            </p>
+        </header>
+
+        <section class="article__content">
+
+            <h2>1. Introducción</h2>
+            <p>
+                El incidente de Equifax en 2017 es uno de los casos más relevantes en
+                la historia reciente de la ciberseguridad. El ataque expuso datos
+                personales de aproximadamente <strong>147.9 millones</strong> de personas,
+                incluyendo números de seguridad social, fechas de nacimiento y direcciones.
+            </p>
+            <p>
+                La causa principal fue la falta de aplicación de un parche crítico en
+                una aplicación web vulnerable, lo que permitió la ejecución remota de
+                código por parte de los atacantes.
+            </p>
+
+            <h2>2. Desarrollo técnico</h2>
+
+            <h3>2.1 Vector de ataque</h3>
+            <p>
+                El acceso inicial ocurrió mediante la vulnerabilidad
+                <strong>CVE-2017-5638</strong> en <strong>Apache Struts 2</strong>,
+                la cual permitía ejecución remota de código (RCE) a través del
+                encabezado <strong>Content-Type</strong> en solicitudes multipart.
+            </p>
+
+            <div class="code-block">
+                POST /ruta HTTP/1.1
+                Host: servidor.victima
+                Content-Type: %{(#cmd='id').(#p=new java.lang.ProcessBuilder(#cmd.split('
+                '))).(#p.start())}.multipart/form-data
+            </div>
+
+            <p>
+                Aunque el parche estaba disponible desde marzo de 2017, el sistema
+                vulnerable no fue actualizado, lo que permitió el acceso inicial.
+            </p>
+
+            <h3>2.2 Cadena del ataque (MITRE ATT&CK)</h3>
+            <ul>
+                <li><strong>Acceso inicial:</strong> Explotación de aplicación pública vulnerable.</li>
+                <li><strong>Ejecución:</strong> Comandos remotos en el servidor.</li>
+                <li><strong>Persistencia:</strong> Instalación de web shells.</li>
+                <li><strong>Movimiento lateral:</strong> Uso de credenciales internas.</li>
+                <li><strong>Exfiltración:</strong> Extracción progresiva de datos sensibles.</li>
+                <li><strong>Encubrimiento:</strong> Eliminación de rastros.</li>
+            </ul>
+
+            <h2>3. Material multimedia</h2>
+            <figure class="figure">
+                <img src="https://mermaid.ink/img/pako:eNptkE1PwzAMhv9K0pM0u1o0bVx0mB4mYbq0dNQyqVt0p2b1a9CqHk9uJQ5s0u7t7y1y7oU2b5mN3n8w0yY8mK3Q1m3cB2o3t8F4b0m7xGdOa1y0Cj0w5o9h5mS0m2t0mY0m0p0mS0m7o0m0m0m0m0m0m0m0m0m0m0m0m0m0m0m0?type=png"
+                    alt="Diagrama del ataque Equifax">
+                <figcaption>
+                    Fig. 1 Cadena del ataque: explotación RCE → acceso interno → exfiltración.
+                </figcaption>
+            </figure>
+
+            <h2>4. Impacto técnico y empresarial</h2>
+            <h3>Modelo CIA</h3>
+            <ul>
+                <li><strong>Confidencialidad:</strong> Datos personales expuestos masivamente.</li>
+                <li><strong>Integridad:</strong> Acceso no autorizado a sistemas internos.</li>
+                <li><strong>Disponibilidad:</strong> Interrupciones y costos operativos.</li>
+            </ul>
+
+            <h2>5. Reflexión técnica</h2>
+            <div class="reflection">
+                <p>
+                    El incidente de Equifax demuestra que muchas brechas graves no se deben
+                    a ataques sofisticados, sino a fallos de gestión. Un parche crítico
+                    disponible durante meses no fue aplicado, lo que permitió un ataque
+                    de ejecución remota.
+                </p>
+                <p>
+                    Esto evidencia la importancia de procesos sólidos de gestión de
+                    vulnerabilidades, segmentación de red, monitoreo continuo y controles
+                    de seguridad alineados a marcos como ISO 27001 y NIST CSF.
+                </p>
+            </div>
+
+            <h2>6. Referencias técnicas</h2>
+            <ul>
+                <li>CVE-2017-5638 — Apache Struts RCE.</li>
+                <li>MITRE ATT&CK Framework.</li>
+                <li>NIST Cybersecurity Framework.</li>
+                <li>ISO/IEC 27001.</li>
+            </ul>
+
+        </section>
+    </main>
+
+    <a href="AC01P1.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
+        rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+
+</body>
+
+</html>

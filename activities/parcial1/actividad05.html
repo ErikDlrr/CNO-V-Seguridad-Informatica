@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AC05 - Cartografiando el Pentesting | Erik De La Rosa</title>
+    <link rel="stylesheet" href="../../assets/styles.css" />
+    <style>
+        .table-wrap {
+            overflow: auto;
+            border-radius: 16px;
+        }
+
+        table.compare {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1100px;
+        }
+
+        table.compare th,
+        table.compare td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, .10);
+            vertical-align: top;
+            text-align: left;
+        }
+
+        table.compare th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background: rgba(0, 0, 0, .35);
+            backdrop-filter: blur(6px);
+        }
+
+        .small {
+            font-size: 12px;
+            opacity: .8;
+        }
+
+        .muted2 {
+            opacity: .78;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            font-size: 12px;
+            opacity: .95;
+        }
+
+        .section-note {
+            margin-top: 8px;
+        }
+
+        .refs li {
+            margin: 8px 0;
+        }
+
+        .quote {
+            padding: 14px 16px;
+            border-left: 3px solid rgba(255, 255, 255, .22);
+            background: rgba(255, 255, 255, .05);
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <a href="../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main class="article">
+        <header class="article__header">
+            <div class="article__meta">
+                <span>CNO V - Seguridad Informática</span>
+                <span>•</span>
+                <span>Primer Parcial</span>
+                <span>•</span>
+                <span>Actividad 05</span>
+            </div>
+
+            <h1>Cartografiando el Pentesting</h1>
+            <p class="lead">
+                Análisis comparativo de metodologías de seguridad informática:
+                <strong>MITRE ATT&CK, OWASP WSTG, NIST SP 800-115, OSSTMM, PTES e ISSAF</strong>.
+            </p>
+            <p class="muted2 small">
+                Fecha: 12 de febrero de 2026.
+            </p>
+        </header>
+
+        <section class="article__content">
+
+            <h2>1. Objetivo general</h2>
+            <p>
+                Analizar y comparar de manera estructurada las principales metodologías y marcos de referencia
+                utilizados en pruebas
+                de penetración y evaluación de la seguridad informática, para comprender enfoques, objetivos, contextos
+                de aplicación
+                y alcances técnicos.
+            </p>
+
+            <h2>2. Objetivos específicos</h2>
+            <ul>
+                <li>Identificar y describir características fundamentales (propósito, fases y orientación).</li>
+                <li>Relacionar cada metodología con escenarios de aplicación (web, infraestructura, organizacional,
+                    etc.).</li>
+                <li>Comparar autores/organismos, documentación oficial, certificaciones y vigencia/actualizaciones.</li>
+            </ul>
+
+            <h2>3. Tabla 1: Enfoque, fases, objetivos y uso</h2>
+            <div class="card table-wrap" style="padding:0;">
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Metodología</th>
+                            <th>Descripción</th>
+                            <th>Fases</th>
+                            <th>Objetivo</th>
+                            <th>Uso</th>
+                            <th>Orientación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>MITRE ATT&CK</b></td>
+                            <td>Base de conocimiento de tácticas y técnicas (TTPs) basada en inteligencia real. Modela
+                                ataques y evalúa defensas.</td>
+                            <td>
+                                1) Recolección<br>
+                                2) Mapeo técnicas<br>
+                                3) Simulación<br>
+                                4) Eval. detección<br>
+                                5) Mejora continua
+                            </td>
+                            <td>Comprender y simular comportamiento real del adversario.</td>
+                            <td>SOC, Blue Team, Threat Hunting, Red Teaming.</td>
+                            <td><span class="pill">Defensa / Evaluación</span></td>
+                        </tr>
+
+                        <tr>
+                            <td><b>OWASP WSTG</b></td>
+                            <td>Guía estándar para pruebas de seguridad en aplicaciones web. Valida controles técnicos
+                                por categorías.</td>
+                            <td>
+                                1) Recolección<br>
+                                2) Configuración<br>
+                                3) Autenticación<br>
+                                4) Autorización<br>
+                                5) Entradas/Lógica
+                            </td>
+                            <td>Identificar fallos y validar controles en apps web.</td>
+                            <td>Aplicaciones Web, APIs, Portales expuestos.</td>
+                            <td><span class="pill">Ataque controlado</span></td>
+                        </tr>
+
+                        <tr>
+                            <td><b>NIST SP 800-115</b></td>
+                            <td>Guía formal para planeación y ejecución de evaluaciones técnicas, con énfasis en
+                                evidencia y reporte.</td>
+                            <td>
+                                1) Planeación<br>
+                                2) Descubrimiento<br>
+                                3) Ataque<br>
+                                4) Reporte
+                            </td>
+                            <td>Estandarizar procesos de auditoría técnica.</td>
+                            <td>Auditorías, Cumplimiento, Gobierno, Banca.</td>
+                            <td><span class="pill">Evaluación / Defensa</span></td>
+                        </tr>
+
+                        <tr>
+                            <td><b>OSSTMM</b></td>
+                            <td>Metodología científica centrada en métricas operacionales para minimizar la subjetividad
+                                y medir seguridad (RAV).</td>
+                            <td>
+                                1) Alcance<br>
+                                2) Recolección<br>
+                                3) Análisis canales<br>
+                                4) Pruebas<br>
+                                5) Medición
+                            </td>
+                            <td>Medir la seguridad de forma cuantificable.</td>
+                            <td>Redes, Telecom, Seguridad Física y Humana.</td>
+                            <td><span class="pill">Evaluación técnica</span></td>
+                        </tr>
+
+                        <tr>
+                            <td><b>PTES</b></td>
+                            <td>Estándar práctico “de facto” para la ejecución profesional de pentesting. Define desde
+                                el acuerdo hasta el reporte técnico.</td>
+                            <td>
+                                1) Pre-engagement<br>
+                                2) Inteligencia<br>
+                                3) Amenazas<br>
+                                4) Vulns/Explotación<br>
+                                5) Reporte
+                            </td>
+                            <td>Estandarizar la ejecución técnica del pentest.</td>
+                            <td>Consultoría, Pentesting ofensivo empresarial.</td>
+                            <td><span class="pill">Ataque controlado</span></td>
+                        </tr>
+
+                        <tr>
+                            <td><b>ISSAF</b></td>
+                            <td>Marco integral que une pruebas técnicas con gestión de riesgos y procesos
+                                organizacionales.</td>
+                            <td>
+                                1) Planeación<br>
+                                2) Evaluación<br>
+                                3) Pruebas técnicas<br>
+                                4) Análisis/Reporte
+                            </td>
+                            <td>Evaluar seguridad técnica alineada al riesgo.</td>
+                            <td>Auditorías complejas, Evaluaciones de riesgo.</td>
+                            <td><span class="pill">Evaluación / Defensa</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>4. Tabla 2: Fuentes, certificaciones y vigencia</h2>
+            <div class="card table-wrap" style="padding:0;">
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Metodología</th>
+                            <th>Autor</th>
+                            <th>URL oficial</th>
+                            <th>Certificaciones</th>
+                            <th>Versiones / Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>MITRE ATT&CK</b></td>
+                            <td>MITRE Corp.</td>
+                            <td><a href="https://attack.mitre.org" target="_blank"
+                                    rel="noopener">https://attack.mitre.org</a></td>
+                            <td>Entrenamientos MITRE Engenuity; usado en GIAC.</td>
+                            <td>Actualización continua (Matrix Enterprise/Mobile/ICS).</td>
+                        </tr>
+
+                        <tr>
+                            <td><b>OWASP WSTG</b></td>
+                            <td>OWASP Foundation</td>
+                            <td><a href="https://owasp.org/www-project-web-security-testing-guide/" target="_blank"
+                                    rel="noopener">https://owasp.org/www-project-web-security-testing-guide/</a></td>
+                            <td>Base para OSCP, OSWE, GPEN, CEH.</td>
+                            <td>WSTG v4.2 (vigente y estable).</td>
+                        </tr>
+
+                        <tr>
+                            <td><b>NIST SP 800-115</b></td>
+                            <td>NIST (EE.UU.)</td>
+                            <td><a href="https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-115.pdf"
+                                    target="_blank" rel="noopener">PDF oficial</a></td>
+                            <td>Referencia en CISA, CISSP, CISM.</td>
+                            <td>Documento SP 800-115 (estándar vigente).</td>
+                        </tr>
+
+                        <tr>
+                            <td><b>OSSTMM</b></td>
+                            <td>ISECOM</td>
+                            <td><a href="https://www.isecom.org" target="_blank"
+                                    rel="noopener">https://www.isecom.org</a></td>
+                            <td>Oficiales: OPST, OPSA, OPSE.</td>
+                            <td>OSSTMM 3.0 (versión estable).</td>
+                        </tr>
+
+                        <tr>
+                            <td><b>PTES</b></td>
+                            <td>Comunidad</td>
+                            <td><a href="http://www.pentest-standard.org" target="_blank"
+                                    rel="noopener">http://www.pentest-standard.org</a></td>
+                            <td>Base práctica para la mayoría de certs ofensivas.</td>
+                            <td>Estándar comunitario (Wiki), actualización continua.</td>
+                        </tr>
+
+                        <tr>
+                            <td><b>ISSAF</b></td>
+                            <td>OISSG</td>
+                            <td><a href="https://www.oissg.org/issaf" target="_blank"
+                                    rel="noopener">https://www.oissg.org/issaf</a></td>
+                            <td>Indirectamente en auditoría de sistemas.</td>
+                            <td>Framework ISSAF (proyecto inactivo, usado como referencia).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>5. Análisis comparativo (síntesis técnica)</h2>
+            <div class="quote">
+                <p><b>MITRE ATT&CK</b> no es un tutorial, sino una base de conocimiento útil para mapear si los
+                    controles detectan técnicas específicas.</p>
+                <p><b>OWASP WSTG</b> es ideal para auditar páginas o APIs por su profundidad (lógica, sesión, datos).
+                </p>
+                <p><b>NIST SP 800-115</b> e <b>ISSAF</b> son formales, útiles cuando la evidencia y alineación normativa
+                    importan.</p>
+                <p><b>OSSTMM</b> busca métricas duras; <b>PTES</b> representa el ciclo de vida “real” del pentest
+                    profesional.</p>
+            </div>
+
+            <h2>6. Conclusión</h2>
+            <p>
+                No existe una metodología universal. Para pentest técnico: <b>PTES</b> y <b>OWASP</b>. Para
+                auditoría/cumplimiento: <b>NIST</b>.
+                Para maduración de defensas internas: <b>MITRE ATT&CK</b>. La decisión depende del objetivo del negocio.
+            </p>
+
+            <h2>7. Referencias (APA 7)</h2>
+            <ul class="refs">
+                <li>ISECOM. (2010). <i>Open Source Security Testing Methodology Manual (OSSTMM 3.0)</i>.
+                    https://www.isecom.org/OSSTMM.3.pdf</li>
+                <li>MITRE. (2024). <i>MITRE ATT&CK® framework</i>. https://attack.mitre.org</li>
+                <li>National Institute of Standards and Technology. (2008). <i>Technical Guide to Information Security
+                        Testing and Assessment (SP 800-115)</i>.
+                    https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-115.pdf</li>
+                <li>OISSG. (2022). <i>Information Systems Security Assessment Framework (ISSAF)</i>.
+                    https://www.oissg.org/issaf</li>
+                <li>OWASP Foundation. (2023). <i>OWASP Web Security Testing Guide (WSTG) v4.2</i>.
+                    https://owasp.org/www-project-web-security-testing-guide/</li>
+                <li>Penetration Testing Execution Standard. (2023). <i>PTES Technical Guidelines</i>.
+                    http://www.pentest-standard.org</li>
+            </ul>
+
+            <p class="section-note muted2 small">
+                Nota: La redacción está en español, pero las fuentes oficiales están publicadas mayormente en inglés.
+            </p>
+
+        </section>
+    </main>
+
+    <!-- Botón PDF real (misma carpeta) -->
+    <a href="AC05P1.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
+        rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+
+</body>
+
+</html>
