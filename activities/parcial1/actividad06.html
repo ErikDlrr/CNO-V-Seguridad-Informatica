@@ -2,24 +2,68 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AC06 - IPSec VPN | Erik De La Rosa</title>
-    <link rel="stylesheet" href="../../assets/styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AC06 - Actividad en Progreso | Erik De La Rosa</title>
+    <link rel="stylesheet" href="../../assets/styles.css" />
+    <style>
+        .progress-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+            text-align: center;
+        }
+
+        .progress-icon {
+            font-size: 48px;
+            margin-bottom: 24px;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.5;
+                transform: scale(0.95);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+
+            100% {
+                opacity: 0.5;
+                transform: scale(0.95);
+            }
+        }
+
+        .date-badge {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 99px;
+            font-family: 'Space Mono', monospace;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
     <header class="topbar">
         <div class="container topbar__inner">
             <div class="brand">
-                <a href="../../index.html" class="back-link">← Volver al inicio</a>
+                <a href="../../index.html#actividades" class="back-link">← Volver a Actividades</a>
             </div>
         </div>
         <div class="scanline" aria-hidden="true"></div>
     </header>
 
-    <main class="article" id="pdf-content">
+    <main class="article">
         <header class="article__header">
             <div class="article__meta">
                 <span>CNO V - Seguridad Informática</span>
@@ -28,123 +72,30 @@
                 <span>•</span>
                 <span>Actividad 06</span>
             </div>
-            <h1>Implementación de IPSec VPN</h1>
-            <p class="lead">Configuración de túneles seguros Site-to-Site utilizando el conjunto de protocolos IPSec
-                (AH/ESP/IKE).</p>
+
+            <h1>Actividad en Progreso</h1>
         </header>
 
         <section class="article__content">
+            <div class="progress-container">
+                <div class="progress-icon" aria-hidden="true">🚧</div>
 
-            <h2>1. Introducción</h2>
-            <p>
-                Las VPNs (Virtual Private Networks) son esenciales para interconectar sedes de manera segura a través de
-                redes públicas como internet.
-                <strong>IPSec (Internet Protocol Security)</strong> es el estándar por excelencia para VPNs capa 3,
-                proporcionando autenticación,
-                integridad y confidencialidad.
-            </p>
-            <p>
-                Esta actividad detalla la configuración de una VPN Site-to-Site entre dos routers (simulados en
-                GNS3/Packet Tracer o reales)
-                utilizando el modo túnel.
-            </p>
-
-            <h2>2. Desarrollo Técnico</h2>
-
-            <h3>Componentes de IPSec</h3>
-            <ul>
-                <li><strong>IKE (Internet Key Exchange):</strong> Protocolo para negociar las asociaciones de seguridad
-                    (SA). Fase 1 y Fase 2.</li>
-                <li><strong>ESP (Encapsulating Security Payload):</strong> Provee cifrado, autenticación e integridad.
-                </li>
-                <li><strong>AH (Authentication Header):</strong> Solo provee autenticación e integridad, no cifra los
-                    datos (poco usado hoy en día).</li>
-            </ul>
-
-            <h3>Configuración (Cisco IOS)</h3>
-
-            <div class="code-block">
-                ! 1. Configurar política ISAKMP (Fase 1)
-                crypto isakmp policy 10
-                encr aes 256
-                authentication pre-share
-                group 14
-
-                ! 2. Definir clave pre-compartida
-                crypto isakmp key SECRET_KEY address 200.1.1.2
-
-                ! 3. Configurar Transform Set (Fase 2)
-                crypto ipsec transform-set MY_SET esp-aes 256 esp-sha-hmac
-
-                ! 4. Definir tráfico interesante (ACL)
-                access-list 100 permit ip 192.168.10.0 0.0.0.255 192.168.20.0 0.0.0.255
-
-                ! 5. Crear Crypto Map y aplicarlo a la interfaz
-                crypto map MY_MAP 10 ipsec-isakmp
-                set peer 200.1.1.2
-                set transform-set MY_SET
-                match address 100
-
-                interface GigabitEthernet0/0
-                crypto map MY_MAP
-            </div>
-
-            <h2>3. Material Multimedia</h2>
-
-            <figure class="figure">
-                <img src="https://mermaid.ink/img/pako:eNpVkM1qwzAQhF9F7KmF_AGHHHzIodSXQkl7KGS1sSWw1JKsOIT8965jp4fSnsZvZme1g7K9j9qRfN63Sn8ZD0rPlrTj5B37I3sk7woopWEIE_xJenTWeyWHoVOWv07fCSX9V7_ppdh8PlbisX74lNYatMYHDWd1vf70W3FwOE1413DcaengqVP-f8PlvQ8OLuFhB2fwtOAk4TnhTf6S8JrwNnsjvCV8y94J7wmPeU_CE96X7IT3hCe8KzgpOEl4STgpHCU8S3hOOCkcJbwkPCscJbwknBSOEp4lPCccJawj5X_COtxOFEVpxweson4A1gB0fQ?type=png"
-                    alt="Topología VPN IPSec">
-                <figcaption>Fig 1. Esquema de direccionamiento y túnel entre Sede A y Sede B.</figcaption>
-            </figure>
-
-            <h2>4. Reflexión Personal</h2>
-            <div class="reflection">
-                <h3>Confidencialidad en Tránsito</h3>
-                <p>
-                    IPSec es robusto pero complejo de configurar y depurar ("crypto isakmp debug" es tu mejor amigo).
-                    Una mala configuración en la Fase 1 (políticas no coincidentes) o Fase 2 (ACLs no espejo) es la
-                    causa del 99% de los fallos.
+                <p class="lead">
+                    Esta actividad se encuentra actualmente en desarrollo.
                 </p>
-                <p>
-                    A diferencia de SSL/TLS VPNs (capa 4/7), IPSec opera en capa 3, lo que lo hace transparente para las
-                    aplicaciones pero más rígido
-                    con NAT (requiere NAT-Traversal).
-                </p>
-            </div>
 
-            <div class="references">
-                <h3>5. Referencias Técnicas</h3>
-                <ul>
-                    <li>Cisco. (n.d.). <em>IPSec VPN Configuration Guide</em>.</li>
-                    <li>RFC 4301. (2005). <em>Security Architecture for the Internet Protocol</em>.</li>
-                </ul>
+                <div class="date-badge">
+                    Fecha esperada: Antes del 18 de febrero del 2026
+                </div>
             </div>
-
         </section>
     </main>
 
-    <button onclick="generatePDF()" class="pdf-btn" title="Exportar a PDF" aria-label="Exportar a PDF">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-        </svg>
-    </button>
-
-    <script>
-        function generatePDF() {
-            const element = document.getElementById('pdf-content');
-            const opt = {
-                margin: [10, 10, 10, 10],
-                filename: 'AC06_IPSec_VPN_Erik_DeLaRosa.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
-        }
-    </script>
 </body>
 
 </html>
+
+<!--  Por si se me olvida como subir los cambios a GitHub
+    git add .
+    git commit -m "Agregada actividad 06 en progreso"
+    git push  -->
