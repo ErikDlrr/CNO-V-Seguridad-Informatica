@@ -638,6 +638,53 @@ x
         </svg>
     </a>
 
+    <!-- LIGHTBOX CONTAINER -->
+    <div id="lightbox" class="lightbox">
+        <div class="lightbox__content">
+            <button class="lightbox__close" aria-label="Cerrar">&times;</button>
+            <img src="" alt="" class="lightbox__img">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = lightbox.querySelector('.lightbox__img');
+            const closeBtn = lightbox.querySelector('.lightbox__close');
+            const triggers = document.querySelectorAll('figure.media img');
+
+            triggers.forEach(img => {
+                img.classList.add('lightbox-trigger');
+                img.addEventListener('click', () => {
+                    lightboxImg.src = img.src;
+                    lightboxImg.alt = img.alt;
+                    lightbox.classList.add('active');
+                });
+            });
+
+            const closeLightbox = () => {
+                lightbox.classList.remove('active');
+                setTimeout(() => {
+                    lightboxImg.src = '';
+                    lightboxImg.alt = '';
+                }, 300);
+            };
+
+            closeBtn.addEventListener('click', closeLightbox);
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
