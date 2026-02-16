@@ -85,8 +85,17 @@
 
             <h2>3. Material multimedia</h2>
             <figure class="figure">
-                <img src="https://mermaid.ink/img/pako:eNptkE1PwzAMhv9K0pM0u1o0bVx0mB4mYbq0dNQyqVt0p2b1a9CqHk9uJQ5s0u7t7y1y7oU2b5mN3n8w0yY8mK3Q1m3cB2o3t8F4b0m7xGdOa1y0Cj0w5o9h5mS0m2t0mY0m0p0mS0m7o0m0m0m0m0m0m0m0m0m0m0m0m0m0m0m0?type=png"
-                    alt="Diagrama del ataque Equifax">
+                <div class="mermaid">
+                    graph TD
+                    A[Acceso Inicial] -->|Exploit CVE-2017-5638| B[Ejecución RCE]
+                    B -->|Comandos Remotos| C[Persistencia]
+                    C -->|Web Shells| D[Movimiento Lateral]
+                    D -->|Credenciales Internas| E[Exfiltración]
+                    E -->|Datos Sensibles| F[Impacto Masivo]
+
+                    style A fill:#f87171,stroke:#333,color:#fff
+                    style F fill:#ef4444,stroke:#333,color:#fff
+                </div>
                 <figcaption>
                     Fig. 1 Cadena del ataque: explotación RCE → acceso interno → exfiltración.
                 </figcaption>
@@ -136,6 +145,11 @@
         </svg>
     </a>
 
+    <!-- Mermaid JS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
 </body>
 
 </html>

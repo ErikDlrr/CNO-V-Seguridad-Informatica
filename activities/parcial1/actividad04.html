@@ -103,8 +103,18 @@
 
             <h2>3. Material multimedia</h2>
             <figure class="figure">
-                <img src="https://mermaid.ink/img/pako:eNpVkM1qwzAQhF9F7KmF_AGHHHzIodSXQkl7KGS1sSWw1JKsOIT8965jp4fSwzAfMzOrHZTXI2pP8nnZKn0ZD0rPlrTj5B37I3sk7woopWEIE_xJenTWeyWHoVOWv0zfCSX9V7_ppdh8PlbisX74lNYatMYHDWd1vf70W3FwOE1413DcaengiVP-f8P1vQ8OLuFhB2fwtOAk4TnhTf6S8JrwNnsjvCV8y94J7wmPeU_CE96X7IT3hCe8KzgpOEl4STgpHCU8S3hOOCkcJbwkPCscJbwknBSOEp4lPCccJawj5X_COtxOFEVpxweson4A1gB0fQ?type=png"
-                    alt="Topología y reglas iptables (conceptual)">
+                <div class="mermaid">
+                    graph TD
+                    Packet["Paquete Entrante/Saliente"] --> State{"¿Es ESTABLISHED<br>o RELATED?"}
+                    State -- Sí --> Accept["ACEPTAR"]
+                    State -- No --> Service{"¿Es DNS, SMTP<br>o HTTP permitido?"}
+                    Service -- Sí --> Accept
+                    Service -- No --> Drop["BLOQUEAR (Política Default)"]
+
+                    style Accept fill:#10b981,stroke:#333,color:#fff
+                    style Drop fill:#ef4444,stroke:#333,color:#fff
+                    style Packet fill:#3b82f6,stroke:#333,color:#fff
+                </div>
                 <figcaption>
                     Fig. 1 Enfoque conceptual: política restrictiva (DROP) + permitir ESTABLISHED/RELATED + reglas
                     específicas por servicio.
@@ -149,6 +159,11 @@
         </svg>
     </a>
 
+    <!-- Mermaid JS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
 </body>
 
 </html>

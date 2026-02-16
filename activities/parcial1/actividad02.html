@@ -60,6 +60,39 @@
                 <li><strong>Disponibilidad</strong></li>
             </ul>
 
+            <figure class="figure">
+                <div class="mermaid">
+                    graph TD
+                    Root[("Seguridad<br>X.800")] --> Auth[Autenticación]
+                    Root --> Access[Control de Acceso]
+                    Root --> Conf[Confidencialidad]
+                    Root --> Integ[Integridad]
+                    Root --> NonRep[No Repudio]
+                    Root --> Avail[Disponibilidad]
+
+                    Auth --> Auth1[Masquerade]
+                    Auth --> Auth2[Replay]
+                    Access --> Access1[Unauthorized Access]
+                    Conf --> Conf1[Traffic Analysis]
+                    Conf --> Conf2[Data Leakage]
+                    Integ --> Integ1[Modification]
+                    Integ --> Integ2[Destruction]
+                    NonRep --> NonRep1[Repudiation]
+                    Avail --> Avail1[Denial of Service]
+
+                    style Root fill:#f59e0b,stroke:#fff,color:#fff
+                    style Auth fill:#3b82f6,stroke:#fff,color:#fff
+                    style Access fill:#3b82f6,stroke:#fff,color:#fff
+                    style Conf fill:#3b82f6,stroke:#fff,color:#fff
+                    style Integ fill:#3b82f6,stroke:#fff,color:#fff
+                    style NonRep fill:#3b82f6,stroke:#fff,color:#fff
+                    style Avail fill:#3b82f6,stroke:#fff,color:#fff
+                </div>
+                <figcaption>
+                    Fig. 1 Relación conceptual: Servicios de Seguridad X.800 vs Amenazas RFC 4949.
+                </figcaption>
+            </figure>
+
             <h2>3. Escenarios de seguridad analizados</h2>
 
             <div class="reflection">
@@ -157,6 +190,11 @@
         </svg>
     </a>
 
+    <!-- Mermaid JS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
 </body>
 
 </html>

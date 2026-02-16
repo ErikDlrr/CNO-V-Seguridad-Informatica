@@ -4,22 +4,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AC03 - Políticas iptables | Erik De La Rosa</title>
+    <title>AC03 - Políticas de filtrado en iptables | Erik De La Rosa</title>
     <link rel="stylesheet" href="../../assets/styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        .table-wrap {
+            overflow: auto;
+            border-radius: 16px;
+        }
+
+        table.compare {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 980px;
+        }
+
+        table.compare th,
+        table.compare td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, .10);
+            vertical-align: top;
+            text-align: left;
+        }
+
+        table.compare th {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background: rgba(0, 0, 0, .35);
+            backdrop-filter: blur(6px);
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            font-size: 12px;
+            opacity: .95;
+        }
+
+        .small {
+            font-size: 12px;
+            opacity: .78;
+        }
+
+        .callout {
+            padding: 14px 16px;
+            border-left: 3px solid rgba(255, 255, 255, .22);
+            background: rgba(255, 255, 255, .05);
+            border-radius: 12px;
+            margin: 14px 0;
+        }
+
+        code.inline {
+            padding: 2px 6px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, .08);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: .95em;
+        }
+    </style>
 </head>
 
 <body>
     <header class="topbar">
         <div class="container topbar__inner">
             <div class="brand">
-                <a href="../../index.html" class="back-link">← Volver al inicio</a>
+                <a href="../../index.html#actividades" class="back-link">← Volver a Actividades</a>
             </div>
         </div>
         <div class="scanline" aria-hidden="true"></div>
     </header>
 
-    <main class="article" id="pdf-content">
+    <main class="article">
         <header class="article__header">
             <div class="article__meta">
                 <span>CNO V - Seguridad Informática</span>
@@ -28,131 +85,201 @@
                 <span>•</span>
                 <span>Actividad 03</span>
             </div>
+
             <h1>Interpretación y traducción de políticas de filtrado en iptables</h1>
-            <p class="lead">Configuración de firewalls en Linux mediante Netfilter/iptables: sintaxis, cadenas y
-                políticas por defecto.</p>
+            <p class="lead">
+                Identificación del flujo de un paquete (tabla → cadena → acción), propósito de tablas principales y
+                traducción de
+                requerimientos a reglas iptables (multiport, state, interface y logging).
+            </p>
         </header>
 
         <section class="article__content">
 
             <h2>1. Introducción</h2>
             <p>
-                El filtrado de paquetes es la primera línea de defensa en la seguridad de redes host-based.
-                En sistemas Linux, <strong>iptables</strong> es la herramienta de espacio de usuario tradicional para
-                interactuar
-                con el framework Netfilter del kernel.
-            </p>
-            <p>
-                Esta actividad se centra en la sintaxis de las reglas, la lógica de las cadenas (INPUT, OUTPUT, FORWARD)
-                y la importancia de establecer una política por defecto restrictiva (DROP) frente a una permisiva
-                (ACCEPT).
+                <strong>iptables</strong> permite aplicar políticas de filtrado y control de tráfico en Linux.
+                Para interpretar una regla correctamente hay que entender qué tabla se consulta, qué cadena procesa el
+                paquete
+                y qué acción (target) se ejecuta.
             </p>
 
-            <h2>2. Desarrollo Técnico</h2>
-
-            <h3>Estructura de una Regla</h3>
-            <p>
-                Una regla de iptables se compone de una tabla (por defecto 'filter'), una cadena, criterios de
-                coincidencia (matchers) y un objetivo (target).
-            </p>
-
-            <div class="code-block">
-                # Sintaxis General
-                iptables -t [tabla] -[A|I|D] [CADENA] [criterios] -j [OBJETIVO]
-
-                # Ejemplo: Permitir tráfico SSH entrante
-                iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+            <h2>2. Flujo del paquete</h2>
+            <div class="callout">
+                Cuando un paquete llega al sistema, primero pasa por una <strong>tabla</strong>, después por una
+                <strong>cadena</strong>
+                y finalmente se ejecuta una <strong>acción</strong> (<span class="pill">ACCEPT</span>, <span
+                    class="pill">DROP</span>, <span class="pill">REJECT</span>, <span class="pill">LOG</span>, etc.).
             </div>
-
-            <h3>Caso Práctico: Configuración de un Bastión</h3>
-            <p>
-                A continuación se muestra un script de configuración básico para un servidor web, aplicando el principio
-                de "todo lo que no está explícitamente permitido, está prohibido".
-            </p>
-
-            <div class="code-block">
-                #!/bin/bash
-
-                # 1. Limpiar reglas existentes
-                iptables -F
-                iptables -X
-
-                # 2. Establecer Políticas por Defecto (Deny All)
-                iptables -P INPUT DROP
-                iptables -P FORWARD DROP
-                iptables -P OUTPUT ACCEPT
-
-                # 3. Permitir tráfico de loopback
-                iptables -A INPUT -i lo -j ACCEPT
-
-                # 4. Permitir conexiones establecidas y relacionadas
-                iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
-
-                # 5. Permitir SSH (Gestión) y HTTP/HTTPS (Servicio)
-                iptables -A INPUT -p tcp --dport 22 -j ACCEPT
-                iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-                iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-
-                # Loguear paquetes descartados (opcional, para depuración)
-                iptables -A INPUT -j LOG --log-prefix "IPTABLES-DROP: "
-            </div>
-
-            <h2>3. Material Multimedia</h2>
 
             <figure class="figure">
-                <img src="https://mermaid.ink/img/pako:eNpVkM1qwzAQhF9F7KmF_AGHHHzIobSXQkl7KGS1sSWw1JKsOIT8965jp4fSnuZjdma1g7K9j9qRfN63Sn8ZD0rPlrTj5B37I3sk7woopWEIE_xJenTWeyWHoVOWv07fCSX9V7_ppdh8PlbisX74lNYatMYHDWd1vf70W3FwOE1413DcaengqVP-f8PlvQ8OLuFhB2fwtOAk4TnhTf6S8JrwNnsjvCV8y94J7wmPeU_CE96X7IT3hCe8KzgpOEl4STgpHCU8S3hOOCkcJbwkPCscJbwknBSOEp4lPCccJawj5X_COtxOFEVpxweson4A1gB0fQ?type=png"
-                    alt="Flujo de paquetes en Netfilter">
-                <figcaption>Fig 1. Diagrama del flujo de un paquete a través de las cadenas de la tabla FILTER.
+                <div class="mermaid">
+                    graph LR
+                    Pak_In[Paquete Entrante] --> Input_Chain{Cadena INPUT}
+                    Input_Chain -->|Regla Coincide| Action[Acción: ACCEPT/DROP]
+                    Input_Chain -->|No Coincide| Default[Política por Defecto]
+
+                    Pak_Out[Paquete Saliente] --> Output_Chain{Cadena OUTPUT}
+                    Output_Chain -->|Regla Coincide| Action2[Acción]
+
+                    style Input_Chain fill:#3b82f6,stroke:#fff,color:#fff
+                    style Output_Chain fill:#3b82f6,stroke:#fff,color:#fff
+                    style Action fill:#10b981,stroke:#fff,color:#fff
+                </div>
+                <figcaption>
+                    Fig. 1 Flujo simplificado: Un paquete atraviesa cadenas donde se evalúan reglas secuencialmente.
                 </figcaption>
             </figure>
 
-            <h2>4. Reflexión Personal</h2>
-            <div class="reflection">
-                <h3>Stateful vs Stateless</h3>
-                <p>
-                    La gran potencia de iptables radica en su módulo `conntrack`, que permite el filtrado con estado
-                    (stateful).
-                    A diferencia de las ACLs tradicionales de routers antiguos, iptables puede tomar decisiones
-                    basándose en si un paquete pertenece
-                    a una conexión ya válida.
-                </p>
-                <p>
-                    El comando <code>-m state --state ESTABLISHED,RELATED</code> es crítico; sin él, tendríamos que
-                    abrir reglas estáticas para
-                    todos los puertos efímeros de respuesta, lo cual sería una pesadilla de seguridad y gestión.
-                </p>
+            <h2>3. Tablas de iptables y su propósito</h2>
+            <div class="card table-wrap" style="padding:0;">
+                <table class="compare">
+                    <thead>
+                        <tr>
+                            <th>Tabla</th>
+                            <th>Propósito principal</th>
+                            <th>Ejemplo típico (frase corta)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>FILTER</b></td>
+                            <td>Filtrado de paquetes (permitir/bloquear tráfico).</td>
+                            <td>Permitir SSH / bloquear puertos</td>
+                        </tr>
+                        <tr>
+                            <td><b>NAT</b></td>
+                            <td>Traducción de direcciones/puertos (SNAT/DNAT/MASQUERADE).</td>
+                            <td>Compartir Internet / redirección</td>
+                        </tr>
+                        <tr>
+                            <td><b>MANGLE</b></td>
+                            <td>Modificar paquetes (marcas, TTL, QoS, etc.).</td>
+                            <td>Marcar tráfico / ajustar TTL</td>
+                        </tr>
+                        <tr>
+                            <td><b>RAW</b></td>
+                            <td>Reglas que afectan tracking (conntrack) y procesamiento temprano.</td>
+                            <td>Excluir de conntrack</td>
+                        </tr>
+                        <tr>
+                            <td><b>SECURITY</b></td>
+                            <td>Integración con políticas de seguridad (SELinux, etc.).</td>
+                            <td>Contextos de seguridad</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="small">
+                Nota: en esta actividad se trabaja principalmente con <code class="inline">FILTER</code>.
+            </p>
+
+            <h2>4. Anatomía de un comando iptables</h2>
+            <p>
+                Ejemplo (estructura típica): cadena de entrada, protocolo TCP, módulo multiport, puertos destino y
+                acción final.
+            </p>
+            <div class="code-block">
+                iptables -A INPUT -p tcp -m multiport --dports 80,443 -j ACCEPT
+            </div>
+            <ul>
+                <li><code class="inline">-A INPUT</code>: agrega regla al final de la cadena INPUT.</li>
+                <li><code class="inline">-p tcp</code>: aplica a tráfico TCP.</li>
+                <li><code class="inline">-m multiport --dports ...</code>: varios puertos destino.</li>
+                <li><code class="inline">-j ACCEPT</code>: acción (target).</li>
+            </ul>
+
+            <h2>5. Opciones comunes (lo que sí te piden usar)</h2>
+            <ul>
+                <li><b>Limitar intentos por minuto:</b> <code class="inline">-m limit --limit 10/min</code></li>
+                <li><b>Filtrar por IP de origen:</b> <code class="inline">-s 192.168.1.50</code></li>
+                <li><b>Ver solo números (sin DNS/puertos):</b> <code class="inline">iptables -L -n</code></li>
+                <li><b>Ver contadores (paquetes/bytes):</b> <code class="inline">iptables -L -v</code></li>
+            </ul>
+
+            <h2>6. ¿Qué hace esta regla?</h2>
+            <p>
+                La siguiente regla permite tráfico TCP hacia <b>22, 80 y 443</b> por la interfaz <b>eth0</b> cuando la
+                conexión está
+                en estado <b>NEW</b> o <b>ESTABLISHED</b>:
+            </p>
+            <div class="code-block">
+                iptables -A INPUT -i eth0 -p tcp -m multiport --dports 22,80,443 \
+                -m state --state NEW,ESTABLISHED -j ACCEPT
             </div>
 
-            <h2>5. Referencias técnicas</h2>
-            <ul class="refs">
-                <li>Netfilter Project. (n.d.). <em>iptables man page</em>.</li>
-                <li>O'Reilly. (2009). <em>Linux Firewalls</em>.</li>
+            <h2>7. Traducción de requerimientos a reglas</h2>
+
+            <h3>7.1 Permitir tráfico HTTP entrante</h3>
+            <div class="code-block">
+                iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+            </div>
+
+            <h3>7.2 Permitir todo el tráfico saliente</h3>
+            <div class="code-block">
+                iptables -A OUTPUT -j ACCEPT
+            </div>
+
+            <h3>7.3 Permitir SSH solo desde la IP 192.168.1.50</h3>
+            <div class="code-block">
+                iptables -A INPUT -p tcp -s 192.168.1.50 --dport 22 -j ACCEPT
+            </div>
+
+            <h3>7.4 Permitir TCP entrante a 80/443 solo si es ESTABLISHED o RELATED</h3>
+            <p class="small">
+                Esto sirve para permitir respuestas/relaciones sin abrir “NEW” a esos puertos.
+            </p>
+            <div class="code-block">
+                iptables -A INPUT -p tcp -m multiport --dports 80,443 \
+                -m state --state ESTABLISHED,RELATED -j ACCEPT
+            </div>
+
+            <h3>7.5 Permitir TCP entrante por eth0 a 22/80/443, registrar intentos y permitir solo NEW y ESTABLISHED
+            </h3>
+            <p class="small">
+                Primero registras intentos (útil para auditoría), luego permites el tráfico válido por estado.
+            </p>
+            <div class="code-block">
+                # Registrar intentos (log)
+                iptables -A INPUT -i eth0 -p tcp -m multiport --dports 22,80,443 \
+                -m state --state NEW -j LOG --log-prefix "IPTABLES NEW " --log-level 4
+
+                # Permitir NEW y ESTABLISHED
+                iptables -A INPUT -i eth0 -p tcp -m multiport --dports 22,80,443 \
+                -m state --state NEW,ESTABLISHED -j ACCEPT
+            </div>
+
+            <h2>8. Reflexión técnica</h2>
+            <p>
+                Entender iptables va más allá de memorizar comandos; implica visualizar el flujo del tráfico.
+                La capacidad de filtrar por estado (NEW, ESTABLISHED) y registrar eventos (LOG) transforma un servidor
+                común en un firewall robusto, esencial para la defensa en profundidad.
+            </p>
+
+            <h2>9. Referencias técnicas</h2>
+            <ul>
+                <li>Netfilter/iptables: documentación oficial y manuales de uso.</li>
+                <li>Concepto de firewall stateful: estados <code class="inline">NEW</code>, <code
+                        class="inline">ESTABLISHED</code>, <code class="inline">RELATED</code>.</li>
             </ul>
 
         </section>
     </main>
 
-    <button onclick="generatePDF()" class="pdf-btn" title="Exportar a PDF" aria-label="Exportar a PDF">
+    <a href="AC03P1.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
+        rel="noopener">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
         </svg>
-    </button>
+    </a>
 
-    <script>
-        function generatePDF() {
-            const element = document.getElementById('pdf-content');
-            const opt = {
-                margin: [10, 10, 10, 10],
-                filename: 'AC03_iptables_Erik_DeLaRosa.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-            html2pdf().set(opt).from(element).save();
-        }
+    <!-- Mermaid JS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
     </script>
 </body>
 

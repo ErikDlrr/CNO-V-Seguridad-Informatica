@@ -300,6 +300,37 @@
             </div>
 
             <h2>5. Análisis comparativo (síntesis técnica)</h2>
+
+            <figure class="figure">
+                <div class="mermaid">
+                    graph LR
+                    subgraph Ofensivo
+                    OWASP[OWASP WSTG]
+                    PTES[PTES]
+                    end
+
+                    subgraph Defensivo
+                    MITRE[MITRE ATT&CK]
+                    NIST[NIST SP 800-115]
+                    ISSAF[ISSAF]
+                    OSSTMM[OSSTMM]
+                    end
+
+                    style Ofensivo fill:#ef4444,stroke:#fff,color:#fff
+                    style Defensivo fill:#3b82f6,stroke:#fff,color:#fff
+
+                    style OWASP fill:#991b1b,stroke:#fff,color:#fff
+                    style PTES fill:#991b1b,stroke:#fff,color:#fff
+                    style MITRE fill:#1e40af,stroke:#fff,color:#fff
+                    style NIST fill:#1e40af,stroke:#fff,color:#fff
+                    style ISSAF fill:#1e40af,stroke:#fff,color:#fff
+                    style OSSTMM fill:#1e40af,stroke:#fff,color:#fff
+                </div>
+                <figcaption>
+                    Fig. 1 Mapa de posicionamiento: Metodologías Ofensivas vs Defensivas/Gestión.
+                </figcaption>
+            </figure>
+
             <div class="quote">
                 <p><b>MITRE ATT&CK</b> no es un tutorial, sino una base de conocimiento útil para mapear si los
                     controles detectan técnicas específicas.</p>
@@ -311,7 +342,7 @@
                     profesional.</p>
             </div>
 
-            <h2>6. Conclusión</h2>
+            <h2>6. Reflexión técnica</h2>
             <p>
                 No existe una metodología universal. Para pentest técnico: <b>PTES</b> y <b>OWASP</b>. Para
                 auditoría/cumplimiento: <b>NIST</b>.
@@ -352,6 +383,11 @@
         </svg>
     </a>
 
+    <!-- Mermaid JS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
 </body>
 
 </html>
