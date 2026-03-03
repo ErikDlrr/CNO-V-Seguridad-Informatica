@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>SQL Injection | Road to Hall of Fame</title>
+    <meta name="description" content="Módulo de especialización en pruebas de inyección SQL - PortSwigger Labs." />
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="../../../assets/styles.css" />
+    <!-- Specific Roadmap Styles -->
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <div class="sigil" aria-hidden="true">ED</div>
+                <div class="brand__text">
+                    <div class="brand__title">
+                        <span>Erik De La Rosa Rodriguez</span>
+                        <span class="dot">•</span>
+                        <span class="muted">Alias: Maizimo</span>
+                    </div>
+                    <div class="brand__meta muted">
+                        CNO V – Seguridad Informática · Road to Hall of Fame
+                    </div>
+                </div>
+            </div>
+
+            <nav class="nav" aria-label="Navegación principal">
+                <button class="nav__toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu">
+                    Menú
+                </button>
+                <ul class="nav__menu" id="navMenu">
+                    <li><a href="../../../index.html#inicio">Inicio</a></li>
+                    <li><a href="../../../index.html#actividades">Actividades</a></li>
+                    <li class="nav__dropdown">
+                        <a class="active" href="#">ROAD TO HALL OF FAME ▾</a>
+                        <ul class="nav__submenu">
+                            <li><a href="#" class="active">SQL Injection</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main id="contenido">
+        <!-- Hero Section -->
+        <section class="hero roadmap-hero">
+            <div class="container">
+                <p class="kicker">ROAD TO HALL OF FAME / PARCIAL II / LABS</p>
+                <h1 class="title glow">SQL Injection (PortSwigger)</h1>
+                <p class="lead">
+                    Análisis estructurado y explotación de 18 laboratorios técnicos enfocados en vulnerabilidades
+                    de inyección SQL. Desde técnicas <i>In-band</i> hasta exfiltración <i>Out-of-band (OOB)</i> y
+                    bypass de filtros (WAF).
+                </p>
+
+                <div class="chips" aria-label="Técnicas">
+                    <span class="chip chip--ok">Apprentice & Practitioner</span>
+                    <span class="chip">UNION</span>
+                    <span class="chip">Error-based</span>
+                    <span class="chip">Blind (Time & Boolean)</span>
+                    <span class="chip">OOB Extracción</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Roadmap Container -->
+        <section class="section section--alt roadmap-section">
+            <div class="container">
+                <div class="section__head">
+                    <h2>Laboratorios (Ruta de Aprendizaje)</h2>
+                    <p class="muted">Progreso estructurado en la identificación y explotación de SQLi.</p>
+                </div>
+
+                <!-- The JS will inject the nodes here -->
+                <div class="timeline" id="timelineContainer">
+                    <!-- Loading State -->
+                    <div style="text-align:center; padding: 40px; color: var(--muted);">
+                        <p>Cargando ruta de progreso...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional Wrap-up -->
+        <section class="section wrapup-section">
+            <div class="container grid2">
+                <article class="card">
+                    <h2>Professional Wrap-Up</h2>
+                    <div class="divider"></div>
+                    <p>
+                        Este módulo certifica la capacidad técnica para descubrir, confirmar y explotar
+                        vulnerabilidades SQL en entornos web modernos a través de laboratorios controlados.
+                    </p>
+                    <h3>Técnicas Dominadas:</h3>
+                    <ul class="bullets">
+                        <li><b>In-band (UNION):</b> Mapeo de columnas y esquemas relacionales.</li>
+                        <li><b>Error-based:</b> Generación forzada de excepciones para filtrado de datos (Casting
+                            errors).</li>
+                        <li><b>Blind (Boolean & Time):</b> Orquestación de ataques a ciegas asíncronos analizando lógica
+                            booleana y latencia de red.</li>
+                        <li><b>Out-of-band (OOB):</b> Forzado de resoluciones DNS externas para exfiltración perimetral.
+                        </li>
+                        <li><b>WAF Evasion:</b> Ofuscación de entidades (XML Encoding) para burlar filtros locales.</li>
+                    </ul>
+                </article>
+
+                <article class="card wrapup-impact">
+                    <h2>Impacto Estratégico</h2>
+                    <div class="divider"></div>
+                    <div class="impact-content">
+                        <p>
+                            <b>Riesgo Empresarial:</b><br>
+                            Una inyección SQL representa una pérdida total de confidencialidad, integridad y
+                            disponibilidad (Tríada CIA).
+                            Permite desde secuestro de cuentas privilegiadas hasta ejecución remota de comandos en el
+                            servidor.
+                        </p>
+                        <p>
+                            <b>Mitigación Real en Industria:</b><br>
+                            <span class="muted">- Implementación de mapeo objeto-relacional (ORM) moderno.</span><br>
+                            <span class="muted">- Uso estricto de Consultas Parametrizadas y Prepared
+                                Statements.</span><br>
+                            <span class="muted">- Egresos de red bloqueados (evita OOB) en la Base de Datos.</span>
+                        </p>
+                        <div class="reflection mt-auto">
+                            <h3 style="margin: 0; font-size: 0.95rem;">Aplicación Profesional</h3>
+                            <p style="margin: 5px 0 0; font-size: 0.85rem;" class="muted">
+                                Durante un test de penetración (Pentest), estas habilidades me permiten no solo
+                                encontrar la falla con herramientas automatizadas, sino validar la escalada a mano,
+                                redactando PoC (Proofs of Concept) contundentes y ejecutivos.
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container footer__inner">
+            <div class="footer__left">
+                <div>
+                    <div><b>Erik De La Rosa · Maizimo</b></div>
+                    <div class="muted tiny">Universidad Politécnica de San Luis Potosí · CNO V · PD03</div>
+                </div>
+            </div>
+            <div class="footer__right muted tiny">
+                <span id="year"></span> · Roadmap · SQL Injection
+            </div>
+        </div>
+    </footer>
+
+    <!-- PDF Download Floating Button -->
+    <a href="../../../assets/docs/Actividad08_SQL_Injection.pdf" class="pdf-btn" id="pdfBtn" download
+        aria-label="Descargar Actividad 08 en PDF">
+        <svg xmlns="http://www.w3.org/-2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+
+    <!-- Lightbox Element -->
+    <div class="lightbox" id="evidenceLightbox" aria-hidden="true">
+        <div class="lightbox__content">
+            <button class="lightbox__close" aria-label="Cerrar imagen">&times;</button>
+            <img src="" alt="Evidencia en grande" class="lightbox__img" id="lightboxImage" />
+            <div class="lightbox__caption" id="lightboxCaption"
+                style="color: var(--muted); margin-top: 10px; font-family: var(--mono); text-align: center; font-size: 0.9rem;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../../assets/main.js"></script>
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

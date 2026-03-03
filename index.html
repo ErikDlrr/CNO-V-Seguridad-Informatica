@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="color-scheme" content="dark" />
     <title>Portafolio | Erik De La Rosa (Maizimo)</title>
-    <meta name="description" content="Portafolio digital de evidencias - CNO V Seguridad Informática (PD02)." />
+    <meta name="description" content="Portafolio digital de evidencias - CNO V Seguridad Informática (PD03)." />
     <link rel="stylesheet" href="assets/styles.css" />
 </head>
 
@@ -36,6 +36,12 @@
                 <ul class="nav__menu" id="navMenu">
                     <li><a class="active" href="#inicio">Inicio</a></li>
                     <li><a href="#actividades">Actividades</a></li>
+                    <li class="nav__dropdown">
+                        <a href="#">ROAD TO HALL OF FAME ▾</a>
+                        <ul class="nav__submenu">
+                            <li><a href="activities/parcial2/Labs/sql-injection.html">SQL Injection</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
             </nav>
@@ -47,7 +53,8 @@
         <section id="inicio" class="hero">
             <div class="container hero__grid">
                 <div class="hero__left">
-                    <p class="kicker">PD02 · Parcial I · Fundamentos del Hacking Ético</p>
+                    <p class="kicker">PD03 · Parcial II · Técnicas de Explotación de Vulnerabilidades y Seguridad en
+                        Entornos Tecnológicos</p>
 
                     <h1 class="title">
                         Portafolio digital de evidencias
@@ -64,7 +71,7 @@
                         <span class="chip">CSS</span>
                         <span class="chip">JavaScript</span>
                         <span class="chip chip--ok">HTTPS</span>
-                        <span class="chip chip--ok">PD02</span>
+                        <span class="chip chip--ok">PD03</span>
                     </div>
 
                     <div class="cta">
@@ -73,7 +80,7 @@
                     </div>
 
                     <div class="mini muted">
-                        <span class="mini__item">Estado: <b class="ok">PD02 Entregado</b></span>
+                        <span class="mini__item">Estado: <b class="ok">PD03 Entregado</b></span>
                         <span class="mini__sep">/</span>
                         <span class="mini__item">Actualizado: <span id="lastUpdate"></span></span>
                     </div>
@@ -87,8 +94,8 @@
                         </div>
 
                         <ul class="stack">
-                            <li class="stack__item"><span class="stack__dot"></span> Parcial I (En Proceso)</li>
-                            <li class="stack__item ghost"><span class="stack__dot"></span> Parcial II (Pendiente)</li>
+                            <li class="stack__item ghost"><span class="stack__dot"></span> Parcial I (Completado)</li>
+                            <li class="stack__item"><span class="stack__dot"></span> Parcial II (En Proceso)</li>
                             <li class="stack__item ghost"><span class="stack__dot"></span> Parcial III (Pendiente)</li>
                             <li class="stack__item ghost"><span class="stack__dot"></span> Final (Pendiente)</li>
                         </ul>
@@ -187,7 +194,7 @@
 
                 <div class="grid2">
                     <!-- PRIMER PARCIAL -->
-                    <article id="parcial1" class="card">
+                    <article id="parcial1" class="card card--ghost">
                         <div class="panel__badge">Primer Parcial</div>
                         <h3>Fundamentos del Hacking Ético</h3>
                         <div class="divider"></div>
@@ -214,12 +221,13 @@
                     </article>
 
                     <!-- SEGUNDO PARCIAL -->
-                    <article id="parcial2" class="card card--ghost">
+                    <article id="parcial2" class="card">
                         <div class="panel__badge">Segundo Parcial</div>
-                        <h3>Próximamente...</h3>
+                        <h3>Técnicas de Explotación</h3>
                         <div class="divider"></div>
                         <ul class="bullets">
-                            <li><i>Pendiente de asignar actividades.</i></li>
+                            <li><a href="activities/parcial2/Labs/sql-injection.html">Actividad 08: ROAD TO HALL OF FAME
+                                    - SQL Injection</a> (Activo)</li>
                         </ul>
                     </article>
 
@@ -256,7 +264,7 @@
 
                 <form class="card form" action="https://formsubmit.co/erikdlr@aol.com" method="POST" autocomplete="on">
 
-                    <input type="hidden" name="_subject" value="Contacto desde Portafolio PD02 - Maizimo" />
+                    <input type="hidden" name="_subject" value="Contacto desde Portafolio PD03 - Maizimo" />
                     <input type="hidden" name="_template" value="table" />
                     <!-- Captcha activado para permitir autorespuesta -->
 
@@ -300,7 +308,7 @@
                 <!-- <div class="sigil small" aria-hidden="true">ED</div> -->
                 <div>
                     <div><b>Erik De La Rosa · Maizimo</b></div>
-                    <div class="muted tiny">Universidad Politécnica de San Luis Potosí · CNO V · PD02</div>
+                    <div class="muted tiny">Universidad Politécnica de San Luis Potosí · CNO V · PD03</div>
                 </div>
             </div>
 

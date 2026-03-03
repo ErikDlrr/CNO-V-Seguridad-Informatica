@@ -262,6 +262,48 @@ p.lead {
     width: 100%;
 }
 
+.nav__dropdown {
+    position: relative;
+    cursor: pointer;
+}
+
+.nav__submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 150px;
+    background: var(--card);
+    border: 1px solid var(--stroke);
+    padding: 10px 0;
+    margin: 0;
+    list-style: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.nav__dropdown:hover .nav__submenu,
+.nav__dropdown:focus-within .nav__submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.nav__submenu li {
+    padding: 8px 15px;
+}
+
+.nav__submenu a {
+    font-size: 0.85rem;
+    display: block;
+}
+
+.nav__submenu a::after {
+    display: none;
+}
+
 .scanline {
     height: 1px;
     background: linear-gradient(90deg, transparent, var(--accent), transparent);
