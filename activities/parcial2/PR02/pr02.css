@@ -1,0 +1,272 @@
+/* 
+    pr02.css - Specific Styles for the Phishing Simulation Quiz
+    Matches the dark aesthetic of the main portfolio 
+*/
+
+.data-tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.data-tbl th,
+.data-tbl td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--border);
+}
+
+.data-tbl th {
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--fg);
+    font-weight: 600;
+}
+
+.data-tbl tr:last-child td {
+    border-bottom: 0;
+}
+
+/* Quiz Container */
+.quiz-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.quiz-panel {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.quiz-panel.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.btn-large {
+    font-size: 1.1rem;
+    padding: 12px 30px;
+}
+
+/* Quiz UI Header */
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.quiz-progress-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--bg-card);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+.quiz-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 10%;
+    transition: width 0.4s ease;
+}
+
+/* Email Mockup Interface */
+.email-mockup {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 25px;
+    position: relative;
+    overflow: hidden;
+}
+
+.email-mockup-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.email-subject {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--fg);
+}
+
+.email-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.email-mockup-body {
+    padding: 30px 20px;
+    min-height: 250px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--fg);
+    background: #0f121a;
+    /* slightly darker for the email body */
+}
+
+/* Links inside email */
+.email-link {
+    color: var(--accent) !important;
+    text-decoration: underline;
+    cursor: pointer;
+    position: relative;
+}
+
+.email-link:hover {
+    color: #fff !important;
+}
+
+/* Link inspector tooltip */
+.link-inspector {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid var(--border);
+    padding: 10px 15px;
+    border-radius: 6px;
+    backdrop-filter: blur(5px);
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.inspector-url {
+    font-family: var(--mono);
+    color: #e2e8f0;
+    word-break: break-all;
+}
+
+/* Quiz Action Buttons (Phishing / Legit) */
+.quiz-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.btn-outline-danger {
+    background: transparent;
+    border: 1px solid #ef4444;
+    color: #ef4444;
+    transition: all 0.2s;
+}
+
+.btn-outline-danger:hover {
+    background: rgba(239, 68, 68, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn-outline-success {
+    background: transparent;
+    border: 1px solid #22c55e;
+    color: #22c55e;
+    transition: all 0.2s;
+}
+
+.btn-outline-success:hover {
+    background: rgba(34, 197, 94, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Feedback Panel */
+.feedback-panel {
+    display: flex;
+    gap: 20px;
+    padding: 25px;
+    align-items: flex-start;
+    animation: slideUp 0.3s ease forwards;
+    border-top: 4px solid transparent;
+}
+
+.feedback-panel.success {
+    border-top-color: #22c55e;
+}
+
+.feedback-panel.error {
+    border-top-color: #ef4444;
+}
+
+.feedback-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.feedback-content h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.feedback-flags {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.feedback-flags ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #e2e8f0;
+}
+
+.feedback-flags li {
+    margin-bottom: 5px;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Emulated elements inside email */
+.btn-fake {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #007bff;
+    color: #fff !important;
+    text-decoration: none !important;
+    border-radius: 4px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.attachment-fake {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.attachment-fake:hover {
+    background: rgba(255, 255, 255, 0.1);
+}

@@ -11,8 +11,8 @@ const sqlInjectionLabs = [
             "Uso de comillas y comentarios de línea (--) para evadir validaciones."
         ],
         "techniques": ["In-band SQLi", "Tautology", "Comment Syntax Bypass"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": ["./img/L1E1.png", "./img/L1E2.png", "./img/L1E3.png"],
+        "status": "Solved",
         "validation": "Al inyectar 'OR 1=1--', se ignoraron los filtros originales y la consulta devolvió todos los registros.",
         "mitigation": "Uso de consultas parametrizadas o Prepared Statements para aislar el input del usuario del contexto SQL."
     },
@@ -181,8 +181,15 @@ const sqlInjectionLabs = [
             "Búsqueda exhaustiva usando substring evaluando true/false condicionados visualmente."
         ],
         "techniques": ["Boolean-based Blind", "Substring Fuzzing", "DOM difference logic"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": [
+            "./img/L11E1.png",
+            "./img/L11E2.png",
+            "./img/L11E3.png",
+            "./img/L11E4.png",
+            "./img/L11E5.png",
+            "./img/L11E6.png"
+        ],
+        "status": "Solved",
         "validation": "Recreación total y perfecta de la contraseña asilada midiendo simples diferencias visuales en la respuesta HTML.",
         "mitigation": "Utilización perimetral de un API intermediaria o WAFs impidiendo caracteres sintéticos por inyección HTTP."
     },
@@ -198,8 +205,16 @@ const sqlInjectionLabs = [
             "Concepción de un oráculo que se guiaba midiendo códigos de respuesta 500 del servidor proxy."
         ],
         "techniques": ["Error-based Blind", "CASE statement exploits", "Intentional crashing"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": [
+            "./img/L12E1.png",
+            "./img/L12E2.png",
+            "./img/L12E3.png",
+            "./img/L12E4.png",
+            "./img/L12E5.png",
+            "./img/L12E6.png",
+            "./img/L12E7.png"
+        ],
+        "status": "Solved",
         "validation": "Dump exitoso derivado únicamente de los fallos de comportamiento interpretados como verdad positiva.",
         "mitigation": "Ocultamiento e intercepción del stacktrace con middlewares o envoltorios try/catch cerrados evitando status code asíncronos."
     },
@@ -215,8 +230,14 @@ const sqlInjectionLabs = [
             "El SQL forzó visualización de error nativo tipo: 'Conversion failed for root...'"
         ],
         "techniques": ["Visible Error SQLi", "CAST Exploit payload", "Detailed error reading"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": [
+            "./img/L13E1.png",
+            "./img/L13E2.png",
+            "./img/L13E3.png",
+            "./img/L13E4.png",
+            "./img/L13E5.png"
+        ],
+        "status": "Solved",
         "validation": "Obtención total de la cuenta usando un fallo trivial y explícito visualizado en el log frontend.",
         "mitigation": "Cambiar el modo global del gestor DBMS e inhabilitar las advertencias verbose hacia el canal HTTP."
     },
