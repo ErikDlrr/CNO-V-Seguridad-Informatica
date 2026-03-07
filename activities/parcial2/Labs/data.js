@@ -28,8 +28,8 @@ const sqlInjectionLabs = [
             "Cierre de la sentencia y evasión exitosa de la comprobación de contraseña."
         ],
         "techniques": ["Authentication Bypass", "In-band SQLi", "Comment injection"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": ["./img/L2E1.png", "./img/L2E2.png", "./img/L2E3.png"],
+        "status": "Solved",
         "validation": "Ingreso exitoso al panel de control de la cuenta 'administrator' sin conocer su contraseña real.",
         "mitigation": "Implementar validación parametrizada en el input del login y no concatenar inputs en el string SQL."
     },
@@ -45,8 +45,8 @@ const sqlInjectionLabs = [
             "Recuperación del string de versión haciendo consulta a la tabla 'v$version'."
         ],
         "techniques": ["UNION-based SQLi", "Database Enumeration", "Oracle Specific Tables"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": ["./img/L3E1.png", "./img/L3E2.png", "./img/L3E3.png", "./img/L3E4.png"],
+        "status": "Solved",
         "validation": "Se reflejó la versión completa de Oracle Database directamente en la interfaz del cliente web.",
         "mitigation": "Abstraer las operaciones utilizando ORMs y revocar permisos de consulta a vistas de sistema ($v) al usuario web."
     },
@@ -62,8 +62,15 @@ const sqlInjectionLabs = [
             "Extracción local inyectando la variable global '@@version'."
         ],
         "techniques": ["UNION-based SQLi", "Database Enumeration", "Variable Extraction"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": [
+            "./img/L4E1.png",
+            "./img/L4E2.png",
+            "./img/L4E3.png",
+            "./img/L4E4.png",
+            "./img/L4E5.png",
+            "./img/L4E6.png"
+        ],
+        "status": "Solved",
         "validation": "El motor devolvió texto legible verificando ser un MySQL/Microsoft confirmando la vulnerabilidad tipo In-Band.",
         "mitigation": "Habilitar Web Application Firewalls (WAF) y ocultar/mitigar respuestas con stacktraces de la base de datos."
     },
@@ -79,8 +86,17 @@ const sqlInjectionLabs = [
             "Búsqueda direccional sobre 'information_schema.columns' recuperando las claves de acceso."
         ],
         "techniques": ["Schema Enumeration", "UNION-based exfiltration", "Information Schema API"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": [
+            "./img/L5E1.png",
+            "./img/L5E2.png",
+            "./img/L5E3.png",
+            "./img/L5E4.png",
+            "./img/L5E5.png",
+            "./img/L5E6.png",
+            "./img/L5E7.png",
+            "./img/L5E8.png"
+        ],
+        "status": "Solved",
         "validation": "Extracción y uso de credenciales de 'administrator' en la página de login.",
         "mitigation": "Evitar permisos globales al usuario de la aplicación web impidiendo lecturas al diccionario de base de datos."
     },
@@ -96,8 +112,17 @@ const sqlInjectionLabs = [
             "Descubrimiento de campos confidenciales interrogando la estructura 'all_tab_columns'."
         ],
         "techniques": ["Oracle Metadata Enumeration", "UNION Exfiltration", "all_tables interaction"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": [
+            "./img/L6E1.png",
+            "./img/L6E2.png",
+            "./img/L6E3.png",
+            "./img/L6E4.png",
+            "./img/L6E5.png",
+            "./img/L6E6.png",
+            "./img/L6E7.png",
+            "./img/L6E8.png"
+        ],
+        "status": "Solved",
         "validation": "Obtención secuencial y control del panel de administrador gracias a las contraseñas extraídas.",
         "mitigation": "Control de granularidad en los permisos y uso mandante de Prepared Statements (estándar seguro)."
     },
@@ -113,8 +138,8 @@ const sqlInjectionLabs = [
             "Reconfirmación usando UNION SELECT con valores múltiples NULL."
         ],
         "techniques": ["UNION Column Discovery", "Error forcing", "NULL probing"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": ["./img/L7E1.png", "./img/L7E2.png", "./img/L7E3.png"],
+        "status": "Solved",
         "validation": "Inyección controlada de X columnas que estabilizaron el error HTTP 500.",
         "mitigation": "Retornar siempre un error amigable HTTP 500 genérico sin revelar excepciones crudas SQL."
     },
@@ -130,8 +155,8 @@ const sqlInjectionLabs = [
             "Identificación de la columna vulnerable mediante reflejo positivo de la variable introducida."
         ],
         "techniques": ["UNION Data Type Probing", "DOM rendered exfiltration"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": ["./img/L8E1.png", "./img/L8E2.png", "./img/L8E3.png", "./img/L8E4.png"],
+        "status": "Solved",
         "validation": "La cadena elegida reflejó limpiamente en la vista del portal web demostrando control In-Band.",
         "mitigation": "Establecer control estricto de tipos e interfaces inmutables que no admitan inyección UNION variable."
     },
@@ -147,8 +172,15 @@ const sqlInjectionLabs = [
             "El sitio superpuso texto web general mezclado con contraseñas crudas."
         ],
         "techniques": ["Cross-table Dumping", "Data Exfiltration via UNION"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": [
+            "./img/L9E1.png",
+            "./img/L9E2.png",
+            "./img/L9E3.png",
+            "./img/L9E4.png",
+            "./img/L9E5.png",
+            "./img/L9E6.png"
+        ],
+        "status": "Solved",
         "validation": "Comprobación mediante logeo satisfactorio como 'administrator' a posteriori del dump.",
         "mitigation": "Manejar credenciales cifradas y evitar la exposición pública del resultado exacto de la inyección atacante."
     },
@@ -164,8 +196,15 @@ const sqlInjectionLabs = [
             "Separación y parseo visual logrando exfiltrar: 'username~password' en un mismo campo."
         ],
         "techniques": ["SQL Payload Concatenation", "Single-Column UNION", "Pattern Separators"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": [
+            "./img/L10E1.png",
+            "./img/L10E2.png",
+            "./img/L10E3.png",
+            "./img/L10E4.png",
+            "./img/L10E5.png",
+            "./img/L10E6.png"
+        ],
+        "status": "Solved",
         "validation": "Exfiltración limpia de pares concatenados permitiendo secuestrar la plataforma integralmente.",
         "mitigation": "Eliminación obligatoria de construcción dinámica y concatenación a favor del modelo Bound Variables."
     },
