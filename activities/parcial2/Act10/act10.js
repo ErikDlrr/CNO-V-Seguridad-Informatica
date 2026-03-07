@@ -374,12 +374,12 @@ const App = () => {
 
                             <div className="grid grid-cols-2 gap-x-6 gap-y-1.5 text-[10px] text-slate-400">
                                 {[
-                                    ['Olaf Coronado', '178991'],
-                                    ['Erik De La Rosa', '177700'],
-                                    ['Felipe González', '181134'],
-                                    ['Karina Mendoza', '179859'],
-                                    ['Leonardo Serrano', '177301'],
-                                    ['Alejandro Pérez', '180370'],
+                                    ['Coronado, Olaf', '178991'],
+                                    ['De La Rosa, Erik', '177700'],
+                                    ['González, Felipe', '181134'],
+                                    ['Mendoza, Karina', '179859'],
+                                    ['Pérez, Alejandro', '180370'],
+                                    ['Serrano, Leonardo', '177301'],
                                 ].map(([name, id]) => (
                                     <div
                                         key={id}
