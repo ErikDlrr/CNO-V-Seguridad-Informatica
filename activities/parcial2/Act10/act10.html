@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 10 - Ciberseguridad en una mirada</title>
+
+    <!-- Estilos globales del portafolio -->
+    <link rel="stylesheet" href="../../../assets/styles.css" />
+
+    <!-- 1. Cargar Tailwind CSS para los estilos del componente React -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Librería html2pdf.js para exportar a PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- 2. Configurar Import Maps para resolver 'react' y 'lucide-react' en el navegador -->
+    <script type="importmap">
+      {
+        "imports": {
+          "react": "https://esm.sh/react@18.2.0",
+          "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+          "lucide-react": "https://esm.sh/lucide-react@0.263.1"
+        }
+      }
+    </script>
+
+    <!-- 3. Cargar Babel para compilar JSX y módulos ES al vuelo -->
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <a href="../../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main class="article">
+        <header class="article__header">
+            <div class="article__meta">
+                <span>CNO V - Seguridad Informática</span>
+                <span>•</span>
+                <span>Segundo Parcial</span>
+                <span>•</span>
+                <span>Actividad 10</span>
+            </div>
+
+            <h1>ACTIVIDAD 10 - Ciberseguridad en una mirada</h1>
+            <p class="lead">
+                Infografía interactiva sobre ataques, conceptos y técnicas fundamentales en entornos corporativos.
+            </p>
+        </header>
+
+        <section>
+            <!-- 4. Contenedor donde React inyectará la aplicación -->
+            <div id="root"></div>
+        </section>
+    </main>
+
+    <!-- 5. Ejecutar act10.js como módulo ES usando Babel -->
+    <script type="text/babel" data-type="module" src="./act10.js"></script>
+</body>
+
+</html>
