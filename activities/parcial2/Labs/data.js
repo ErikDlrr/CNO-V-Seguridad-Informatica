@@ -292,8 +292,8 @@ const sqlInjectionLabs = [
             "Monitorización del socket calculando retrasos intencionados."
         ],
         "techniques": ["Time-based Blind SQLi", "pg_sleep payload", "Latency Measurement"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": ["./img/L14E1.png", "./img/L14E2.png", "./img/L14E3.png"],
+        "status": "Solved",
         "validation": "Certificación positiva tras evidenciar un incremento sostenido del Retardo T de 10 segundos en las respuestas HTTP.",
         "mitigation": "Emplear ORM (Object-Relational Mapping). Deshabilitar funciones de latencia/sleep sobre los perfiles SQL web conectados."
     },
@@ -309,8 +309,15 @@ const sqlInjectionLabs = [
             "Captura controlada y ensamble completo del hash final analizando desviaciones temporales del response."
         ],
         "techniques": ["Time-based Exfiltration", "Conditional sleep loops", "Burp Suite automation"],
-        "evidencePaths": [],
-        "status": "Not solved",
+        "evidencePaths": [
+            "./img/L15E1.png",
+            "./img/L15E2.png",
+            "./img/L15E3.png",
+            "./img/L15E4.png",
+            "./img/L15E5.png",
+            "./img/L15E6.png"
+        ],
+        "status": "Solved",
         "validation": "Éxito absoluto en la reconstrucción analítica del password y la escalada vertical usando latencia condicional.",
         "mitigation": "Limitar fuertemente y sanitizar cookies expuestas inhabilitando perfiles SQL innecesarios que eviten interrupción del framework de base de datos."
     },
