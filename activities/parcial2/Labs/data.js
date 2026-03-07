@@ -11,7 +11,7 @@ const sqlInjectionLabs = [
             "Uso de comillas y comentarios de línea (--) para evadir validaciones."
         ],
         "techniques": ["In-band SQLi", "Tautology", "Comment Syntax Bypass"],
-        "evidencePaths": ["./img/L1E1.png", "./img/L1E2.png", "./img/L1E3.png"],
+        "evidencePaths": ["../../../assets/evidence/sql-injection/lab-01/L1E1.png", "../../../assets/evidence/sql-injection/lab-01/L1E2.png", "../../../assets/evidence/sql-injection/lab-01/L1E3.png"],
         "status": "Solved",
         "validation": "Al inyectar 'OR 1=1--', se ignoraron los filtros originales y la consulta devolvió todos los registros.",
         "mitigation": "Uso de consultas parametrizadas o Prepared Statements para aislar el input del usuario del contexto SQL."
@@ -28,7 +28,7 @@ const sqlInjectionLabs = [
             "Cierre de la sentencia y evasión exitosa de la comprobación de contraseña."
         ],
         "techniques": ["Authentication Bypass", "In-band SQLi", "Comment injection"],
-        "evidencePaths": ["./img/L2E1.png", "./img/L2E2.png", "./img/L2E3.png"],
+        "evidencePaths": ["../../../assets/evidence/sql-injection/lab-02/L2E1.png", "../../../assets/evidence/sql-injection/lab-02/L2E2.png", "../../../assets/evidence/sql-injection/lab-02/L2E3.png"],
         "status": "Solved",
         "validation": "Ingreso exitoso al panel de control de la cuenta 'administrator' sin conocer su contraseña real.",
         "mitigation": "Implementar validación parametrizada en el input del login y no concatenar inputs en el string SQL."
@@ -45,7 +45,7 @@ const sqlInjectionLabs = [
             "Recuperación del string de versión haciendo consulta a la tabla 'v$version'."
         ],
         "techniques": ["UNION-based SQLi", "Database Enumeration", "Oracle Specific Tables"],
-        "evidencePaths": ["./img/L3E1.png", "./img/L3E2.png", "./img/L3E3.png", "./img/L3E4.png"],
+        "evidencePaths": ["../../../assets/evidence/sql-injection/lab-03/L3E1.png", "../../../assets/evidence/sql-injection/lab-03/L3E2.png", "../../../assets/evidence/sql-injection/lab-03/L3E3.png", "../../../assets/evidence/sql-injection/lab-03/L3E4.png"],
         "status": "Solved",
         "validation": "Se reflejó la versión completa de Oracle Database directamente en la interfaz del cliente web.",
         "mitigation": "Abstraer las operaciones utilizando ORMs y revocar permisos de consulta a vistas de sistema ($v) al usuario web."
@@ -63,12 +63,12 @@ const sqlInjectionLabs = [
         ],
         "techniques": ["UNION-based SQLi", "Database Enumeration", "Variable Extraction"],
         "evidencePaths": [
-            "./img/L4E1.png",
-            "./img/L4E2.png",
-            "./img/L4E3.png",
-            "./img/L4E4.png",
-            "./img/L4E5.png",
-            "./img/L4E6.png"
+            "../../../assets/evidence/sql-injection/lab-04/L4E1.png",
+            "../../../assets/evidence/sql-injection/lab-04/L4E2.png",
+            "../../../assets/evidence/sql-injection/lab-04/L4E3.png",
+            "../../../assets/evidence/sql-injection/lab-04/L4E4.png",
+            "../../../assets/evidence/sql-injection/lab-04/L4E5.png",
+            "../../../assets/evidence/sql-injection/lab-04/L4E6.png"
         ],
         "status": "Solved",
         "validation": "El motor devolvió texto legible verificando ser un MySQL/Microsoft confirmando la vulnerabilidad tipo In-Band.",
@@ -87,14 +87,14 @@ const sqlInjectionLabs = [
         ],
         "techniques": ["Schema Enumeration", "UNION-based exfiltration", "Information Schema API"],
         "evidencePaths": [
-            "./img/L5E1.png",
-            "./img/L5E2.png",
-            "./img/L5E3.png",
-            "./img/L5E4.png",
-            "./img/L5E5.png",
-            "./img/L5E6.png",
-            "./img/L5E7.png",
-            "./img/L5E8.png"
+            "../../../assets/evidence/sql-injection/lab-05/L5E1.png",
+            "../../../assets/evidence/sql-injection/lab-05/L5E2.png",
+            "../../../assets/evidence/sql-injection/lab-05/L5E3.png",
+            "../../../assets/evidence/sql-injection/lab-05/L5E4.png",
+            "../../../assets/evidence/sql-injection/lab-05/L5E5.png",
+            "../../../assets/evidence/sql-injection/lab-05/L5E6.png",
+            "../../../assets/evidence/sql-injection/lab-05/L5E7.png",
+            "../../../assets/evidence/sql-injection/lab-05/L5E8.png"
         ],
         "status": "Solved",
         "validation": "Extracción y uso de credenciales de 'administrator' en la página de login.",
@@ -113,14 +113,14 @@ const sqlInjectionLabs = [
         ],
         "techniques": ["Oracle Metadata Enumeration", "UNION Exfiltration", "all_tables interaction"],
         "evidencePaths": [
-            "./img/L6E1.png",
-            "./img/L6E2.png",
-            "./img/L6E3.png",
-            "./img/L6E4.png",
-            "./img/L6E5.png",
-            "./img/L6E6.png",
-            "./img/L6E7.png",
-            "./img/L6E8.png"
+            "../../../assets/evidence/sql-injection/lab-06/L6E1.png",
+            "../../../assets/evidence/sql-injection/lab-06/L6E2.png",
+            "../../../assets/evidence/sql-injection/lab-06/L6E3.png",
+            "../../../assets/evidence/sql-injection/lab-06/L6E4.png",
+            "../../../assets/evidence/sql-injection/lab-06/L6E5.png",
+            "../../../assets/evidence/sql-injection/lab-06/L6E6.png",
+            "../../../assets/evidence/sql-injection/lab-06/L6E7.png",
+            "../../../assets/evidence/sql-injection/lab-06/L6E8.png"
         ],
         "status": "Solved",
         "validation": "Obtención secuencial y control del panel de administrador gracias a las contraseñas extraídas.",
@@ -138,7 +138,7 @@ const sqlInjectionLabs = [
             "Reconfirmación usando UNION SELECT con valores múltiples NULL."
         ],
         "techniques": ["UNION Column Discovery", "Error forcing", "NULL probing"],
-        "evidencePaths": ["./img/L7E1.png", "./img/L7E2.png", "./img/L7E3.png"],
+        "evidencePaths": ["../../../assets/evidence/sql-injection/lab-07/L7E1.png", "../../../assets/evidence/sql-injection/lab-07/L7E2.png", "../../../assets/evidence/sql-injection/lab-07/L7E3.png"],
         "status": "Solved",
         "validation": "Inyección controlada de X columnas que estabilizaron el error HTTP 500.",
         "mitigation": "Retornar siempre un error amigable HTTP 500 genérico sin revelar excepciones crudas SQL."
@@ -155,7 +155,7 @@ const sqlInjectionLabs = [
             "Identificación de la columna vulnerable mediante reflejo positivo de la variable introducida."
         ],
         "techniques": ["UNION Data Type Probing", "DOM rendered exfiltration"],
-        "evidencePaths": ["./img/L8E1.png", "./img/L8E2.png", "./img/L8E3.png", "./img/L8E4.png"],
+        "evidencePaths": ["../../../assets/evidence/sql-injection/lab-08/L8E1.png", "../../../assets/evidence/sql-injection/lab-08/L8E2.png", "../../../assets/evidence/sql-injection/lab-08/L8E3.png", "../../../assets/evidence/sql-injection/lab-08/L8E4.png"],
         "status": "Solved",
         "validation": "La cadena elegida reflejó limpiamente en la vista del portal web demostrando control In-Band.",
         "mitigation": "Establecer control estricto de tipos e interfaces inmutables que no admitan inyección UNION variable."
@@ -173,12 +173,12 @@ const sqlInjectionLabs = [
         ],
         "techniques": ["Cross-table Dumping", "Data Exfiltration via UNION"],
         "evidencePaths": [
-            "./img/L9E1.png",
-            "./img/L9E2.png",
-            "./img/L9E3.png",
-            "./img/L9E4.png",
-            "./img/L9E5.png",
-            "./img/L9E6.png"
+            "../../../assets/evidence/sql-injection/lab-09/L9E1.png",
+            "../../../assets/evidence/sql-injection/lab-09/L9E2.png",
+            "../../../assets/evidence/sql-injection/lab-09/L9E3.png",
+            "../../../assets/evidence/sql-injection/lab-09/L9E4.png",
+            "../../../assets/evidence/sql-injection/lab-09/L9E5.png",
+            "../../../assets/evidence/sql-injection/lab-09/L9E6.png"
         ],
         "status": "Solved",
         "validation": "Comprobación mediante logeo satisfactorio como 'administrator' a posteriori del dump.",
@@ -197,12 +197,12 @@ const sqlInjectionLabs = [
         ],
         "techniques": ["SQL Payload Concatenation", "Single-Column UNION", "Pattern Separators"],
         "evidencePaths": [
-            "./img/L10E1.png",
-            "./img/L10E2.png",
-            "./img/L10E3.png",
-            "./img/L10E4.png",
-            "./img/L10E5.png",
-            "./img/L10E6.png"
+            "../../../assets/evidence/sql-injection/lab-10/L10E1.png",
+            "../../../assets/evidence/sql-injection/lab-10/L10E2.png",
+            "../../../assets/evidence/sql-injection/lab-10/L10E3.png",
+            "../../../assets/evidence/sql-injection/lab-10/L10E4.png",
+            "../../../assets/evidence/sql-injection/lab-10/L10E5.png",
+            "../../../assets/evidence/sql-injection/lab-10/L10E6.png"
         ],
         "status": "Solved",
         "validation": "Exfiltración limpia de pares concatenados permitiendo secuestrar la plataforma integralmente.",
@@ -221,12 +221,12 @@ const sqlInjectionLabs = [
         ],
         "techniques": ["Boolean-based Blind", "Substring Fuzzing", "DOM difference logic"],
         "evidencePaths": [
-            "./img/L11E1.png",
-            "./img/L11E2.png",
-            "./img/L11E3.png",
-            "./img/L11E4.png",
-            "./img/L11E5.png",
-            "./img/L11E6.png"
+            "../../../assets/evidence/sql-injection/lab-11/L11E1.png",
+            "../../../assets/evidence/sql-injection/lab-11/L11E2.png",
+            "../../../assets/evidence/sql-injection/lab-11/L11E3.png",
+            "../../../assets/evidence/sql-injection/lab-11/L11E4.png",
+            "../../../assets/evidence/sql-injection/lab-11/L11E5.png",
+            "../../../assets/evidence/sql-injection/lab-11/L11E6.png"
         ],
         "status": "Solved",
         "validation": "Recreación total y perfecta de la contraseña asilada midiendo simples diferencias visuales en la respuesta HTML.",
@@ -245,13 +245,13 @@ const sqlInjectionLabs = [
         ],
         "techniques": ["Error-based Blind", "CASE statement exploits", "Intentional crashing"],
         "evidencePaths": [
-            "./img/L12E1.png",
-            "./img/L12E2.png",
-            "./img/L12E3.png",
-            "./img/L12E4.png",
-            "./img/L12E5.png",
-            "./img/L12E6.png",
-            "./img/L12E7.png"
+            "../../../assets/evidence/sql-injection/lab-12/L12E1.png",
+            "../../../assets/evidence/sql-injection/lab-12/L12E2.png",
+            "../../../assets/evidence/sql-injection/lab-12/L12E3.png",
+            "../../../assets/evidence/sql-injection/lab-12/L12E4.png",
+            "../../../assets/evidence/sql-injection/lab-12/L12E5.png",
+            "../../../assets/evidence/sql-injection/lab-12/L12E6.png",
+            "../../../assets/evidence/sql-injection/lab-12/L12E7.png"
         ],
         "status": "Solved",
         "validation": "Dump exitoso derivado únicamente de los fallos de comportamiento interpretados como verdad positiva.",
@@ -270,11 +270,11 @@ const sqlInjectionLabs = [
         ],
         "techniques": ["Visible Error SQLi", "CAST Exploit payload", "Detailed error reading"],
         "evidencePaths": [
-            "./img/L13E1.png",
-            "./img/L13E2.png",
-            "./img/L13E3.png",
-            "./img/L13E4.png",
-            "./img/L13E5.png"
+            "../../../assets/evidence/sql-injection/lab-13/L13E1.png",
+            "../../../assets/evidence/sql-injection/lab-13/L13E2.png",
+            "../../../assets/evidence/sql-injection/lab-13/L13E3.png",
+            "../../../assets/evidence/sql-injection/lab-13/L13E4.png",
+            "../../../assets/evidence/sql-injection/lab-13/L13E5.png"
         ],
         "status": "Solved",
         "validation": "Obtención total de la cuenta usando un fallo trivial y explícito visualizado en el log frontend.",
@@ -292,7 +292,7 @@ const sqlInjectionLabs = [
             "Monitorización del socket calculando retrasos intencionados."
         ],
         "techniques": ["Time-based Blind SQLi", "pg_sleep payload", "Latency Measurement"],
-        "evidencePaths": ["./img/L14E1.png", "./img/L14E2.png", "./img/L14E3.png"],
+        "evidencePaths": ["../../../assets/evidence/sql-injection/lab-14/L14E1.png", "../../../assets/evidence/sql-injection/lab-14/L14E2.png", "../../../assets/evidence/sql-injection/lab-14/L14E3.png"],
         "status": "Solved",
         "validation": "Certificación positiva tras evidenciar un incremento sostenido del Retardo T de 10 segundos en las respuestas HTTP.",
         "mitigation": "Emplear ORM (Object-Relational Mapping). Deshabilitar funciones de latencia/sleep sobre los perfiles SQL web conectados."
@@ -310,12 +310,12 @@ const sqlInjectionLabs = [
         ],
         "techniques": ["Time-based Exfiltration", "Conditional sleep loops", "Burp Suite automation"],
         "evidencePaths": [
-            "./img/L15E1.png",
-            "./img/L15E2.png",
-            "./img/L15E3.png",
-            "./img/L15E4.png",
-            "./img/L15E5.png",
-            "./img/L15E6.png"
+            "../../../assets/evidence/sql-injection/lab-15/L15E1.png",
+            "../../../assets/evidence/sql-injection/lab-15/L15E2.png",
+            "../../../assets/evidence/sql-injection/lab-15/L15E3.png",
+            "../../../assets/evidence/sql-injection/lab-15/L15E4.png",
+            "../../../assets/evidence/sql-injection/lab-15/L15E5.png",
+            "../../../assets/evidence/sql-injection/lab-15/L15E6.png"
         ],
         "status": "Solved",
         "validation": "Éxito absoluto en la reconstrucción analítica del password y la escalada vertical usando latencia condicional.",
