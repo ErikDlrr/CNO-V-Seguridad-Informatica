@@ -218,11 +218,18 @@ const scenarios = [
 let currentStep = 0;
 let score = 0;
 
+// Variables adiciones para Scoreboard y Tracker
+let currentAlias = "";
+let scenarioStartTime = 0;
+let sessionLog = [];
+let totalSessionTime = 0;
+
 // DOM Elements
 const panels = {
     start: document.getElementById('quizStartPanel'),
     main: document.getElementById('quizMainPanel'),
-    result: document.getElementById('quizResultPanel')
+    result: document.getElementById('quizResultPanel'),
+    scoreboard: document.getElementById('quizScoreboardPanel')
 };
 
 const dom = {
@@ -244,11 +251,27 @@ const dom = {
     feedbackFlags: document.getElementById('feedbackFlags'),
     btnNext: document.getElementById('btnNext'),
     finalScore: document.getElementById('finalScore'),
-    resultAnalysis: document.getElementById('resultAnalysis')
+    resultAnalysis: document.getElementById('resultAnalysis'),
+
+    // Nodos nuevos de Scoreboard
+    tableBody: document.querySelector('#scoreboardTable tbody')
 };
 
 // Start logic
 document.getElementById('btnStartQuiz').addEventListener('click', () => {
+    const aliasInput = document.getElementById('userAlias');
+    const aliasError = document.getElementById('aliasError');
+
+    if (!aliasInput.value.trim()) {
+        aliasError.style.visibility = 'visible';
+        return;
+    }
+
+    aliasError.style.visibility = 'hidden';
+    currentAlias = aliasInput.value.trim();
+    sessionLog = [];
+    totalSessionTime = 0;
+
     switchPanel('main');
     loadScenario();
 });
@@ -289,6 +312,9 @@ function switchPanel(panelName) {
 function loadScenario() {
     const s = scenarios[currentStep];
 
+    // Tracker
+    scenarioStartTime = Date.now();
+
     // Resets
     dom.quizActions.style.display = 'flex';
     dom.feedbackPanel.style.display = 'none';
@@ -326,6 +352,18 @@ function loadScenario() {
 function handleAnswer(userSaidPhishing) {
     const s = scenarios[currentStep];
     const isCorrect = (userSaidPhishing === s.isPhishing);
+
+    // Trackear tiempo intermedio
+    const timeSpentMs = Date.now() - scenarioStartTime;
+    const timeSpentSeconds = parseFloat((timeSpentMs / 1000).toFixed(1));
+    totalSessionTime += timeSpentSeconds;
+
+    sessionLog.push({
+        id: s.id,
+        passed: isCorrect,
+        timeSpent: timeSpentSeconds,
+        flags: s.flags.length
+    });
 
     if (isCorrect) {
         score += 10;
@@ -382,4 +420,177 @@ function showResults() {
     }
 
     dom.resultAnalysis.textContent = analysisText;
+
+    // Save history data
+    saveScoreboardData();
 }
+
+// ==========================================
+// SCOREBOARD LOGIC, PERSISTENCE & ANALYTICS
+// ==========================================
+
+function saveScoreboardData() {
+    // Preparar objeto de sesión
+    const sessionData = {
+        alias: currentAlias,
+        score: score,
+        time: parseFloat(totalSessionTime.toFixed(1)),
+        date: new Date().toISOString(),
+        details: sessionLog
+    };
+
+    // Leer BD de Storage
+    let db = JSON.parse(localStorage.getItem('pr02_phishing_ranking')) || [];
+    db.push(sessionData);
+
+    // Guardar DB 
+    localStorage.setItem('pr02_phishing_ranking', JSON.stringify(db));
+}
+
+function renderScoreboard() {
+    let db = JSON.parse(localStorage.getItem('pr02_phishing_ranking')) || [];
+
+    // Order by Score (Descending), then Time (Ascending)
+    db.sort((a, b) => {
+        if (b.score !== a.score) {
+            return b.score - a.score;
+        }
+        return a.time - b.time;
+    });
+
+    // Populate Table
+    if (dom.tableBody) {
+        dom.tableBody.innerHTML = '';
+
+        if (db.length === 0) {
+            dom.tableBody.innerHTML = '<tr><td colspan="5" class="text-center muted">Todavía no hay registros de evaluación.</td></tr>';
+        } else {
+            db.forEach((entry, idx) => {
+                const dateObj = new Date(entry.date);
+                const dateFormatted = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                const tr = document.createElement('tr');
+
+                // Decorations for top 3
+                if (idx === 0) tr.style.background = 'rgba(255, 215, 0, 0.08)';
+                else if (idx === 1) tr.style.background = 'rgba(192, 192, 192, 0.08)';
+                else if (idx === 2) tr.style.background = 'rgba(205, 127, 50, 0.08)';
+
+                tr.innerHTML = `
+                    <td style="font-weight: bold; color: ${idx < 3 ? 'var(--fg)' : 'var(--muted)'}">#${idx + 1}</td>
+                    <td style="font-weight: bold;">${entry.alias}</td>
+                    <td class="glow">${entry.score} pts</td>
+                    <td>${entry.time}s</td>
+                    <td class="muted tiny">${dateFormatted}</td>
+                `;
+                dom.tableBody.appendChild(tr);
+            });
+        }
+    }
+
+    // Analytics: Average Time
+    const statAvgTime = document.getElementById('statAvgTime');
+    if (statAvgTime && db.length > 0) {
+        const totalSysTime = db.reduce((acc, curr) => acc + curr.time, 0);
+        statAvgTime.textContent = (totalSysTime / db.length).toFixed(1) + 's / intento';
+    } else if (statAvgTime) {
+        statAvgTime.textContent = '-';
+    }
+
+    // Analytics: Most Failed Scenario
+    const statMostFailed = document.getElementById('statMostFailed');
+    if (statMostFailed && db.length > 0) {
+        let failsMap = {};
+
+        // Count failure frequencies
+        db.forEach(session => {
+            if (session.details && session.details.length > 0) {
+                session.details.forEach(detail => {
+                    if (!detail.passed) {
+                        failsMap[detail.id] = (failsMap[detail.id] || 0) + 1;
+                    }
+                });
+            }
+        });
+
+        // Find max
+        let maxFails = -1;
+        let mostFailedId = null;
+
+        for (const [id, fails] of Object.entries(failsMap)) {
+            if (fails > maxFails) {
+                maxFails = fails;
+                mostFailedId = parseInt(id);
+            }
+        }
+
+        if (maxFails > 0) {
+            // Find scenario name
+            const sDef = scenarios.find(x => x.id === mostFailedId);
+            const badgeName = sDef ? sDef.senderName : `Escenario ${mostFailedId}`;
+            statMostFailed.textContent = `[${maxFails} fallos] ${badgeName}`;
+        } else {
+            statMostFailed.textContent = "Ningún Fallo Registrado";
+            statMostFailed.style.color = "var(--accent)";
+        }
+    } else if (statMostFailed) {
+        statMostFailed.textContent = '-';
+    }
+}
+
+// SCOREBOARD EVENT LISTENERS 
+document.getElementById('btnViewScoreboard')?.addEventListener('click', () => {
+    switchPanel('scoreboard');
+    renderScoreboard();
+});
+
+document.getElementById('btnGoToScoreboard')?.addEventListener('click', () => {
+    switchPanel('scoreboard');
+    renderScoreboard();
+});
+
+document.getElementById('btnClearScoreboard')?.addEventListener('click', () => {
+    if (confirm('¿Estás seguro de que deseas reiniciar todos los datos estadísticos y rankings locales? Esta acción no se puede deshacer.')) {
+        localStorage.removeItem('pr02_phishing_ranking');
+        renderScoreboard();
+    }
+});
+
+
+document.getElementById('btnBackToStart')?.addEventListener('click', () => {
+    switchPanel('start');
+});
+
+// ==========================================
+// AUTO-HIDE STICKY NAVBAR ON QUIZ SECTION
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+    const quizSection = document.getElementById('quiz');
+    const stickyNav = document.querySelector('.sticky-nav-wrapper');
+
+    if (quizSection && stickyNav) {
+        // Observador que dispara cuando el quiz entra a la zona visible (viewport)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // El quiz es visible, ocultar la barra suavemente
+                    stickyNav.style.opacity = '0';
+                    stickyNav.style.pointerEvents = 'none';
+                    stickyNav.style.transform = 'translateY(-20px)';
+                } else {
+                    // El quiz no es visible (estamos arriba), restaurar la barra
+                    stickyNav.style.opacity = '1';
+                    stickyNav.style.pointerEvents = 'none'; // Recordando el CSS base
+                    stickyNav.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            // Se activa en cuanto el 15% superior del quiz entra en pantalla
+            rootMargin: '0px',
+            threshold: 0.15
+        });
+
+        observer.observe(quizSection);
+    }
+});
+

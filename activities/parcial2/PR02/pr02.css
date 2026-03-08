@@ -270,3 +270,100 @@
 .attachment-fake:hover {
     background: rgba(255, 255, 255, 0.1);
 }
+
+/* =========================================
+   Sticky Navbar Premium UI
+   ========================================= */
+
+.sticky-nav-wrapper {
+    position: sticky;
+    top: 85px;
+    /* Evita que se solape con el header de 70px */
+    z-index: 40;
+    /* Debe ser menor que el z-index 50 del topbar para que pase por detrás si el usuario scroll muy rápido */
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+    margin-top: 1rem;
+    pointer-events: none;
+    /* Permite clicks en el espacio vacío alrededor de la píldora */
+    transition: all 0.3s ease;
+}
+
+.sticky-navbar {
+    pointer-events: auto;
+    /* Reactiva los clicks en la barra */
+    display: flex;
+    gap: 0.5rem;
+    background: rgba(15, 18, 26, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 8px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    max-width: 95vw;
+}
+
+.nav-pill {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    border-radius: 40px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.nav-pill:hover {
+    color: var(--fg);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-pill--active {
+    color: var(--bg);
+    /* Texto oscuro para el fondo blanco intenso de la variable accent */
+    background: var(--accent);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+.nav-pill--active:hover {
+    color: var(--bg);
+    /* Mantiene el contraste en hover */
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+}
+
+/* Modo móvil para la Navbar Flotante */
+@media (max-width: 600px) {
+    .sticky-nav-wrapper {
+        top: 75px;
+        padding: 0 10px;
+    }
+
+    .sticky-navbar {
+        width: 100%;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 5px;
+        -ms-overflow-style: none;
+        /* Oculta scrollbar en IE y Edge */
+        scrollbar-width: none;
+        /* Oculta scrollbar en Firefox */
+    }
+
+    .sticky-navbar::-webkit-scrollbar {
+        display: none;
+        /* Oculta scrollbar en Chrome y Safari */
+    }
+
+    .nav-pill {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+}

@@ -43,7 +43,22 @@
             </p>
         </header>
 
-        <section class="article__content">
+        <!-- Navbar pegajoso (Sticky Navbar Premium) -->
+        <div class="sticky-nav-wrapper">
+            <nav class="sticky-navbar">
+                <a href="#teoria" class="nav-pill">
+                    <span>📚</span> Investigación
+                </a>
+                <a href="#tabla-comparativa" class="nav-pill">
+                    <span>📊</span> Comparativa
+                </a>
+                <a href="#quiz" class="nav-pill nav-pill--active">
+                    <span>🎯</span> Quiz Interactivo
+                </a>
+            </nav>
+        </div>
+
+        <section class="article__content" id="teoria" style="scroll-margin-top: 5rem;">
             <!-- 1. Contexto del phishing -->
             <h2>1. Contexto del Phishing</h2>
             <p>
@@ -184,7 +199,7 @@
             </div>
 
             <!-- 6. Tabla Comparativa (Re-numerado a 6) -->
-            <h2 class="mt-8">6. Tabla Técnica Comparativa</h2>
+            <h2 class="mt-8" id="tabla-comparativa" style="scroll-margin-top: 6rem;">6. Tabla Técnica Comparativa</h2>
             <div class="table-responsive card mt-4">
                 <table class="data-tbl">
                     <thead>
@@ -303,7 +318,8 @@
 
         <!-- QUIZ INTERACTIVO (Comentado para Beta 1) -->
 
-        <section class="section section--alt" style="margin-top: 4rem; padding-top: 3rem; border-radius: 12px;">
+        <section id="quiz" class="section section--alt"
+            style="margin-top: 4rem; padding-top: 3rem; border-radius: 12px; scroll-margin-top: 6rem;">
             <div class="section__head" style="text-align: center;">
                 <h2 class="glow" style="margin-bottom: 0.5rem; font-size: 2.2rem;">Phishing Quiz: Test de Reconocimiento
                 </h2>
@@ -323,8 +339,23 @@
                         remitente, enlaces ocultos y el pretexto para decidir si es <strong>Phishing</strong> o
                         <strong>Legítimo</strong>.
                     </p>
-                    <button class="btn btn-large" id="btnStartQuiz">Comenzar Simulación</button>
-                    <p class="tiny muted" style="margin-top: 1rem;">No capturamos datos reales. Esta es una herramienta
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <input type="text" id="userAlias" placeholder="Ingresa tu Alias para el Ranking..."
+                            class="form-input"
+                            style="padding: 12px; border-radius: 6px; border: 1px solid var(--border); background: rgba(255,255,255,0.05); color: var(--fg); font-size: 1rem; text-align: center; max-width: 300px; width: 100%; outline: none;">
+                        <span id="aliasError"
+                            style="display:block; color: #ef4444; font-size: 0.8rem; margin-top:5px; visibility:hidden;">El
+                            alias es requerido para registrar tu puntuación.</span>
+                    </div>
+
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn btn-large" id="btnStartQuiz">Comenzar Simulación</button>
+                        <button class="btn btn-outline-success btn-large" id="btnViewScoreboard">🏆 Scoreboard</button>
+                    </div>
+
+                    <p class="tiny muted" style="margin-top: 1.5rem;">No capturamos datos reales. Esta es una
+                        herramienta
                         formativa de seguridad libre de riesgos.</p>
                 </div>
 
@@ -397,6 +428,51 @@
                     </div>
 
                     <button class="btn" id="btnRestart">Intentar de nuevo</button>
+                    <button class="btn btn-outline-success mt-3" id="btnGoToScoreboard">🏆 Ver Ranking Global</button>
+                </div>
+
+                <div id="quizScoreboardPanel" class="quiz-panel" style="display: none;">
+                    <div class="text-center" style="margin-bottom: 2rem;">
+                        <h3 style="font-size: 2rem; margin-bottom: 0.5rem;" class="glow">Global Scoreboard</h3>
+                        <p class="muted">Clasificación de riesgo humano y estadísticas locales.</p>
+                    </div>
+
+                    <div class="grid2 mt-4" style="margin-bottom: 2rem;">
+                        <div class="card card--ghost text-center">
+                            <h4 class="muted">Escenario con más alto Riesgo (Más fallado)</h4>
+                            <p id="statMostFailed"
+                                style="font-size: 1.2rem; font-weight: bold; margin-top: 0.5rem; color: #ef4444;">-</p>
+                        </div>
+                        <div class="card card--ghost text-center">
+                            <h4 class="muted">Tiempo Promedio de Análisis</h4>
+                            <p id="statAvgTime"
+                                style="font-size: 1.2rem; font-weight: bold; margin-top: 0.5rem; color: var(--accent);">
+                                -</p>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive card">
+                        <table class="data-tbl" id="scoreboardTable">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Alias</th>
+                                    <th>Score</th>
+                                    <th>Tiempo de Análisis</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Llenado dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="text-center mt-4" style="display: flex; gap: 1rem; justify-content: center;">
+                        <button class="btn btn-outline-danger" id="btnClearScoreboard" style="font-size: 0.9rem;">Borrar
+                            Datos</button>
+                        <button class="btn" id="btnBackToStart">Volver al Inicio</button>
+                    </div>
                 </div>
 
             </div>
