@@ -1,5 +1,5 @@
 /* 
-    pr02.css - Specific Styles for the Phishing Simulation Quiz
+    pr02.css - Estilos del Quiz de Phishing
     Premium Dynamic Design Version
 */
 
@@ -430,8 +430,8 @@
     margin-bottom: 8px;
 }
 
-/* Emulated elements inside email */
-.btn-fake {
+/* Elementos interactivos del correo */
+.btn-action-protected {
     display: inline-block;
     padding: 12px 24px;
     background: linear-gradient(45deg, #0056b3, #007bff);
@@ -444,12 +444,12 @@
     transition: all 0.2s;
 }
 
-.btn-fake:hover {
+.btn-action-protected:hover {
     filter: brightness(1.1);
     transform: scale(1.02);
 }
 
-.attachment-fake {
+.attachment-box {
     display: inline-flex;
     align-items: center;
     gap: 15px;
@@ -462,7 +462,7 @@
     transition: all 0.2s;
 }
 
-.attachment-fake:hover {
+.attachment-box:hover {
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255,255,255,0.2);
     transform: translateY(-2px);

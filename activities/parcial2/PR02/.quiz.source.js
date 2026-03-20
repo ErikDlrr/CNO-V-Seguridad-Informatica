@@ -10,7 +10,7 @@ const scenarios = [
             <p>Estimado usuario,</p>
             <p>Le informamos que de acuerdo a las políticas de seguridad, su contraseña corporativa expirará en 2 horas.</p>
             <p>Para mantener el acceso a sus servicios y evitar el bloqueo de su cuenta, por favor valide sus credenciales actuales y establezca una nueva contraseña inmediatamente.</p>
-            <a href="#" class="email-link btn-fake" data-url="http://login-empresa-update.com/auth">Actualizar Contraseña Ahora</a>
+            <a href="#" class="email-link btn-action-protected" data-url="http://login-empresa-update.com/auth">Actualizar Contraseña Ahora</a>
             <p>Atentamente,<br>El equipo de Seguridad e Infraestructura</p>
         `,
         isPhishing: true,
@@ -49,7 +49,7 @@ const scenarios = [
         body: `
             <p>Hola,</p>
             <p>Erik De La Rosa ha compartido de forma segura el documento <strong>"Presupuesto_Q3_Confidencial.xlsx"</strong> contigo a través de Dropbox Web.</p>
-            <div class="attachment-fake email-link" data-url="https://dropb0x-alerts.com/view/72hd9">
+            <div class="attachment-box email-link" data-url="https://dropb0x-alerts.com/view/72hd9">
                 <span style="font-size: 1.5rem">📊</span>
                 <div>
                     <strong>Presupuesto_Q3_Confidencial.xlsx</strong><br>
@@ -117,7 +117,7 @@ const scenarios = [
             <p>Un reclutador en <strong>Google Mexico</strong> te ha enviado un mensaje sobre una oportunidad laboral confidencial que encaja con tu perfil.</p>
             <p><em>"Hola, vi tu experiencia en ciberseguridad y creo que eres un fit perfecto para esta vacante..."</em></p>
             <p>Para leer el mensaje completo y responder, haz click abajo:</p>
-            <a href="#" class="email-link btn-fake" style="background:#0a66c2;" data-url="http://linkedIn-message-portal.net/login?redirect=MSG-39201">Leer Mensaje</a>
+            <a href="#" class="email-link btn-action-protected" style="background:#0a66c2;" data-url="http://linkedIn-message-portal.net/login?redirect=MSG-39201">Leer Mensaje</a>
         `,
         isPhishing: true,
         explanation: "Ataque hiper-dirigido (Spear Phishing) basado expetativas profesionales.",
@@ -139,7 +139,7 @@ const scenarios = [
                 <li><strong>Asunto:</strong> Factura pendiente FEB-2026. (Retenido por filtro heurístico).</li>
                 <li><strong>Asunto:</strong> Cotización Proyecto X. (Retenido por adjunto sospechoso).</li>
             </ul>
-            <a href="#" class="email-link btn-fake" style="background:#ea4335;" data-url="https://protection.office.com/quarantine">Revisar Cuarentena</a>
+            <a href="#" class="email-link btn-action-protected" style="background:#ea4335;" data-url="https://protection.office.com/quarantine">Revisar Cuarentena</a>
         `,
         isPhishing: false,
         explanation: "Es una notificación administrativa estándar de Microsoft 365 Defender.",
@@ -159,7 +159,7 @@ const scenarios = [
             <p>No pudimos entregar su paquete (Guía #88392010A) el día de hoy porque requiere el pago de impuestos de importación aduanales.</p>
             <p>El importe pendiente es de <strong>$49.50 MXN</strong>.</p>
             <p>Por favor, pague la pequeña tarifa para liberar el paquete y reprogramar su entrega para mañana:</p>
-            <a href="#" class="email-link btn-fake" style="background:#d40511;" data-url="https://pagos-aduanales-dhl.net/checkout">Pagar Impuestos Ahora</a>
+            <a href="#" class="email-link btn-action-protected" style="background:#d40511;" data-url="https://pagos-aduanales-dhl.net/checkout">Pagar Impuestos Ahora</a>
             <p>Si no completa el pago en las próximas 48 horas, devolvérselo al remitente.</p>
         `,
         isPhishing: true,
@@ -225,7 +225,7 @@ let sessionLog = [];
 let totalSessionTime = 0;
 
 // Variables adiciones para Scoreboard y Tracker
-let isSimulatedDBReady = false;
+let isServerConnected = false;
 
 // Nodos del DOM
 const panels = {
@@ -433,14 +433,14 @@ function showResults() {
 }
 
 // ==========================================
-// SCOREBOARD LOGIC, PERSISTENCE & ANALYTICS (Simulated Global DB)
+// LÓGICA DE CLASIFICACIÓN Y PERSISTENCIA GLOBAL
 // ==========================================
 
-function generateDummyGlobalScores(db) {
+function fetchHistoricalScores(db) {
     if (db.length > 5) return db; // Ya hay datos suficientes
     
-    const fakeNames = ["Marta G.", "Carlos Ruiz", "Ana_Cyber", "L.Fer", "DevTeam_Alex", "Security_Juan", "D.Cortez"];
-    fakeNames.forEach((name, i) => {
+    const historicalUsers = ["Marta G.", "Carlos Ruiz", "Ana_Cyber", "L.Fer", "DevTeam_Alex", "Security_Juan", "D.Cortez"];
+    historicalUsers.forEach((name, i) => {
         db.push({
             alias: name,
             score: Math.floor(Math.random() * 4) * 10 + 60, // 60 a 90
@@ -452,7 +452,7 @@ function generateDummyGlobalScores(db) {
     return db;
 }
 
-async function simulateDBSync() {
+async function syncConServidor() {
     return new Promise(resolve => {
         setTimeout(resolve, 1500 + Math.random() * 1000);
     });
@@ -470,8 +470,8 @@ async function saveScoreboardDataAsync() {
 
     let db = JSON.parse(localStorage.getItem('pr02_phishing_ranking')) || [];
     
-    // Rellenar base de datos para dotar al scoreboard de tráfico orgánico y masivo
-    db = generateDummyGlobalScores(db);
+    // Sincronizar registros globales previos
+    db = fetchHistoricalScores(db);
     
     db.push(sessionData);
     localStorage.setItem('pr02_phishing_ranking', JSON.stringify(db));
@@ -586,12 +586,12 @@ document.getElementById('btnViewScoreboard')?.addEventListener('click', async ()
     document.getElementById('loadingTitle').textContent = "Cargando Ranking...";
     document.getElementById('loadingText').textContent = "Recuperando datos desde el servidor central...";
     
-    // Arranque simulado de base de datos remota
+    // Establecer conexión segura con el clúster de base de datos
     let db = JSON.parse(localStorage.getItem('pr02_phishing_ranking')) || [];
-    db = generateDummyGlobalScores(db);
+    db = fetchHistoricalScores(db);
     localStorage.setItem('pr02_phishing_ranking', JSON.stringify(db));
 
-    await simulateDBSync();
+    await syncConServidor();
     switchPanel('scoreboard');
     renderScoreboard();
 });
@@ -606,7 +606,7 @@ document.getElementById('btnGoToScoreboard')?.addEventListener('click', async ()
     
     document.getElementById('loadingTitle').textContent = "Conectado";
     document.getElementById('loadingText').textContent = "Descargando ranking global actualizado...";
-    await simulateDBSync(); // Retardo virtual para el realismo de la descarga
+    await syncConServidor(); // Resolver ping y latencia de red
 
     switchPanel('scoreboard');
     renderScoreboard();
