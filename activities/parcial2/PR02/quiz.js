@@ -224,11 +224,15 @@ let scenarioStartTime = 0;
 let sessionLog = [];
 let totalSessionTime = 0;
 
+// Variables adiciones para Scoreboard y Tracker
+let isSimulatedDBReady = false;
+
 // DOM Elements
 const panels = {
     start: document.getElementById('quizStartPanel'),
     main: document.getElementById('quizMainPanel'),
     result: document.getElementById('quizResultPanel'),
+    loading: document.getElementById('quizLoadingPanel'),
     scoreboard: document.getElementById('quizScoreboardPanel')
 };
 
@@ -380,7 +384,8 @@ function updateScoreUI() {
 function showFeedback(isCorrect, scenario) {
     dom.quizActions.style.display = 'none';
 
-    dom.feedbackPanel.className = `feedback-panel ${isCorrect ? 'success' : 'error'}`;
+    // Set class to overlay for absolute modal styling
+    dom.feedbackPanel.className = `feedback-panel overlay ${isCorrect ? 'success' : 'error'}`;
     dom.feedbackIcon.textContent = isCorrect ? '✔️' : '❌';
     dom.feedbackTitle.textContent = isCorrect
         ? '¡Excelente deducción!'
@@ -398,6 +403,11 @@ function showFeedback(isCorrect, scenario) {
 
     dom.feedbackPanel.style.display = 'flex';
     dom.progressFill.style.width = `${((currentStep + 1) / scenarios.length) * 100}%`;
+
+    // Desplazar automáticamente para que el modal se vea perfecto
+    setTimeout(() => {
+        document.getElementById('quizContainer').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
 }
 
 function showResults() {
@@ -420,30 +430,50 @@ function showResults() {
     }
 
     dom.resultAnalysis.textContent = analysisText;
-
-    // Save history data
-    saveScoreboardData();
 }
 
 // ==========================================
-// SCOREBOARD LOGIC, PERSISTENCE & ANALYTICS
+// SCOREBOARD LOGIC, PERSISTENCE & ANALYTICS (Simulated Global DB)
 // ==========================================
 
-function saveScoreboardData() {
-    // Preparar objeto de sesión
+function generateDummyGlobalScores(db) {
+    if (db.length > 5) return db; // Ya hay datos suficientes
+    
+    const fakeNames = ["Marta G.", "Carlos Ruiz", "Ana_Cyber", "L.Fer", "DevTeam_Alex", "Security_Juan", "D.Cortez"];
+    fakeNames.forEach((name, i) => {
+        db.push({
+            alias: name,
+            score: Math.floor(Math.random() * 4) * 10 + 60, // 60 a 90
+            time: parseFloat((Math.random() * 40 + 30).toFixed(1)), // 30 a 70 segundos
+            date: new Date(Date.now() - Math.random() * 100000000).toISOString(),
+            details: []
+        });
+    });
+    return db;
+}
+
+async function simulateDBSync() {
+    return new Promise(resolve => {
+        setTimeout(resolve, 1500 + Math.random() * 1000);
+    });
+}
+
+async function saveScoreboardDataAsync() {
     const sessionData = {
         alias: currentAlias,
         score: score,
         time: parseFloat(totalSessionTime.toFixed(1)),
         date: new Date().toISOString(),
-        details: sessionLog
+        details: sessionLog,
+        isCurrentUser: true // Highlight local user
     };
 
-    // Leer BD de Storage
     let db = JSON.parse(localStorage.getItem('pr02_phishing_ranking')) || [];
+    
+    // Inject dummy scores logic if DB is empty to simulate real traffic
+    db = generateDummyGlobalScores(db);
+    
     db.push(sessionData);
-
-    // Guardar DB 
     localStorage.setItem('pr02_phishing_ranking', JSON.stringify(db));
 }
 
@@ -470,15 +500,27 @@ function renderScoreboard() {
                 const dateFormatted = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
                 const tr = document.createElement('tr');
+                let isTop3 = idx < 3;
+                let bgStyle = '';
 
-                // Decorations for top 3
-                if (idx === 0) tr.style.background = 'rgba(255, 215, 0, 0.08)';
-                else if (idx === 1) tr.style.background = 'rgba(192, 192, 192, 0.08)';
-                else if (idx === 2) tr.style.background = 'rgba(205, 127, 50, 0.08)';
+                if (entry.isCurrentUser) {
+                    bgStyle = 'background: rgba(var(--accent-rgb), 0.15); border-left: 3px solid var(--accent);';
+                } else if (idx === 0) {
+                    bgStyle = 'background: rgba(255, 215, 0, 0.08);';
+                } else if (idx === 1) {
+                    bgStyle = 'background: rgba(192, 192, 192, 0.08);';
+                } else if (idx === 2) {
+                    bgStyle = 'background: rgba(205, 127, 50, 0.08);';
+                }
+
+                if (bgStyle) tr.style.cssText = bgStyle;
 
                 tr.innerHTML = `
-                    <td style="font-weight: bold; color: ${idx < 3 ? 'var(--fg)' : 'var(--muted)'}">#${idx + 1}</td>
-                    <td style="font-weight: bold;">${entry.alias}</td>
+                    <td style="font-weight: bold; color: ${isTop3 ? 'var(--fg)' : 'var(--muted)'}">#${idx + 1}</td>
+                    <td style="font-weight: bold;">
+                        ${entry.alias} 
+                        ${entry.isCurrentUser ? '<span class="tag" style="margin-left:8px; font-size:0.7rem; padding:2px 6px;">TÚ</span>' : ''}
+                    </td>
                     <td class="glow">${entry.score} pts</td>
                     <td>${entry.time}s</td>
                     <td class="muted tiny">${dateFormatted}</td>
@@ -539,18 +581,39 @@ function renderScoreboard() {
 }
 
 // SCOREBOARD EVENT LISTENERS 
-document.getElementById('btnViewScoreboard')?.addEventListener('click', () => {
+document.getElementById('btnViewScoreboard')?.addEventListener('click', async () => {
+    switchPanel('loading');
+    document.getElementById('loadingTitle').textContent = "Cargando Ranking...";
+    document.getElementById('loadingText').textContent = "Recuperando datos desde el servidor central...";
+    
+    // Simulate initial database initialization if needed
+    let db = JSON.parse(localStorage.getItem('pr02_phishing_ranking')) || [];
+    db = generateDummyGlobalScores(db);
+    localStorage.setItem('pr02_phishing_ranking', JSON.stringify(db));
+
+    await simulateDBSync();
     switchPanel('scoreboard');
     renderScoreboard();
 });
 
-document.getElementById('btnGoToScoreboard')?.addEventListener('click', () => {
+document.getElementById('btnGoToScoreboard')?.addEventListener('click', async () => {
+    switchPanel('loading');
+    document.getElementById('loadingTitle').textContent = "Sincronizando";
+    document.getElementById('loadingText').textContent = "Enviando resultados al servidor de evaluación...";
+    
+    // Process save and DB fetch
+    await saveScoreboardDataAsync();
+    
+    document.getElementById('loadingTitle').textContent = "Conectado";
+    document.getElementById('loadingText').textContent = "Descargando ranking global actualizado...";
+    await simulateDBSync(); // second fetch delay for realism
+
     switchPanel('scoreboard');
     renderScoreboard();
 });
 
 document.getElementById('btnClearScoreboard')?.addEventListener('click', () => {
-    if (confirm('¿Estás seguro de que deseas reiniciar todos los datos estadísticos y rankings locales? Esta acción no se puede deshacer.')) {
+    if (confirm('¿Estás seguro de que deseas reiniciar todos los datos estadísticos y rankings de la base de datos? Esta acción no se puede deshacer.')) {
         localStorage.removeItem('pr02_phishing_ranking');
         renderScoreboard();
     }
