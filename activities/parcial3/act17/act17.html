@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC17 - Evaluación de Vulnerabilidades CVSS v3.1</title>
+    <link rel="stylesheet" href="../../../assets/styles.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <a href="../../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main class="article">
+        <header class="article__header">
+            <div class="article__meta">
+                <span>CNO V - Seguridad Informática</span>
+                <span>•</span>
+                <span>Tercer Parcial</span>
+                <span>•</span>
+                <span>Actividad 17</span>
+            </div>
+
+            <h1>Evaluación de Vulnerabilidades con CVSS v3.1</h1>
+            <p class="lead">
+                Análisis cuantitativo de riesgos y priorización de vulnerabilidades.
+            </p>
+        </header>
+
+        <section class="article__content">
+
+            <h2>1. Introducción</h2>
+            <p>
+                El Common Vulnerability Scoring System (CVSS) proporciona una forma de capturar las características principales de una vulnerabilidad y producir una puntuación numérica que refleja su severidad. En esta actividad se desarrolla la evaluación de una vulnerabilidad web usando el estándar v3.1.
+            </p>
+
+            <h2>2. Construcción del Vector CVSS</h2>
+            <p>
+                Se identificaron las métricas base según el escenario analizado:
+            </p>
+            <ul>
+                <li><strong>Vector de Ataque (AV):</strong> Red (N)</li>
+                <li><strong>Complejidad del Ataque (AC):</strong> Baja (L)</li>
+                <li><strong>Privilegios Requeridos (PR):</strong> Ninguno (N)</li>
+                <li><strong>Interacción del Usuario (UI):</strong> Requerida (R)</li>
+                <li><strong>Alcance (S):</strong> Cambiado (C)</li>
+            </ul>
+
+            <h2>3. Cálculo de la Puntuación</h2>
+            <p>
+                Utilizando la calculadora oficial de FIRST, se combinaron las métricas de impacto (Confidencialidad, Integridad, Disponibilidad) junto con las métricas de explotabilidad para generar el string vectorial final y el puntaje base.
+            </p>
+
+            <h2>4. Análisis de Riesgo y Priorización</h2>
+            <div class="reflection">
+                <p>
+                    La asignación de una puntuación CVSS no solo establece un nivel de severidad (Bajo, Medio, Alto, Crítico), sino que permite a los equipos de TI y seguridad priorizar los parches basándose en el riesgo real que representa para la continuidad del negocio.
+                </p>
+            </div>
+
+        </section>
+    </main>
+
+    <a href="act17-Equipo5.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
+        rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+
+</body>
+
+</html>

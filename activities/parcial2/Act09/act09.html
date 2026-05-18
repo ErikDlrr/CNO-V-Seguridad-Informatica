@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC09 - Reconocimiento y Enumeración</title>
+    <link rel="stylesheet" href="../../../assets/styles.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <a href="../../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main class="article">
+        <header class="article__header">
+            <div class="article__meta">
+                <span>CNO V - Seguridad Informática</span>
+                <span>•</span>
+                <span>Segundo Parcial</span>
+                <span>•</span>
+                <span>Actividad 09</span>
+            </div>
+
+            <h1>Análisis de Reconocimiento y Enumeración</h1>
+            <p class="lead">
+                Uso de herramientas de mapeo de red y análisis de servicios expuestos.
+            </p>
+        </header>
+
+        <section class="article__content">
+
+            <h2>1. Introducción</h2>
+            <p>
+                El reconocimiento y enumeración es una fase crítica en cualquier evaluación de seguridad. En esta actividad, se realizaron escaneos para identificar servicios activos y posibles vectores de ataque iniciales en un entorno controlado.
+            </p>
+
+            <h2>2. Desarrollo técnico</h2>
+
+            <h3>2.1 Escaneo de red</h3>
+            <p>
+                Se utilizó la herramienta <strong>nmap</strong> para mapear los puertos abiertos y descubrir los servicios en ejecución en el objetivo (<code>192.168.1.13</code>).
+            </p>
+
+            <div class="code-block">
+                nmap -A 192.168.1.13
+            </div>
+
+            <h3>2.2 Servicios identificados</h3>
+            <ul>
+                <li><strong>Puerto 21:</strong> FTP</li>
+                <li><strong>Puerto 22:</strong> SSH</li>
+                <li><strong>Puerto 80:</strong> HTTP</li>
+                <li><strong>Puerto 111/2049:</strong> RPC / NFS</li>
+                <li><strong>Puerto 445:</strong> Samba</li>
+            </ul>
+
+            <h3>2.3 Análisis de vulnerabilidades potenciales</h3>
+            <p>
+                Una vez obtenidos los puertos y servicios, se procedió a probar la conectividad e interacción con servicios como FTP para identificar configuraciones por defecto o accesos anónimos habilitados:
+            </p>
+
+            <div class="code-block">
+                ftp 192.168.1.13 80
+            </div>
+
+            <h2>3. Material multimedia</h2>
+            <figure class="figure">
+                <div class="mermaid">
+                    graph TD
+                    A[Descubrimiento de Host] -->|Ping/ARP| B[Escaneo de Puertos]
+                    B -->|nmap -A| C[Identificación de Servicios]
+                    C --> D[FTP 21]
+                    C --> E[SSH 22]
+                    C --> F[HTTP 80]
+                    C --> G[Samba 445]
+                    
+                    style A fill:#3b82f6,stroke:#333,color:#fff
+                    style C fill:#8b5cf6,stroke:#333,color:#fff
+                </div>
+                <figcaption>
+                    Fig. 1 Flujo de descubrimiento y enumeración de servicios.
+                </figcaption>
+            </figure>
+
+            <h2>4. Conclusión</h2>
+            <div class="reflection">
+                <p>
+                    La correcta identificación de servicios expuestos permite mapear la superficie de ataque. Un puerto FTP mal configurado o un servicio HTTP desactualizado pueden ser el punto de entrada crítico para comprometer un sistema entero.
+                </p>
+            </div>
+
+        </section>
+    </main>
+
+    <a href="Act09-Equipo5 (1).pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
+        rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+
+    <!-- Mermaid JS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</body>
+
+</html>

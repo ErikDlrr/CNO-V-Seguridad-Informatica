@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC18 - Modelo Diamante</title>
+    <link rel="stylesheet" href="../../../assets/styles.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <a href="../../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main class="article">
+        <header class="article__header">
+            <div class="article__meta">
+                <span>CNO V - Seguridad Informática</span>
+                <span>•</span>
+                <span>Tercer Parcial</span>
+                <span>•</span>
+                <span>Actividad 18</span>
+            </div>
+
+            <h1>Análisis de Intrusiones: El Modelo Diamante</h1>
+            <p class="lead">
+                Descomposición de un incidente de seguridad para perfilar adversarios e infraestructura.
+            </p>
+        </header>
+
+        <section class="article__content">
+
+            <h2>1. Introducción</h2>
+            <p>
+                El Modelo Diamante de Análisis de Intrusiones (Diamond Model of Intrusion Analysis) establece las relaciones fundamentales entre cuatro componentes básicos en todo evento malicioso: el Adversario, la Infraestructura, la Capacidad y la Víctima.
+            </p>
+
+            <h2>2. Análisis del Incidente</h2>
+            
+            <h3>2.1 Descomposición en Eventos</h3>
+            <ul>
+                <li><strong>Evento 1:</strong> Detección de malware inicial en el equipo víctima (Capacidad instalada).</li>
+                <li><strong>Evento 2:</strong> Identificación de los dominios de Comando y Control (C2) dentro de la muestra maliciosa.</li>
+                <li><strong>Evento 3:</strong> Resolución DNS de los dominios C2 a direcciones IP externas (Infraestructura).</li>
+                <li><strong>Evento 4:</strong> Identificación de múltiples hosts internos comunicándose con la infraestructura del atacante.</li>
+                <li><strong>Evento 5:</strong> Correlación WHOIS/IP para trazar el posible origen geográfico o ASN del Adversario.</li>
+            </ul>
+
+            <h2>3. Relación con Cyber Kill Chain</h2>
+            <p>
+                Al integrar el Modelo Diamante con la Cyber Kill Chain, cada fase de la cadena (Reconocimiento, Armamento, Entrega, Explotación, Instalación, C2, Acciones en Objetivos) se convierte en un evento analizable bajo los cuatro vértices del diamante, permitiendo una inteligencia de amenazas más rica.
+            </p>
+
+            <h2>4. Conclusión</h2>
+            <div class="reflection">
+                <p>
+                    Perfilar a los atacantes más allá de los IoCs (Indicadores de Compromiso) aislados, entendiendo sus tácticas y la infraestructura que controlan, es vital para una estrategia de ciberdefensa madura y un Threat Hunting efectivo.
+                </p>
+            </div>
+
+        </section>
+    </main>
+
+    <a href="act18-Equipo5.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
+        rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+
+</body>
+
+</html>

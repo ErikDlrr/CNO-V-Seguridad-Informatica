@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC11 - Pentesting de Napping 101</title>
+    <link rel="stylesheet" href="../../../assets/styles.css">
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <a href="../../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main class="article">
+        <header class="article__header">
+            <div class="article__meta">
+                <span>CNO V - Seguridad Informática</span>
+                <span>•</span>
+                <span>Segundo Parcial</span>
+                <span>•</span>
+                <span>Actividad 11</span>
+            </div>
+
+            <h1>Red Team Report: Pentesting de Napping 101</h1>
+            <p class="lead">
+                Informe técnico con enfoque ejecutivo y trazabilidad metodológica sobre la explotación de la máquina vulnerable Napping 101.
+            </p>
+        </header>
+
+        <section class="article__content">
+
+            <h2>1. Resumen Ejecutivo</h2>
+            <p>
+                Este reporte detalla las actividades de evaluación de seguridad realizadas sobre el objetivo <strong>Napping 101</strong> (IP: <code>192.168.56.104</code>). El objetivo principal de este ejercicio fue identificar vulnerabilidades críticas, explotarlas de manera controlada y documentar la cadena del ataque.
+            </p>
+
+            <h2>2. Reconocimiento y Enumeración</h2>
+
+            <h3>2.1 Descubrimiento de Host</h3>
+            <p>
+                La evaluación comenzó con un mapeo de la superficie de ataque mediante <strong>nmap</strong> para identificar servicios expuestos:
+            </p>
+
+            <div class="code-block">
+                nmap -sS -sV -O -p- 192.168.56.104
+            </div>
+
+            <h3>2.2 Hallazgos Clave</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Puerto</th>
+                            <th>Servicio</th>
+                            <th>Versión</th>
+                            <th>Prioridad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>21</td>
+                            <td>FTP</td>
+                            <td>vsftpd 3.0.2</td>
+                            <td>Media</td>
+                        </tr>
+                        <tr>
+                            <td>22</td>
+                            <td>SSH</td>
+                            <td>OpenSSH 7.4</td>
+                            <td>Alta</td>
+                        </tr>
+                        <tr>
+                            <td>80</td>
+                            <td>HTTP</td>
+                            <td>Apache httpd 2.4.6</td>
+                            <td>Crítica</td>
+                        </tr>
+                        <tr>
+                            <td>111</td>
+                            <td>RPC</td>
+                            <td>2-4</td>
+                            <td>Media</td>
+                        </tr>
+                        <tr>
+                            <td>445</td>
+                            <td>SMB</td>
+                            <td>Samba 3.X-4.X</td>
+                            <td>Alta</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2>3. Vector de Ataque y Explotación</h2>
+            <p>
+                El puerto 80 (HTTP) fue identificado como un vector de alta prioridad debido a la exposición de contenido accesible sin autenticación, donde se localizó información crítica (e.g., <code>readme.txt</code>).
+            </p>
+
+            <h2>4. Cadena del Ataque</h2>
+            <figure class="figure">
+                <div class="mermaid">
+                    graph TD
+                    A[Reconocimiento Nmap] -->|Descubrimiento FTP, HTTP, SMB| B[Análisis de Servicios]
+                    B -->|Inspección HTTP 80| C[Exposición de Información]
+                    C -->|Archivos sensibles| D[Vector de Entrada]
+                    D -->|Explotación| E[Compromiso del Sistema]
+                    
+                    style A fill:#3b82f6,stroke:#333,color:#fff
+                    style E fill:#ef4444,stroke:#333,color:#fff
+                </div>
+                <figcaption>
+                    Fig. 1 Cadena del ataque: Enumeración → Exposición → Compromiso.
+                </figcaption>
+            </figure>
+
+            <h2>5. Conclusión</h2>
+            <div class="reflection">
+                <p>
+                    La evaluación de Napping 101 demuestra cómo servicios comunes mal configurados y la exposición de archivos críticos en servidores web pueden conducir al compromiso total de la infraestructura. La metodología aplicada (PTES) garantiza la trazabilidad de cada fase del pentesting.
+                </p>
+            </div>
+
+        </section>
+    </main>
+
+    <a href="act11-Equipo5.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
+        rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    </a>
+
+    <!-- Mermaid JS -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</body>
+
+</html>

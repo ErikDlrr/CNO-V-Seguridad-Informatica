@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PD05 - Certificaciones | Portafolio</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <style>
+        .cert-hero {
+            background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(30, 41, 59, 1) 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .cert-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        @media (max-width: 900px) {
+            .cert-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Tabs Menu */
+        .tabs-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .tab-btn {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 1rem 1.2rem;
+            border-radius: 0.75rem;
+            text-align: left;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text);
+            transform: translateX(4px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, transparent 100%);
+            border-left: 4px solid var(--accent);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cert-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .cert-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cert-review {
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            text-align: justify;
+        }
+
+        .cert-evidence {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            .cert-evidence {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .evidence-box {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px dashed var(--border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .evidence-box img {
+            max-width: 120px;
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .badge-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #1e293b, #334155);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border: 2px solid var(--border);
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <div class="container topbar__inner">
+            <div class="brand">
+                <a href="index.html" class="back-link">← Volver al Inicio</a>
+            </div>
+        </div>
+        <div class="scanline" aria-hidden="true"></div>
+    </header>
+
+    <main>
+        <section class="cert-hero">
+            <div class="container">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/15 text-blue-300 text-[10px] font-bold uppercase tracking-wider mb-4 border border-blue-400/20" style="display:inline-block; margin-bottom: 1rem; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">
+                    PD05 • Desarrollo Profesional
+                </div>
+                <h1 class="title" style="font-size: 2.5rem; margin-bottom: 1rem;">Reflexión profesional sobre certificaciones</h1>
+                <p class="lead" style="max-width: 800px; margin: 0 auto; color: var(--text-muted);">
+                    Mi experiencia, los retos y todo lo que aprendí en el camino de sacar las certificaciones de ciberseguridad con Cisco Networking Academy.
+                </p>
+            </div>
+        </section>
+
+        <section class="cert-container">
+            <!-- Sidebar Navigation -->
+            <nav class="tabs-menu" aria-label="Certificaciones">
+                <button class="tab-btn active" onclick="openTab(event, 'tab1')">1. Intro a la ciberseguridad <span>›</span></button>
+                <button class="tab-btn" onclick="openTab(event, 'tab2')">2. Conceptos básicos de redes <span>›</span></button>
+                <button class="tab-btn" onclick="openTab(event, 'tab3')">3. Dispositivos y configuración <span>›</span></button>
+                <button class="tab-btn" onclick="openTab(event, 'tab4')">4. Seguridad en terminales <span>›</span></button>
+                <button class="tab-btn" onclick="openTab(event, 'tab5')">5. Administración de amenazas <span>›</span></button>
+                <button class="tab-btn" onclick="openTab(event, 'tab6')">6. Analista Junior en Ciberseguridad <span>›</span></button>
+                <button class="tab-btn" onclick="openTab(event, 'tab7')">7. Hacker ético <span>›</span></button>
+            </nav>
+
+            <!-- Tab Contents -->
+            <div class="tabs-content-area">
+                
+                <!-- TAB 1 -->
+                <div id="tab1" class="tab-content active">
+                    <article class="cert-card">
+                        <h2 class="cert-title">Introducción a la ciberseguridad</h2>
+                        
+                        <div class="cert-review">
+                            <p><strong>Mi experiencia en el curso:</strong></p>
+                            <p>
+                                Sinceramente, este curso fue el que me abrió los ojos. Antes de llevarlo, pensaba que la ciberseguridad era solo configurar firewalls y hackear sistemas como en las películas, pero aquí me di cuenta de que es un mundo enorme que involucra muchas más cosas. 
+                            </p>
+                            <p>
+                                Lo que más me llamó la atención fue ver cómo el eslabón más débil siempre terminamos siendo nosotros los usuarios; la ingeniería social y el phishing son súper comunes y efectivos. También aprendí sobre la famosa tríada CIA (Confidencialidad, Integridad y Disponibilidad), que es como la regla de oro para cualquier sistema.
+                            </p>
+                            <p>
+                                La verdad, me sirvió mucho para empezar a tomarme en serio la protección de mis propios datos en mi día a día antes de siquiera pensar en defender a toda una empresa. Fue una excelente base para arrancar.
+                            </p>
+                        </div>
+
+                        <div class="cert-evidence">
+                            <div class="evidence-box">
+                                <h3>Certificado Oficial</h3>
+                                <p class="muted tiny">Documento avalado por Cisco Networking Academy.</p>
+                                <a href="certificados/Intro_a_la_ciberseguridad.pdf" class="btn btn--ghost" target="_blank">📄 Ver Certificado PDF</a>
+                            </div>
+                            <div class="evidence-box">
+                                <h3>Digital Badge</h3>
+                                <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="444afe26-ff17-49be-a536-d12493245d39" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- TAB 2 -->
+                <div id="tab2" class="tab-content">
+                    <article class="cert-card">
+                        <h2 class="cert-title">Conceptos básicos de redes</h2>
+                        
+                        <div class="cert-review">
+                            <p><strong>Mi experiencia en el curso:</strong></p>
+                            <p>
+                                Este módulo estuvo bastante pesado, sobre todo la parte de <i>subnetting</i> (cálculo de subredes) y entender a fondo cómo viajan los paquetes a través de todas las capas del modelo OSI y TCP/IP. 
+                            </p>
+                            <p>
+                                Al principio me costó un poco agarrarle la onda a hacer los cálculos de las direcciones IP y las máscaras de red, pero cuando empezamos a usar Packet Tracer para simular las redes todo tuvo mucho más sentido. Fue genial ver cómo se conectan los routers y switches de forma virtual.
+                            </p>
+                            <p>
+                                Me quedó muy claro que no puedes proteger una red si ni siquiera entiendes cómo está conectada o por dónde pasa la información. Fue súper retador para mí, pero definitivamente me dejó una base técnica muy sólida que me sirvió para los módulos que siguieron.
+                            </p>
+                        </div>
+
+                        <div class="cert-evidence">
+                            <div class="evidence-box">
+                                <h3>Certificado Oficial</h3>
+                                <p class="muted tiny">Documento avalado por Cisco Networking Academy.</p>
+                                <a href="certificados/Conceptos_basicos_redes.pdf" class="btn btn--ghost" target="_blank">📄 Ver Certificado PDF</a>
+                            </div>
+                            <div class="evidence-box">
+                                <h3>Digital Badge</h3>
+                                <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="33a166e3-eb78-48bc-99b1-d9a2a6fad0f6" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- TAB 3 -->
+                <div id="tab3" class="tab-content">
+                    <article class="cert-card">
+                        <h2 class="cert-title">Dispositivos de red y configuración inicial</h2>
+                        
+                        <div class="cert-review">
+                            <p><strong>Mi experiencia en el curso:</strong></p>
+                            <p>
+                                Aquí ya nos metimos a la práctica real (aunque fuera simulada) con los equipos. Aprender a configurar switches y routers directamente desde la línea de comandos (CLI) de Cisco impone un poco al principio, porque una letra mal y te da error, pero luego le vas agarrando el ritmo a los comandos.
+                            </p>
+                            <p>
+                                Lo más interesante e importante que aprendí fue a no dejar las cosas como vienen por defecto. Vimos cómo poner contraseñas cifradas, poner banners de advertencia, deshabilitar Telnet porque es súper inseguro y usar SSH en su lugar.
+                            </p>
+                            <p>
+                                Me hizo darme cuenta de que muchísimos hackeos hoy en día pasan simplemente porque la gente deja las configuraciones de fábrica, ¡un error de novatos que prometo que ya no voy a cometer! Me dio mucha confianza poder dejar un equipo seguro desde el minuto cero.
+                            </p>
+                        </div>
+
+                        <div class="cert-evidence">
+                            <div class="evidence-box">
+                                <h3>Certificado Oficial</h3>
+                                <p class="muted tiny">Documento avalado por Cisco Networking Academy.</p>
+                                <a href="certificados/Dispositivos_de_red.pdf" class="btn btn--ghost" target="_blank">📄 Ver Certificado PDF</a>
+                            </div>
+                            <div class="evidence-box">
+                                <h3>Digital Badge</h3>
+                                <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="1e7a3389-a11c-43b4-b7d3-37e812d8c373" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- TAB 4 -->
+                <div id="tab4" class="tab-content">
+                    <article class="cert-card">
+                        <h2 class="cert-title">Seguridad en terminales</h2>
+                        
+                        <div class="cert-review">
+                            <p><strong>Mi experiencia en el curso:</strong></p>
+                            <p>
+                                En este curso entendí que el famoso "perímetro" de la red corporativa ya no existe como tal. Ahora que casi todos trabajan desde casa o usan sus propios celulares (BYOD), la seguridad recae muchísimo en los <i>endpoints</i>, es decir, en nuestras computadoras y móviles.
+                            </p>
+                            <p>
+                                Me gustó bastante aprender cómo funcionan los diferentes tipos de malware por detrás y cómo los antivirus tradicionales ya se están quedando cortos, teniendo que pasar a soluciones más avanzadas como los EDR. También vimos temas súper útiles como el cifrado de discos enteros y cómo manejar bien las políticas y permisos en Windows y Linux.
+                            </p>
+                            <p>
+                                Lo mejor de todo es que este conocimiento es súper aplicable. Muchas de las políticas de seguridad y endurecimiento (hardening) que aprendí las puedo aplicar en mi propia computadora personal para que no me la vulneren tan fácilmente.
+                            </p>
+                        </div>
+
+                        <div class="cert-evidence">
+                            <div class="evidence-box">
+                                <h3>Certificado Oficial</h3>
+                                <p class="muted tiny">Documento avalado por Cisco Networking Academy.</p>
+                                <a href="certificados/Seguridad_en_terminales.pdf" class="btn btn--ghost" target="_blank">📄 Ver Certificado PDF</a>
+                            </div>
+                            <div class="evidence-box">
+                                <h3>Digital Badge</h3>
+                                <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="22f5bec5-6210-471a-8007-fd513ff6fd46" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- TAB 5 -->
+                <div id="tab5" class="tab-content">
+                    <article class="cert-card">
+                        <h2 class="cert-title">Administración de amenazas cibernéticas</h2>
+                        
+                        <div class="cert-review">
+                            <p><strong>Mi experiencia en el curso:</strong></p>
+                            <p>
+                                Este curso ya se sintió de un nivel más pesado y profesional. Dejamos un poco de lado el "cómo atacar" para meternos de lleno en el "cómo detectamos que nos están atacando y qué hacemos al respecto" (Inteligencia de Amenazas).
+                            </p>
+                            <p>
+                                Ver marcos de trabajo analíticos como la Cyber Kill Chain y el Modelo Diamante estuvo súper interesante, porque te obligan a entender cómo piensan los atacantes paso a paso y quiénes están detrás. Lidiar con los logs, los sistemas SIEM y los falsos positivos fue un dolor de cabeza, porque es muchísima información.
+                            </p>
+                            <p>
+                                Sin embargo, me dio una idea muy clara y realista de lo que hace un analista en un SOC (Centro de Operaciones de Seguridad) todos los días. Me ayudó a cambiar el chip hacia una mentalidad más de "cazador de amenazas", sabiendo que eventualmente te van a atacar y la clave es qué tan rápido respondes.
+                            </p>
+                        </div>
+
+                        <div class="cert-evidence">
+                            <div class="evidence-box">
+                                <h3>Certificado Oficial</h3>
+                                <p class="muted tiny">Documento avalado por Cisco Networking Academy.</p>
+                                <a href="certificados/Defensa_de_la_red.pdf" class="btn btn--ghost" target="_blank">📄 Ver Certificado PDF</a>
+                            </div>
+                            <div class="evidence-box">
+                                <h3>Digital Badge</h3>
+                                <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="a708c2c4-3641-40e7-9be2-2e2730badb8e" data-share-badge-host="https://www.credly.com"></div><script type="text/javascript" async src="https://cdn.credly.com/assets/utilities/embed.js"></script>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- TAB 6 -->
+                <div id="tab6" class="tab-content">
+                    <article class="cert-card">
+                        <h2 class="cert-title">Carrera Profesional de Analista Junior en Ciberseguridad</h2>
+                        
+                        <div class="cert-review">
+                            <p><strong>Mi experiencia en el curso:</strong></p>
+                            <p>
+                                Siento que este certificado fue como juntar por fin todas las piezas del rompecabezas. Todo el curso se sintió como una simulación súper práctica de lo que sería trabajar formalmente en un Centro de Operaciones de Seguridad (SOC) como analista Tier 1.
+                            </p>
+                            <p>
+                                Estuvimos usando herramientas reales como Wireshark para analizar paquetes de red y tratar de reconstruir paso a paso cómo ocurrió un incidente. Fue un reto aprender a reportar y escalar esos incidentes usando sistemas de puntuación como el CVSS. No es solo decir "nos hackearon", es saber explicar qué tan grave es y por qué.
+                            </p>
+                            <p>
+                                Personalmente me dio mucha tranquilidad y confianza este módulo. Siento que ya tengo las bases necesarias para aplicar a un puesto de Analista Junior y no llegar en blanco, porque ya sé cómo es el flujo de trabajo real para responder a incidentes.
+                            </p>
+                        </div>
+
+                        <div class="cert-evidence">
+                            <div class="evidence-box">
+                                <h3>Certificado Oficial</h3>
+                                <p class="muted tiny">Documento avalado por Cisco Networking Academy.</p>
+                                <!-- Placeholder link since PDF wasn't in the folder yet -->
+                                <a href="#" class="btn btn--ghost" target="_blank">📄 Ver Certificado PDF (Próximamente)</a>
+                            </div>
+                            <div class="evidence-box">
+                                <h3>Digital Badge</h3>
+                                <div class="badge-placeholder">Badge <br>(Pendiente de enlace)</div>
+                                <a href="#" class="muted tiny" target="_blank" style="text-decoration: underline;">Validar Credencial</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- TAB 7 -->
+                <div id="tab7" class="tab-content">
+                    <article class="cert-card">
+                        <h2 class="cert-title">Hacker ético</h2>
+                        
+                        <div class="cert-review">
+                            <p><strong>Mi experiencia en el curso:</strong></p>
+                            <p>
+                                Definitivamente fue mi módulo favorito de todos, pero también el que más canas me sacó. Aprender a pensar 100% como un atacante (Red Teaming) y usar las mismas herramientas que ellos (Nmap, Metasploit, Burp Suite) fue increíble y muy revelador.
+                            </p>
+                            <p>
+                                Al principio me frustraba muchísimo cuando intentaba explotar vulnerabilidades web como Inyección SQL y los <i>exploits</i> simplemente no funcionaban en las prácticas. Requiere muchísima paciencia e investigación, pero la adrenalina y la satisfacción de por fin lograr vulnerar el sistema de prueba lo valió todo.
+                            </p>
+                            <p>
+                                Me queda clarísimo que para ser un buen defensor (Blue Team) e implementar bien la seguridad, primero tienes que saber exactamente cómo te van a atacar. Romper sistemas de forma ética es la mejor manera de aprender a parchearlos.
+                            </p>
+                        </div>
+
+                        <div class="cert-evidence">
+                            <div class="evidence-box">
+                                <h3>Certificado Oficial</h3>
+                                <p class="muted tiny">Documento avalado por Cisco Networking Academy.</p>
+                                <!-- Placeholder link since PDF wasn't in the folder yet -->
+                                <a href="#" class="btn btn--ghost" target="_blank">📄 Ver Certificado PDF (Próximamente)</a>
+                            </div>
+                            <div class="evidence-box">
+                                <h3>Digital Badge</h3>
+                                <div class="badge-placeholder">Badge <br>(Pendiente de enlace)</div>
+                                <a href="#" class="muted tiny" target="_blank" style="text-decoration: underline;">Validar Credencial</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer__inner">
+            <div class="footer__left">
+                <div>
+                    <div><b>Erik De La Rosa · Maizimo</b></div>
+                    <div class="muted tiny">Universidad Politécnica de San Luis Potosí · CNO V</div>
+                </div>
+            </div>
+            <div class="footer__right muted tiny">
+                <span id="year">2026</span> · Portafolio Digital de Evidencias
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function openTab(evt, tabId) {
+            var tabcontent = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+
+            var tablinks = document.getElementsByClassName("tab-btn");
+            for (var i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+
+</html>
