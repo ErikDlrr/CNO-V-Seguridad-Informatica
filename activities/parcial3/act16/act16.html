@@ -4,8 +4,424 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AC16 - Dilemas Éticos en Ciberseguridad</title>
+    <title>AC16 - Dilemas Éticos en Ciberseguridad | Seguridad Informática</title>
     <link rel="stylesheet" href="../../../assets/styles.css">
+    <style>
+        /* Estilos específicos para AC16 */
+        :root {
+            --ethics-red: #ef4444;
+            --ethics-green: #22c55e;
+            --ethics-muted: #27272a;
+            --card-hover-border: #444;
+        }
+
+        /* --- Panel de Navegación de Escenarios --- */
+        .scenarios {
+            border: 1px solid var(--stroke);
+            background: var(--card);
+            border-radius: 6px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .scenarios__tabs {
+            display: flex;
+            background: #0d0d0f;
+            border-bottom: 1px solid var(--stroke);
+        }
+
+        .scenarios__tab {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            padding: 14px 15px;
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            border-right: 1px solid var(--stroke);
+        }
+
+        .scenarios__tab:last-child {
+            border-right: none;
+        }
+
+        .scenarios__tab:hover {
+            color: var(--text);
+            background: rgba(255,255,255,0.01);
+        }
+
+        .scenarios__tab.active {
+            color: var(--accent);
+            background: var(--card);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .scenarios__content {
+            padding: 25px;
+        }
+
+        .scenario-box {
+            border-left: 3px solid var(--accent);
+            padding-left: 20px;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.01);
+            padding: 15px 20px;
+        }
+
+        .scenario-box p {
+            margin: 0;
+            color: #e4e4e7;
+        }
+
+        /* --- Cuadrícula de Justificaciones Éticas --- */
+        .ethics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .ethics-card {
+            border: 1px solid var(--stroke);
+            background: rgba(255, 255, 255, 0.02);
+            padding: 18px;
+            border-radius: 4px;
+            transition: border-color 0.2s;
+        }
+
+        .ethics-card:hover {
+            border-color: var(--card-hover-border);
+        }
+
+        .ethics-card h4 {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ethics-card p {
+            font-size: 0.85rem;
+            color: #a1a1aa;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* --- Mandamientos Dinámicos --- */
+        .commandments {
+            margin-top: 30px;
+            border: 1px solid var(--stroke);
+            border-radius: 4px;
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .commandments h3 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            color: var(--text);
+            border-bottom: 1px solid var(--stroke);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .commandment-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-family: var(--mono);
+            font-size: 0.8rem;
+        }
+
+        .commandment-item {
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s ease;
+            color: var(--muted);
+        }
+
+        .commandment-item:last-child {
+            border-bottom: none;
+        }
+
+        .commandment-item.violated {
+            color: #f87171;
+            background: rgba(239, 68, 68, 0.05);
+            border-left: 3px solid var(--ethics-red);
+        }
+
+        .commandment-item.violated .cmd-status-badge {
+            background-color: var(--ethics-red);
+            color: #fff;
+        }
+
+        .commandment-item.neutral {
+            opacity: 0.6;
+        }
+
+        .cmd-number {
+            font-weight: bold;
+            width: 24px;
+        }
+
+        .cmd-status-badge {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-weight: bold;
+            background-color: var(--ethics-muted);
+            color: #71717a;
+            text-transform: uppercase;
+        }
+
+        /* --- Panel de Clasificación de Delito --- */
+        .crime-classification {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--stroke);
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .crime-classification h4 {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .crime-classification p {
+            margin: 0;
+            font-family: var(--mono);
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-weight: bold;
+            border: 1px solid var(--stroke);
+            padding: 4px 10px;
+            background: #000;
+        }
+
+        /* --- Encuesta de Postura Profesional --- */
+        .ethics-poll {
+            border: 1px solid var(--stroke);
+            border-radius: 4px;
+            padding: 20px;
+            margin-top: 25px;
+            background: rgba(255,255,255,0.01);
+        }
+
+        .ethics-poll h3 {
+            margin-top: 0;
+            font-size: 1rem;
+            color: var(--accent);
+        }
+
+        .poll-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .poll-option-btn {
+            background: transparent;
+            border: 1px solid var(--stroke);
+            color: #ccc;
+            padding: 12px 15px;
+            border-radius: 4px;
+            font-family: var(--sans);
+            font-size: 0.85rem;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .poll-option-btn:hover {
+            border-color: var(--muted);
+            background: rgba(255,255,255,0.02);
+            color: #fff;
+        }
+
+        .poll-option-btn.selected {
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .poll-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-left: 3px solid var(--accent);
+            background: rgba(255, 255, 255, 0.02);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #a1a1aa;
+        }
+
+        /* Tablas comparativas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.90rem;
+        }
+
+        th {
+            font-family: var(--mono);
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--stroke);
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: normal;
+            color: var(--muted);
+        }
+
+        td {
+            border: 1px solid var(--stroke);
+            padding: 10px 12px;
+            color: #ccc;
+        }
+
+        /* Oculto en pantalla, activo en impresión */
+        .print-only-scenarios {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 850px) {
+            .scenarios__tabs {
+                flex-direction: column;
+            }
+            .scenarios__tab {
+                border-right: none;
+                border-bottom: 1px solid var(--stroke);
+            }
+            .scenarios__tab:last-child {
+                border-bottom: none;
+            }
+            .ethics-grid {
+                grid-template-columns: 1fr;
+            }
+            .crime-classification {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+
+        /* --- Reglas de Impresión --- */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                font-size: 11pt;
+            }
+
+            .topbar, .back-link, .pdf-btn, .scenarios, .ethics-poll {
+                display: none !important;
+            }
+
+            .article {
+                max-width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            .article__header {
+                border-bottom: 2px solid #000;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+            }
+
+            .article__content p, .article__content li, td {
+                color: #000 !important;
+            }
+
+            .article__content h2 {
+                color: #000 !important;
+                border-left: 3px solid #000 !important;
+                page-break-after: avoid;
+            }
+
+            .print-only-scenarios {
+                display: block !important;
+            }
+
+            .print-scenario-block {
+                border: 1px solid #000;
+                padding: 20px;
+                margin-top: 25px;
+                margin-bottom: 25px;
+                background: #fff;
+                color: #000;
+                page-break-inside: avoid;
+            }
+
+            .print-scenario-block h3 {
+                border-bottom: 1px solid #000;
+                padding-bottom: 5px;
+                margin-top: 0;
+                font-size: 12pt;
+            }
+
+            .print-ethics-grid {
+                margin: 15px 0;
+            }
+
+            .print-ethics-item {
+                margin-bottom: 10px;
+                font-size: 9.5pt;
+            }
+
+            .print-ethics-item strong {
+                display: block;
+                text-transform: uppercase;
+                font-size: 8.5pt;
+                color: #333;
+            }
+
+            .print-cmd-list {
+                margin-top: 15px;
+                border-top: 1px solid #ccc;
+                padding-top: 10px;
+                font-size: 8.5pt;
+                font-family: var(--mono);
+            }
+
+            .print-cmd-list li {
+                margin-bottom: 4px;
+            }
+
+            th, td {
+                border: 1px solid #000 !important;
+                color: #000 !important;
+            }
+
+            th {
+                background-color: #f2f2f2 !important;
+                font-weight: bold;
+            }
+
+            table {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -13,6 +429,10 @@
         <div class="container topbar__inner">
             <div class="brand">
                 <a href="../../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+            <div class="brand__text" style="align-items: flex-end;">
+                <span class="brand__title glow">PORTAFOLIO DE SEGURIDAD</span>
+                <span class="brand__meta">Tercer Parcial - AC16</span>
             </div>
         </div>
         <div class="scanline" aria-hidden="true"></div>
@@ -27,10 +447,9 @@
                 <span>•</span>
                 <span>Actividad 16</span>
             </div>
-
-            <h1>Dilemas éticos en ciberseguridad</h1>
+            <h1 class="glow">Dilemas éticos en ciberseguridad</h1>
             <p class="lead">
-                Análisis de escenarios complejos basados en los mandamientos de la ética informática.
+                Evaluación técnica, moral y jurídica de decisiones profesionales a partir de los Mandamientos de la Ética Informática del Computer Ethics Institute.
             </p>
         </header>
 
@@ -38,44 +457,260 @@
 
             <h2>1. Introducción</h2>
             <p>
-                La ciberseguridad no solo abarca aspectos técnicos, sino que se fundamenta fuertemente en decisiones éticas. Este análisis aborda diferentes dilemas profesionales, contrastando acciones frente a los mandamientos de la ética informática y normativas legales.
+                La ciberseguridad no se limita al despliegue defensivo o a la explotación técnica de vulnerabilidades. Exige de los analistas un criterio ético riguroso que regule qué acciones son permitidas, cuáles son proporcionales y qué límites no deben ser traspasados. Contar con los privilegios técnicos o la capacidad operativa para invadir la privacidad, alterar activos o presionar personas no otorga legitimidad profesional para hacerlo.
+            </p>
+            <p>
+                El presente artículo evalúa tres dilemas reales asociados al control interno, pruebas de intrusión y reconocimiento pasivo. Los casos se estructuran bajo un triple marco ético (utilitarismo, enfoque de derechos y bien común), los mandamientos de la ética informática y la tipificación formal de delitos informáticos.
             </p>
 
-            <h2>2. Escenarios Analizados</h2>
-            
-            <h3>2.1 Escenario 01: Acceso no autorizado interno</h3>
+            <h2>2. Objetivos</h2>
+            <ul>
+                <li><strong>Objetivo General:</strong> Evaluar la toma de decisiones en escenarios complejos de ciberseguridad mediante la aplicación de marcos éticos, legales y de responsabilidad profesional.</li>
+                <li><strong>Objetivos Específicos:</strong>
+                    <ol>
+                        <li>Contrastar incidentes de seguridad con los Diez Mandamientos de la Ética Informática.</li>
+                        <li>Justificar decisiones organizacionales empleando las teorías de la ética utilitarista, del derecho a la privacidad y de la preservación del bien común.</li>
+                        <li>Clasificar las conductas ilícitas dentro de las categorías de delitos cibernéticos estándar.</li>
+                    </ol>
+                </li>
+            </ul>
+
+            <h2>3. Marcos de Análisis Éticos y Conceptuales</h2>
             <p>
-                <strong>Dilema:</strong> Un empleado descubre credenciales o accesos excesivos dentro de la red corporativa y los utiliza para husmear en información confidencial, aunque sin intención de daño destructivo.
+                Para garantizar un análisis profundo, cada escenario ha sido evaluado bajo la siguiente taxonomía conceptual:
             </p>
+            <ul>
+                <li><strong>Enfoque Utilitarista:</strong> Busca la opción que genere el mayor beneficio colectivo o reduzca el daño total para todos los involucrados.</li>
+                <li><strong>Enfoque de Derechos:</strong> Se centra en el respeto a los derechos morales de los afectados, tales como la privacidad, el debido proceso, la propiedad y la confidencialidad.</li>
+                <li><strong>Enfoque del Bien Común:</strong> Prioriza las condiciones sociales e institucionales que fortalecen la confianza mutua, el respeto a las leyes y la continuidad del ecosistema organizativo.</li>
+            </ul>
+
+            <h2>4. Explorador de Escenarios (Interactivo)</h2>
             <p>
-                <strong>Decisión y Justificación:</strong> Viola el principio de confidencialidad y el mandamiento de "no usarás una computadora para robar o espiar".
+                Selecciona uno de los escenarios para desplegar los detalles técnicos, la decisión profesional recomendada, el desglose de los marcos éticos aplicados y la lista dinámica de mandamientos violados:
             </p>
 
-            <h3>2.2 Escenario 02: Vulnerabilidad crítica no reportada</h3>
+            <!-- Explorador de Escenarios -->
+            <div class="scenarios">
+                <div class="scenarios__tabs">
+                    <button class="scenarios__tab active" id="tabEscenario01" onclick="switchScenario(1)">1. Acceso No Autorizado Interno</button>
+                    <button class="scenarios__tab" id="tabEscenario02" onclick="switchScenario(2)">2. Vulnerabilidad Crítica No Reportada</button>
+                    <button class="scenarios__tab" id="tabEscenario03" onclick="switchScenario(3)">3. Uso Indebido de OSINT</button>
+                </div>
+                <div class="scenarios__content">
+                    <div class="scenario-box">
+                        <strong class="kicker">DESCRIPCIÓN DEL INCIDENTE</strong>
+                        <p id="scenarioDescription">Cargando...</p>
+                    </div>
+
+                    <h3>Identificación del Dilema Ético</h3>
+                    <p id="scenarioDilemma">Cargando...</p>
+
+                    <h3>Decisión Profesional Recomendada</h3>
+                    <div class="reflection" style="margin-top: 15px; border-left-color: var(--accent);">
+                        <p id="scenarioDecision" style="font-weight: bold; color: var(--text);">Cargando...</p>
+                    </div>
+
+                    <h3>Justificación desde Enfoques Éticos</h3>
+                    <div class="ethics-grid">
+                        <div class="ethics-card">
+                            <h4>⚖️ Utilitarismo</h4>
+                            <p id="scenarioUtilitarian">Cargando...</p>
+                        </div>
+                        <div class="ethics-card">
+                            <h4>🛡️ Enfoque de Derechos</h4>
+                            <p id="scenarioRights">Cargando...</p>
+                        </div>
+                        <div class="ethics-card">
+                            <h4>🌐 Bien Común</h4>
+                            <p id="scenarioCommon">Cargando...</p>
+                        </div>
+                    </div>
+
+                    <div class="crime-classification">
+                        <h4>Clasificación Formal del Delito Cibernético</h4>
+                        <p id="scenarioClassification">Cargando...</p>
+                    </div>
+
+                    <!-- Mandamientos Dinámicos -->
+                    <div class="commandments">
+                        <h3>Estatus de los Mandamientos de la Ética Informática</h3>
+                        <ul class="commandment-list" id="commandmentList">
+                            <!-- Inyectado por JS -->
+                        </ul>
+                    </div>
+
+                    <!-- Encuesta Interactiva -->
+                    <div class="ethics-poll" id="ethicsPollBox">
+                        <!-- Inyectado por JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Escenarios estáticos para el PDF -->
+            <div class="print-only-scenarios">
+                <!-- Escenario 1 -->
+                <div class="print-scenario-block">
+                    <h3>Escenario 01: Acceso No Autorizado Interno</h3>
+                    <p><strong>Descripción:</strong> Un analista del área de ciberseguridad detecta mediante la auditoría de logs que un compañero accedió a correos privados del director general sin autorización. El compañero argumenta que lo hizo de buena fe para detectar posibles fugas de información.</p>
+                    <p><strong>Dilema:</strong> Elegir entre tolerar un acceso indebido no justificado en aras de la seguridad institucional, o reportar formalmente la violación de los procedimientos y de la privacidad del directivo.</p>
+                    <p><strong>Decisión Recomendada:</strong> Documentar los logs sin alteraciones, preservar la evidencia y reportar el incidente al canal correspondiente (recursos humanos, cumplimiento legal o director de seguridad) de acuerdo con los protocolos internos, evitando confrontar al compañero o encubrir el evento.</p>
+                    
+                    <div class="print-ethics-grid">
+                        <div class="print-ethics-item">
+                            <strong>Enfoque Utilitarista:</strong>
+                            Reportar previene abusos futuros y protege la confidencialidad corporativa general. Permitir excepciones debilita todo el sistema de control de accesos.
+                        </div>
+                        <div class="print-ethics-item">
+                            <strong>Enfoque de Derechos:</strong>
+                            El director posee el derecho a la privacidad y reserva de sus comunicaciones corporativas. El analista carece de facultades administrativas unilaterales para interceptar esos correos.
+                        </div>
+                        <div class="print-ethics-item">
+                            <strong>Enfoque del Bien Común:</strong>
+                            El bien de la organización descansa sobre la certeza de que los especialistas en ciberseguridad obedecen los mismos reglamentos que protegen a los demás empleados.
+                        </div>
+                    </div>
+                    <p><strong>Clasificación del Delito:</strong> Delito Informático (Acceso no autorizado a sistemas de comunicación digital).</p>
+                    <div class="print-cmd-list">
+                        <strong>Mandamientos de Ética Informática Vulnerados:</strong>
+                        <ul>
+                            <li>Mandamiento 3: No revisarás los archivos informáticos de otras personas sin autorización (Violado directamente).</li>
+                            <li>Mandamiento 7: No utilizarás recursos informáticos de otras personas sin la debida autorización (Violado).</li>
+                            <li>Mandamiento 10: Utilizarás las computadoras con respeto y consideración hacia los semejantes (Violado).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Escenario 2 -->
+                <div class="print-scenario-block">
+                    <h3>Escenario 02: Vulnerabilidad Crítica No Reportada</h3>
+                    <p><strong>Descripción:</strong> Durante una prueba de penetración en un sistema bancario, se detecta un fallo crítico que permite sustraer fondos de forma indetectable. El contrato final aún no ha sido firmado por el cliente, por lo que no hay límites legales claros definidos en ese instante.</p>
+                    <p><strong>Dilema:</strong> Decidir entre aprovechar la vulnerabilidad financiera para lucro personal alegando la ausencia de un marco contractual formal, o comportarse con ética profesional deteniendo las pruebas invasivas y notificando el fallo de forma segura.</p>
+                    <p><strong>Decisión Recomendada:</strong> No explotar el fallo financiero ni realizar pruebas destructivas. Documentar la evidencia técnica mínima para probar la vulnerabilidad y reportar el riesgo al cliente a través de un canal seguro de divulgación responsable, solicitando la regularización inmediata del contrato.</p>
+                    
+                    <div class="print-ethics-grid">
+                        <div class="print-ethics-item">
+                            <strong>Enfoque Utilitarista:</strong>
+                            Reportar mitiga un riesgo masivo que podría desfalcar a miles de usuarios del sistema financiero, impidiendo consecuencias reputacionales y legales catastróficas.
+                        </div>
+                        <div class="print-ethics-item">
+                            <strong>Enfoque de Derechos:</strong>
+                            El cliente y los usuarios del banco tienen derecho a la integridad de su patrimonio. Explotar la falla constituye robo con independencia del estado contractual.
+                        </div>
+                        <div class="print-ethics-item">
+                            <strong>Enfoque del Bien Común:</strong>
+                            La industria de la ciberseguridad se sostiene enteramente sobre la confianza. Acciones maliciosas destruyen la legitimidad del pentesting como disciplina ética.
+                        </div>
+                    </div>
+                    <p><strong>Clasificación del Delito:</strong> Delito Informático (Fraude informático / Acceso y modificación no autorizada de base de datos financieras).</p>
+                    <div class="print-cmd-list">
+                        <strong>Mandamientos de Ética Informática Vulnerados:</strong>
+                        <ul>
+                            <li>Mandamiento 1: No usarás una computadora para dañar a otras personas (Violado si se explota).</li>
+                            <li>Mandamiento 4: No usarás una computadora para robar (Violado).</li>
+                            <li>Mandamiento 9: Pensarás en las consecuencias sociales del código o sistema que desarrolles/uses (Violado).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Escenario 3 -->
+                <div class="print-scenario-block">
+                    <h3>Escenario 03: Uso Indebido de OSINT</h3>
+                    <p><strong>Descripción:</strong> Se realiza una investigación sobre un sospechoso de fraude empleando fuentes abiertas (OSINT). Se recolectan datos íntimos, direcciones de familiares y pasatiempos. El supervisor solicita utilizar esta información personal privada para presionar psicológicamente al investigado.</p>
+                    <p><strong>Dilema:</strong> Elegir entre obedecer la directiva del supervisor para forzar una confesión usando datos ajenos expuestos, o rechazar la orden por constituir acoso y extorsión fuera del marco legal de la investigación.</p>
+                    <p><strong>Decisión Recomendada:</strong> Negarse rotundamente a aplicar tácticas de hostigamiento o presión con datos personales. Limitar el informe de investigación exclusivamente a los hallazgos relacionados de forma directa con el presunto fraude, y documentar la orden indebida.</p>
+                    
+                    <div class="print-ethics-grid">
+                        <div class="print-ethics-item">
+                            <strong>Enfoque Utilitarista:</strong>
+                            Usar datos personales para amedrentar introduce un riesgo alto de demandas por acoso que anularían las pruebas de fraude. El canal adecuado protege la validez de la investigación.
+                        </div>
+                        <div class="print-ethics-item">
+                            <strong>Enfoque de Derechos:</strong>
+                            Toda persona, incluso sospechosa, conserva el derecho a su dignidad y a no ser coaccionada de manera psicológica a través de su entorno familiar.
+                        </div>
+                        <div class="print-ethics-item">
+                            <strong>Enfoque del Bien Común:</strong>
+                            Mantener las prácticas investigativas dentro del debido proceso legal es indispensable para que las pruebas tengan valor legal ante las autoridades de justicia.
+                        </div>
+                    </div>
+                    <p><strong>Clasificación del Delito:</strong> Delito Asistido por Computadora (Coacción, extorsión y acoso facilitado por medios digitales).</p>
+                    <div class="print-cmd-list">
+                        <strong>Mandamientos de Ética Informática Vulnerados:</strong>
+                        <ul>
+                            <li>Mandamiento 1: No usarás una computadora para dañar a otras personas (Violado).</li>
+                            <li>Mandamiento 5: No usarás una computadora para levantar falso testimonio o coaccionar (Violado).</li>
+                            <li>Mandamiento 10: Utilizarás las computadoras con respeto y consideración (Violado).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h2>5. Comparativo General de Escenarios</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Escenario</th>
+                        <th>Dilema Central</th>
+                        <th>Decisión Profesional</th>
+                        <th>Clasificación del Delito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>01. Acceso Interno</strong></td>
+                        <td>¿Justificar o no la invasión de correos privados con el fin de detectar fugas sospechosas?</td>
+                        <td>Preservar evidencia de logs intacta y reportar por el canal formal establecido.</td>
+                        <td><strong>Delito Informático</strong> (Intrusión de comunicaciones).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>02. Fallo Financiero</strong></td>
+                        <td>¿Explotar una brecha bancaria sin contrato activo o reportar el Zero-Day responsablemente?</td>
+                        <td>Documentar existencia técnica mínima sin alterar saldos y notificar por vía de remediación.</td>
+                        <td><strong>Delito Informático</strong> (Acceso ilícito y fraude).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>03. Presión con OSINT</strong></td>
+                        <td>¿Aprovechar datos personales públicos para intimidar o acosar psicológicamente a un sospechoso?</td>
+                        <td>Rechazar la táctica de coacción, filtrar datos irrelevantes y apegarse al proceso de auditoría formal.</td>
+                        <td><strong>Delito Asistido por Computadora</strong> (Acoso y extorsión digital).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>6. Postura Profesional Final</h2>
             <p>
-                <strong>Dilema:</strong> Se descubre un fallo crítico ("Zero-Day") en un sistema de terceros, pero en lugar de reportarlo por canales de divulgación responsable, se mantiene oculto o se intenta vender.
+                Los dilemas éticos evaluados demuestran que las competencias técnicas de un especialista de ciberseguridad pierden toda validez si se desconectan de la rectitud ética y el apego a la ley. El analista ejerce una posición de confianza privilegiada dentro de los sistemas informáticos; abusar de esa posición utilizando excusas operativas ("era de buena fe", "no había contrato", "los datos eran públicos") constituye una degradación de la profesión.
             </p>
             <p>
-                <strong>Decisión y Justificación:</strong> Atenta contra la responsabilidad profesional de proteger a los usuarios, violando los acuerdos de <i>responsible disclosure</i>.
+                Una postura profesional sólida requiere actuar en todo momento con **autorización explícita, proporcionalidad operativa y transparencia**. La ciberseguridad tiene como fin proteger a las personas y a las infraestructuras, por lo que recurrir a la ilegalidad o al abuso de poder desnaturaliza por completo la disciplina del hacking ético.
             </p>
 
-            <h3>2.3 Escenario 03: Uso de herramientas OSINT</h3>
-            <p>
-                <strong>Dilema:</strong> Empleo de inteligencia de fuentes abiertas (OSINT) para perfilar individuos sin su consentimiento directo, cruzando la delgada línea entre el reconocimiento pasivo y la invasión a la privacidad.
-            </p>
-
-            <h2>3. Conclusión</h2>
+            <h2>7. Conclusiones</h2>
             <div class="reflection">
                 <p>
-                    La integridad profesional es la base de un experto en ciberseguridad. Todo conocimiento técnico debe estar regido por un marco ético sólido que priorice la protección, la privacidad y la legalidad.
+                    El análisis de los escenarios permite concluir que las decisiones críticas en ciberseguridad rara vez son puramente técnicas; casi siempre poseen consecuencias éticas y legales directas. El primer escenario demuestra que los procedimientos de control de accesos internos deben respetarse escrupulosamente, impidiendo que la "vigilancia interna" se convierta en una invasión de la privacidad sin control. 
                 </p>
+                <p>
+                    El segundo escenario enfatiza que la ética profesional es un valor absoluto, no condicionado a la firma de un documento contractual; la honradez del analista financiero es su principal activo de credibilidad. Por último, el análisis de OSINT recuerda que el carácter público de la información no otorga derechos para su explotación maliciosa o intimidatoria. La ética aplicada a la informática es la barrera que distingue a un profesional de la seguridad de un delincuente informático.
+                </p>
+            </div>
+
+            <h2>8. Referencias</h2>
+            <div class="references">
+                <ul>
+                    <li>Computer Ethics Institute. (s.f.). <em>The Ten Commandments of Computer Ethics</em>.</li>
+                    <li>Association for Computing Machinery. (s.f.). <em>ACM Code of Ethics and Professional Conduct</em>.</li>
+                    <li>National Institute of Standards and Technology (NIST). (s.f.). <em>Computer Security Incident Handling Guide</em>.</li>
+                    <li>López Contreras, S. (2026). <em>CNO V: Seguridad Informática</em>. Notas de clase, Universidad Politécnica de San Luis Potosí.</li>
+                </ul>
             </div>
 
         </section>
     </main>
 
-    <a href="act16-Equipo5.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
-        rel="noopener">
+    <!-- Botón flotante para descargar PDF -->
+    <a href="act16-Equipo5.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank" rel="noopener">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -84,6 +719,187 @@
         </svg>
     </a>
 
+    <script>
+        // --- Diez Mandamientos de la Ética ---
+        const listCommandments = [
+            "No usarás una computadora para dañar a otras personas.",
+            "No interferirás con el trabajo informático de otras personas.",
+            "No revisarás los archivos informáticos de otras personas sin autorización.",
+            "No usarás una computadora para robar.",
+            "No usarás una computadora para dar falso testimonio o engañar.",
+            "No copiarás ni usarás software propietario por el que no hayas pagado.",
+            "No usarás los recursos informáticos de otras personas sin la debida autorización.",
+            "No te apropiarás del trabajo intelectual de otras personas.",
+            "Pensarás en las consecuencias sociales del programa que escribas o del sistema que diseñes.",
+            "Utilizarás las computadoras de manera que asegures el respeto y la consideración de tus semejantes."
+        ];
+
+        // --- Datos de los Escenarios ---
+        const scenariosData = {
+            1: {
+                desc: "Trabajas en el área de ciberseguridad de una empresa. Durante una revisión de logs, detectas que un compañero de tu mismo equipo accedió a correos privados del director general sin autorización. El compañero argumenta que lo hizo con la intención de detectar posibles fugas de información de la compañía.",
+                dilema: "Elegir entre tolerar un abuso de privilegios dentro de tu área con la excusa de proteger a la empresa (lealtad al equipo / fin supuestamente preventivo), o denunciar la violación de los protocolos de auditoría internos y el derecho a la privacidad del director (integridad profesional y apego a las normas).",
+                decision: "Documentar el incidente preservando la cadena de custodia del log de accesos e informar formalmente al director de seguridad o al área de cumplimiento ético de la empresa. No encubrir la acción del colega.",
+                utilitarian: "Reportar evita que el analista siga abusando de sus credenciales para invadir correspondencia de otros directivos de forma discrecional. Un analista sin control representa una vulnerabilidad mayor que una fuga hipotética.",
+                rights: "El director general posee derecho a la privacidad e inviolabilidad de sus comunicaciones. Ningún miembro de ciberseguridad tiene atribuciones autónomas para interceptar mensajes privados sin un caso documentado.",
+                common: "La confianza en el equipo de ciberseguridad es vital para la continuidad del negocio. Permitir que los defensores actúen como vigilantes secretos rompe el pacto de confianza organizativa.",
+                classification: "Delito Informático (Acceso e interceptación no autorizada de sistemas de comunicación).",
+                violatedCmds: [3, 7, 10], // Índices base 1 de mandamientos violados
+                poll: {
+                    q: "¿Qué harías si tu compañero te pide encubrirlo alegando que es por la seguridad de la empresa?",
+                    opts: [
+                        { text: "Lo encubro, al fin y al cabo tiene buenas intenciones y busca proteger la información.", value: "incorrect" },
+                        { text: "Le advierto que deje de hacerlo, pero no lo reporto para no perjudicar su carrera.", value: "risk" },
+                        { text: "Reporto el incidente por los canales oficiales, documentando la evidencia en los registros de auditoría.", value: "correct" }
+                    ],
+                    feedback: {
+                        incorrect: "❌ INCORRECTO: Encubrir un acceso no autorizado te convierte en cómplice ético y vulnera las normas internas. Además, expone a la empresa a un abuso continuado sin control de privilegios.",
+                        risk: "⚠️ RIESGO: La confrontación informal no genera un registro y deja a la empresa vulnerable a futuros incidentes. Como analista de seguridad, tu deber principal es la transparencia.",
+                        correct: "✅ CORRECTO: Es la única decisión alineada con el código ético de la ACM y los estándares de cumplimiento. Las auditorías de seguridad deben ser trazables y autorizadas formalmente."
+                    }
+                }
+            },
+            2: {
+                desc: "Durante una prueba de penetración contratada para evaluar un sistema financiero (banco), descubres una vulnerabilidad Zero-Day crítica que permite sustraer fondos directamente de cuentas bancarias sin ser detectado. El cliente aún no ha firmado el contrato final por demoras administrativas, y sabes que podrías explotarla para beneficio propio y transferir fondos de forma anónima sin que nadie lo note.",
+                dilema: "Elegir entre aprovechar la capacidad técnica y la falta temporal de un marco legal formal para obtener lucro personal inmediato de manera ilícita, o actuar éticamente deteniendo la explotación invasiva e informando responsablemente al banco para que parchee el sistema.",
+                decision: "Preservar los principios de honradez profesional: no realizar extracciones monetarias reales, limitar la prueba a la evidencia técnica indispensable para certificar el fallo, reportar el riesgo de forma segura y esperar la regularización contractual.",
+                utilitarian: "Reportar el Zero-Day previene pérdidas millonarias a los ahorradores del banco, evitando el pánico financiero y salvaguardando la estabilidad de la plataforma digital bancaria.",
+                rights: "Los depositantes del banco poseen derecho de propiedad sobre sus fondos. Explotar la falla vulnera ese derecho y se tipifica jurídicamente como robo, independientemente de la firma del contrato del pentest.",
+                common: "La credibilidad del pentesting ético se basa en la honestidad del consultor. Si los especialistas actúan como ciberdelincuentes ante la primera brecha, se destruye la confianza social en el sector tecnológico.",
+                classification: "Delito Informático (Fraude informático, acceso ilícito a bases de datos y manipulación financiera).",
+                violatedCmds: [1, 4, 9, 10],
+                poll: {
+                    q: "¿Qué medida tomarías inmediatamente al descubrir la falla y notar que el contrato aún no está firmado?",
+                    opts: [
+                        { text: "Explotar la vulnerabilidad mínimamente para transferir un monto bajo y verificar que sí funciona.", value: "incorrect" },
+                        { text: "Detener las actividades invasivas sobre la brecha, documentar el fallo con metadatos seguros y notificar inmediatamente por vías cifradas al oficial de seguridad.", value: "correct" },
+                        { text: "Esperar a que se firme el contrato y, si no se firma, vender la vulnerabilidad en la Dark Web.", value: "illegal" }
+                    ],
+                    feedback: {
+                        incorrect: "❌ INCORRECTO: Manipular saldos o extraer fondos sin autorización contractual explícita y límites de pruebas constituye un acto ilícito (delito financiero), incluso si el monto es bajo.",
+                        correct: "✅ CORRECTO: La divulgación responsable exige notificar al cliente sin realizar acciones destructivas ni apropiaciones. Detener la prueba y notificar protege al analista de implicaciones penales y ayuda a la remediación.",
+                        illegal: "❌ ILEGAL: Vender la brecha a terceros en mercados negros cibernéticos constituye ciberdelincuencia activa y viola de forma flagrante los mandamientos éticos profesionales."
+                    }
+                }
+            },
+            3: {
+                desc: "Te asignan investigar mediante OSINT (Inteligencia de Fuentes Abiertas) a un empleado sospechoso de cometer fraude interno. En tu búsqueda, hallas información extremadamente personal que no se vincula directamente con el fraude: su domicilio, rutinas de sus hijos, deudas personales críticas y problemas de salud mental. Tu superior te ordena utilizar esos datos sensibles para presionarlo y forzar una confesión rápida.",
+                dilema: "Elegir entre acatar la orden del superior para acelerar la resolución del caso utilizando tácticas de coacción psicológica basadas en la privacidad del sospechoso, o negarse a participar en una extorsión informática que utiliza datos irrelevantes para el fraude.",
+                decision: "Negarse a emplear datos de carácter personal para intimidar o presionar. Limitar el informe pericial únicamente a las evidencias sólidas de fraude, resguardando la información privada no relacionada y reportando la directiva abusiva.",
+                utilitarian: "Evitar tácticas abusivas protege a la compañía de demandas por acoso laboral y de la anulación judicial de todas las pruebas obtenidas mediante coacción. Mantiene la pulcritud procesal.",
+                rights: "La persona investigada, a pesar de estar sujeta a sospecha, conserva derechos de dignidad, presunción de inocencia y protección de sus datos sensibles de salud y familiares.",
+                common: "Los departamentos de investigación interna deben regirse por leyes de debido proceso y proporcionalidad. La extorsión y el hostigamiento socavan los principios de justicia institucional.",
+                classification: "Delito Asistido por Computadora (Coacción, extorsión digital y acoso facilitado por tecnologías de la información).",
+                violatedCmds: [1, 5, 10],
+                poll: {
+                    q: "Tu superior insiste en que al estar la información en fuentes públicas (redes sociales, foros), es legítimo usarla para presionar. ¿Cuál es la postura correcta?",
+                    opts: [
+                        { text: "Aceptar el argumento de tu superior, puesto que al ser datos públicos no existe infracción de privacidad.", value: "incorrect" },
+                        { text: "Negarse a aplicar la coacción. Argumentar que la recolección OSINT debe regirse bajo principios de proporcionalidad y minimización de datos.", value: "correct" }
+                    ],
+                    feedback: {
+                        incorrect: "❌ INCORRECTO: El hecho de que un dato sea de libre acceso en internet no autoriza su procesamiento para fines de extorsión, acoso o manipulación psicológica. El fin no justifica los medios ilícitos.",
+                        correct: "✅ CORRECTO: La recopilación pasiva de inteligencia debe seguir la minimización de datos: recopilar solo lo estrictamente relevante para el caso. Utilizar la vida privada para presionar es un abuso que invalida la auditoría."
+                    }
+                }
+            }
+        };
+
+        let activeScenario = 1;
+
+        function switchScenario(num) {
+            activeScenario = num;
+            const data = scenariosData[num];
+
+            // Cambiar pestañas
+            document.querySelectorAll(".scenarios__tab").forEach(tab => tab.classList.remove("active"));
+            document.getElementById(`tabEscenario0${num}`).classList.add("active");
+
+            // Cargar datos
+            document.getElementById("scenarioDescription").textContent = data.desc;
+            document.getElementById("scenarioDilemma").textContent = data.dilema;
+            document.getElementById("scenarioDecision").textContent = data.decision;
+            document.getElementById("scenarioUtilitarian").textContent = data.utilitarian;
+            document.getElementById("scenarioRights").textContent = data.rights;
+            document.getElementById("scenarioCommon").textContent = data.common;
+            document.getElementById("scenarioClassification").textContent = data.classification;
+
+            // Renderizar mandamientos
+            renderCommandments(data.violatedCmds);
+
+            // Renderizar encuesta
+            renderPoll(data.poll);
+        }
+
+        function renderCommandments(violatedList) {
+            const listEl = document.getElementById("commandmentList");
+            let html = "";
+            
+            listCommandments.forEach((cmd, idx) => {
+                const cmdNum = idx + 1;
+                const isViolated = violatedList.includes(cmdNum);
+                
+                const itemClass = isViolated ? "commandment-item violated" : "commandment-item neutral";
+                const badgeText = isViolated ? "Vulnerado" : "Respetado";
+                
+                html += `
+                    <li class="${itemClass}">
+                        <span class="cmd-number">[${cmdNum.toString().padStart(2, '0')}]</span>
+                        <span style="flex-grow: 1;">${cmd}</span>
+                        <span class="cmd-status-badge">${badgeText}</span>
+                    </li>
+                `;
+            });
+            
+            listEl.innerHTML = html;
+        }
+
+        function renderPoll(pollData) {
+            const pollBox = document.getElementById("ethicsPollBox");
+            
+            let optionsHtml = "";
+            pollData.opts.forEach((opt, idx) => {
+                optionsHtml += `
+                    <button class="poll-option-btn" onclick="submitPollAnswer(${idx})">${opt.text}</button>
+                `;
+            });
+
+            pollBox.innerHTML = `
+                <h3>Criterio Ético: ${pollData.q}</h3>
+                <div class="poll-options" id="pollOptionsContainer">
+                    ${optionsHtml}
+                </div>
+                <div class="poll-feedback" id="pollFeedbackContainer" style="display: none;"></div>
+            `;
+        }
+
+        function submitPollAnswer(optIdx) {
+            const pollData = scenariosData[activeScenario].poll;
+            const selectedOpt = pollData.opts[optIdx];
+            
+            // Estilizar botones
+            const buttons = document.querySelectorAll("#pollOptionsContainer button");
+            buttons.forEach((btn, idx) => {
+                if (idx === optIdx) {
+                    btn.classList.add("selected");
+                } else {
+                    btn.classList.remove("selected");
+                }
+            });
+
+            // Mostrar feedback
+            const feedbackContainer = document.getElementById("pollFeedbackContainer");
+            feedbackContainer.style.display = "block";
+            feedbackContainer.innerHTML = pollData.feedback[selectedOpt.value];
+        }
+
+
+
+        // --- Inicialización ---
+        window.addEventListener("DOMContentLoaded", () => {
+            switchScenario(1);
+        });
+    </script>
 </body>
 
 </html>

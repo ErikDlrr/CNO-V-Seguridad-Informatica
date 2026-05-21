@@ -4,8 +4,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AC17 - Evaluación de Vulnerabilidades CVSS v3.1</title>
+    <title>AC17 - Evaluación de Vulnerabilidades con CVSS v3.1 | Seguridad Informática</title>
     <link rel="stylesheet" href="../../../assets/styles.css">
+    <style>
+        /* Estilos personalizados para AC17 */
+        :root {
+            --cvss-low: #22c55e;
+            --cvss-medium: #eab308;
+            --cvss-high: #f97316;
+            --cvss-critical: #ef4444;
+            --cvss-none: #71717a;
+            --calc-active-bg: #ffffff;
+            --calc-active-color: #000000;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--stroke);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        /* --- Estilos de la Calculadora CVSS --- */
+        .cvss-calc {
+            border: 1px solid var(--stroke);
+            background: var(--card);
+            border-radius: 6px;
+            margin: 30px 0;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+        }
+
+        .cvss-calc__metrics {
+            padding: 25px;
+            border-right: 1px solid var(--stroke);
+        }
+
+        .metric-row {
+            margin-bottom: 20px;
+        }
+
+        .metric-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .metric-row label {
+            display: block;
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .calc-btn {
+            background: transparent;
+            border: 1px solid var(--stroke);
+            color: #ccc;
+            padding: 8px 14px;
+            font-family: var(--sans);
+            font-size: 0.8rem;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: all 0.2s ease;
+        }
+
+        .calc-btn:hover {
+            border-color: #555;
+            color: #fff;
+        }
+
+        .calc-btn.active {
+            background: var(--calc-active-bg);
+            color: var(--calc-active-color);
+            border-color: var(--calc-active-bg);
+            font-weight: bold;
+        }
+
+        .cvss-calc__result {
+            padding: 25px;
+            background: rgba(255,255,255,0.01);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .score-display {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid var(--cvss-none);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .score-num {
+            font-family: var(--mono);
+            font-size: 2.5rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .score-severity {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .vector-display {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            background: #000;
+            border: 1px solid var(--stroke);
+            padding: 10px 15px;
+            border-radius: 4px;
+            width: 100%;
+            word-break: break-all;
+            margin-bottom: 20px;
+            color: #a1a1aa;
+        }
+
+        .score-display.low { border-color: var(--cvss-low); color: var(--cvss-low); }
+        .score-display.medium { border-color: var(--cvss-medium); color: var(--cvss-medium); }
+        .score-display.high { border-color: var(--cvss-high); color: var(--cvss-high); }
+        .score-display.critical { border-color: var(--cvss-critical); color: var(--cvss-critical); }
+
+        /* --- Tablas --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9rem;
+        }
+
+        th {
+            font-family: var(--mono);
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--stroke);
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: normal;
+            color: var(--muted);
+        }
+
+        td {
+            border: 1px solid var(--stroke);
+            padding: 10px 12px;
+            color: #ccc;
+        }
+
+        tr:nth-child(even) td {
+            background-color: rgba(255, 255, 255, 0.01);
+        }
+
+        /* Oculto en pantalla, activo en impresión */
+        .print-only-calc {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 850px) {
+            .cvss-calc {
+                grid-template-columns: 1fr;
+            }
+            .cvss-calc__metrics {
+                border-right: none;
+                border-bottom: 1px solid var(--stroke);
+            }
+        }
+
+        /* --- Reglas de Impresión --- */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                font-size: 11pt;
+            }
+
+            .topbar, .back-link, .pdf-btn, .cvss-calc {
+                display: none !important;
+            }
+
+            .article {
+                max-width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            .article__header {
+                border-bottom: 2px solid #000;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+            }
+
+            .article__content p, .article__content li, td {
+                color: #000 !important;
+            }
+
+            .article__content h2 {
+                color: #000 !important;
+                border-left: 3px solid #000 !important;
+                page-break-after: avoid;
+            }
+
+            .highlight-box {
+                background: #fff;
+                border: 2px solid #000;
+                color: #000;
+                page-break-inside: avoid;
+            }
+
+            .print-only-calc {
+                display: block !important;
+                border: 1px solid #000;
+                padding: 20px;
+                margin: 25px 0;
+                background-color: #f8f9fa;
+                text-align: center;
+                page-break-inside: avoid;
+            }
+
+            .print-score-box {
+                display: inline-block;
+                border: 2px solid #000;
+                padding: 10px 20px;
+                font-size: 18pt;
+                font-family: var(--mono);
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+
+            .print-vector-text {
+                font-family: var(--mono);
+                font-size: 10pt;
+                display: block;
+            }
+
+            th, td {
+                border: 1px solid #000 !important;
+                color: #000 !important;
+            }
+
+            th {
+                background-color: #f2f2f2 !important;
+                font-weight: bold;
+            }
+
+            table {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -13,6 +280,10 @@
         <div class="container topbar__inner">
             <div class="brand">
                 <a href="../../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+            <div class="brand__text" style="align-items: flex-end;">
+                <span class="brand__title glow">PORTAFOLIO DE SEGURIDAD</span>
+                <span class="brand__meta">Tercer Parcial - AC17</span>
             </div>
         </div>
         <div class="scanline" aria-hidden="true"></div>
@@ -27,10 +298,9 @@
                 <span>•</span>
                 <span>Actividad 17</span>
             </div>
-
-            <h1>Evaluación de Vulnerabilidades con CVSS v3.1</h1>
+            <h1 class="glow">Evaluación de Vulnerabilidades con CVSS v3.1</h1>
             <p class="lead">
-                Análisis cuantitativo de riesgos y priorización de vulnerabilidades.
+                Análisis cuantitativo del riesgo organizacional y cálculo dinámico utilizando el estándar Common Vulnerability Scoring System.
             </p>
         </header>
 
@@ -38,38 +308,242 @@
 
             <h2>1. Introducción</h2>
             <p>
-                El Common Vulnerability Scoring System (CVSS) proporciona una forma de capturar las características principales de una vulnerabilidad y producir una puntuación numérica que refleja su severidad. En esta actividad se desarrolla la evaluación de una vulnerabilidad web usando el estándar v3.1.
+                El estándar **CVSS v3.1** (Common Vulnerability Scoring System) es una metodología de evaluación abierta diseñada para cuantificar la gravedad de vulnerabilidades de seguridad en sistemas de software. Esta puntuación se calcula analizando tres grupos de métricas: base, temporales y ambientales.
+            </p>
+            <p>
+                El grupo de métricas base representa los atributos constantes de la vulnerabilidad que son independientes del tiempo y del entorno del usuario final. En esta actividad, se documenta la evaluación de un fallo en un sistema web interno organizacional. La meta no es únicamente obtener un puntaje abstracto, sino justificar conceptualmente cómo impacta la vulnerabilidad y argumentar la prioridad del riesgo en el contexto del negocio.
             </p>
 
-            <h2>2. Construcción del Vector CVSS</h2>
-            <p>
-                Se identificaron las métricas base según el escenario analizado:
-            </p>
+            <h2>2. Objetivos</h2>
             <ul>
-                <li><strong>Vector de Ataque (AV):</strong> Red (N)</li>
-                <li><strong>Complejidad del Ataque (AC):</strong> Baja (L)</li>
-                <li><strong>Privilegios Requeridos (PR):</strong> Ninguno (N)</li>
-                <li><strong>Interacción del Usuario (UI):</strong> Requerida (R)</li>
-                <li><strong>Alcance (S):</strong> Cambiado (C)</li>
+                <li><strong>Objetivo General:</strong> Aplicar el modelo CVSS v3.1 para caracterizar una vulnerabilidad de red, interpretando sus métricas base y formulando recomendaciones prácticas de mitigación basadas en riesgos.</li>
+                <li><strong>Objetivos Específicos:</strong>
+                    <ol>
+                        <li>Construir la cadena vector correspondiente a los parámetros del escenario.</li>
+                        <li>Desplegar una calculadora interactiva que implemente la especificación matemática de FIRST.</li>
+                        <li>Analizar por qué la vulnerabilidad retiene relevancia crítica a pesar de requerir privilegios elevados de administrador.</li>
+                        <li>Perfilar los actores de amenazas con capacidad para explotar esta debilidad.</li>
+                    </ol>
+                </li>
             </ul>
 
-            <h2>3. Cálculo de la Puntuación</h2>
+            <h2>3. Escenario de Evaluación</h2>
             <p>
-                Utilizando la calculadora oficial de FIRST, se combinaron las métricas de impacto (Confidencialidad, Integridad, Disponibilidad) junto con las métricas de explotabilidad para generar el string vectorial final y el puntaje base.
+                El caso proporcionado detalla una vulnerabilidad con las siguientes propiedades operativas de explotación:
+            </p>
+            <ul>
+                <li><strong>Vía de Explotación:</strong> Puede ejecutarse directamente de manera remota a través de la red (Network).</li>
+                <li><strong>Nivel de Complejidad:</strong> Baja complejidad. No depende de condiciones externas de red ni de estados poco probables del sistema.</li>
+                <li><strong>Privilegios Requeridos:</strong> El atacante necesita contar con privilegios de cuenta elevados (High) de tipo administrador.</li>
+                <li><strong>Interacción del Usuario:</strong> No se requiere ninguna interacción por parte de un segundo usuario.</li>
+                <li><strong>Alcance:</strong> No hay cambio de alcance (Unchanged). El impacto se limita exclusivamente a los recursos del propio sistema web vulnerable.</li>
+                <li><strong>Impacto en Confidencialidad, Integridad y Disponibilidad:</strong> Bajo impacto en los tres factores (Low / Low / Low).</li>
+            </ul>
+
+            <h2>4. Calculadora CVSS v3.1 Oficial (Interactiva)</h2>
+            <p>
+                Usa los controles de la calculadora para cambiar las métricas base. Observa cómo se actualiza la cadena de vector, la severidad (Low, Medium, High, Critical) y la puntuación matemática oficial en tiempo real. Usa el botón inferior para restablecer la calculadora al escenario específico de la práctica:
             </p>
 
-            <h2>4. Análisis de Riesgo y Priorización</h2>
+            <!-- Calculadora CVSS -->
+            <div class="cvss-calc">
+                <div class="cvss-calc__metrics">
+                    
+                    <div class="metric-row">
+                        <label>Vector de Ataque (AV)</label>
+                        <div class="btn-group" id="groupAV">
+                            <button class="calc-btn" data-metric="AV" data-val="N" onclick="setMetric('AV', 'N')">Network (N)</button>
+                            <button class="calc-btn" data-metric="AV" data-val="A" onclick="setMetric('AV', 'A')">Adjacent (A)</button>
+                            <button class="calc-btn" data-metric="AV" data-val="L" onclick="setMetric('AV', 'L')">Local (L)</button>
+                            <button class="calc-btn" data-metric="AV" data-val="P" onclick="setMetric('AV', 'P')">Physical (P)</button>
+                        </div>
+                    </div>
+
+                    <div class="metric-row">
+                        <label>Complejidad de Ataque (AC)</label>
+                        <div class="btn-group" id="groupAC">
+                            <button class="calc-btn" data-metric="AC" data-val="L" onclick="setMetric('AC', 'L')">Low (L)</button>
+                            <button class="calc-btn" data-metric="AC" data-val="H" onclick="setMetric('AC', 'H')">High (H)</button>
+                        </div>
+                    </div>
+
+                    <div class="metric-row">
+                        <label>Privilegios Requeridos (PR)</label>
+                        <div class="btn-group" id="groupPR">
+                            <button class="calc-btn" data-metric="PR" data-val="N" onclick="setMetric('PR', 'N')">None (N)</button>
+                            <button class="calc-btn" data-metric="PR" data-val="L" onclick="setMetric('PR', 'L')">Low (L)</button>
+                            <button class="calc-btn" data-metric="PR" data-val="H" onclick="setMetric('PR', 'H')">High (H)</button>
+                        </div>
+                    </div>
+
+                    <div class="metric-row">
+                        <label>Interacción del Usuario (UI)</label>
+                        <div class="btn-group" id="groupUI">
+                            <button class="calc-btn" data-metric="UI" data-val="N" onclick="setMetric('UI', 'N')">None (N)</button>
+                            <button class="calc-btn" data-metric="UI" data-val="R" onclick="setMetric('UI', 'R')">Required (R)</button>
+                        </div>
+                    </div>
+
+                    <div class="metric-row">
+                        <label>Alcance (S)</label>
+                        <div class="btn-group" id="groupS">
+                            <button class="calc-btn" data-metric="S" data-val="U" onclick="setMetric('S', 'U')">Unchanged (U)</button>
+                            <button class="calc-btn" data-metric="S" data-val="C" onclick="setMetric('S', 'C')">Changed (C)</button>
+                        </div>
+                    </div>
+
+                    <div class="metric-row">
+                        <label>Impacto en Confidencialidad (C)</label>
+                        <div class="btn-group" id="groupC">
+                            <button class="calc-btn" data-metric="C" data-val="N" onclick="setMetric('C', 'N')">None (N)</button>
+                            <button class="calc-btn" data-metric="C" data-val="L" onclick="setMetric('C', 'L')">Low (L)</button>
+                            <button class="calc-btn" data-metric="C" data-val="H" onclick="setMetric('C', 'H')">High (H)</button>
+                        </div>
+                    </div>
+
+                    <div class="metric-row">
+                        <label>Impacto en Integridad (I)</label>
+                        <div class="btn-group" id="groupI">
+                            <button class="calc-btn" data-metric="I" data-val="N" onclick="setMetric('I', 'N')">None (N)</button>
+                            <button class="calc-btn" data-metric="I" data-val="L" onclick="setMetric('I', 'L')">Low (L)</button>
+                            <button class="calc-btn" data-metric="I" data-val="H" onclick="setMetric('I', 'H')">High (H)</button>
+                        </div>
+                    </div>
+
+                    <div class="metric-row">
+                        <label>Impacto en Disponibilidad (A)</label>
+                        <div class="btn-group" id="groupA">
+                            <button class="calc-btn" data-metric="A" data-val="N" onclick="setMetric('A', 'N')">None (N)</button>
+                            <button class="calc-btn" data-metric="A" data-val="L" onclick="setMetric('A', 'L')">Low (L)</button>
+                            <button class="calc-btn" data-metric="A" data-val="H" onclick="setMetric('A', 'H')">High (H)</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="cvss-calc__result">
+                    <div class="score-display" id="scoreDisplayCircle">
+                        <span class="score-num" id="scoreNumText">0.0</span>
+                        <span class="score-severity" id="scoreSeverityText">NONE</span>
+                    </div>
+                    <div class="vector-display" id="vectorStringText">
+                        CVSS:3.1/AV:_/AC:_/PR:_/UI:_/S:_/C:_/I:_/A:_
+                    </div>
+                    <button class="btn btn--ghost" style="width: 100%;" onclick="loadReportScenario()">
+                        Restablecer Escenario Base (4.7)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Caja estática de puntuación para el PDF -->
+            <div class="print-only-calc">
+                <div class="print-score-box">4.7 - SEVERIDAD MEDIA</div>
+                <span class="print-vector-text">Vector Resultante: <strong>CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:L</strong></span>
+            </div>
+
+            <h2>5. Justificación Técnica de las Métricas Base</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Métrica Base</th>
+                        <th>Valor Escenario</th>
+                        <th>Justificación Técnica y Operativa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Vector de Ataque (AV)</strong></td>
+                        <td>Network (N)</td>
+                        <td>La vulnerabilidad está expuesta en un puerto web accesible. Su explotación puede ser ejecutada de forma remota por red, sin requerir proximidad física ni acceso local.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complejidad del Ataque (AC)</strong></td>
+                        <td>Low (L)</td>
+                        <td>No existen precondiciones del sistema o técnicas complejas requeridas para evadir defensas. Una vez que se tienen las credenciales, la ejecución es directa.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Privilegios Requeridos (PR)</strong></td>
+                        <td>High (H)</td>
+                        <td>El adversario debe autenticarse de forma previa y poseer privilegios de tipo administrativo o de gestión avanzada para acceder a la funcionalidad vulnerable.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Interacción del Usuario (UI)</strong></td>
+                        <td>None (N)</td>
+                        <td>Una vez ejecutada la orden por el atacante, el sistema procesa el exploit de manera autónoma, sin necesidad de que un usuario legítimo haga clics o abra archivos.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Alcance (S)</strong></td>
+                        <td>Unchanged (U)</td>
+                        <td>La explotación del fallo no compromete sistemas anexos o componentes que se ubiquen bajo una autoridad de seguridad diferente a la del servidor web de origen.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Impacto CIA (C, I, A)</strong></td>
+                        <td>Low / Low / Low</td>
+                        <td>La vulnerabilidad solo compromete una porción menor de la información corporativa, impide modificaciones masivas de bases de datos y no causa denegación de servicios total.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>6. Interpretación Técnica de la Severidad</h2>
+            
+            <h3>6.1. Relevancia del Fallo a pesar de requerir Privilegios Altos (PR:H)</h3>
+            <p>
+                Es un error metodológico ignorar vulnerabilidades solo porque su métrica de privilegios requeridos sea alta. Aunque esta propiedad limita drásticamente la cantidad de atacantes capaces de iniciar la explotación, no nulifica el riesgo. Un adversario externo persistente o sofisticado puede obtener credenciales administrativas por vías alternativas (phishing dirigido, inyección SQL previa, contraseñas débiles por defecto, robo de tokens de sesión) y utilizar este fallo secundario para consolidar su presencia o saltar a capas más profundas de la red.
+            </p>
+            
+            <h3>6.2. Perfil de Atacante que podría Explotar la Vulnerabilidad</h3>
+            <ul>
+                <li><strong>Amenazas Internas (Insider Threat):</strong> Administradores de TI insatisfechos, analistas internos abusando de permisos o personal con accesos legítimos excesivos.</li>
+                <li><strong>Ex-empleados:</strong> Cuentas de administradores antiguos que no hayan sido debidamente revocadas del Directorio Activo institucional.</li>
+                <li><strong>Atacantes Externos Autenticados:</strong> Hackers externos que lograron comprometer credenciales privilegiadas y combinaron este fallo en una "cadena de explotación" para cumplir sus objetivos.</li>
+            </ul>
+
+            <h3>6.3. Significado de Impacto Bajo</h3>
+            <p>
+                Un impacto "Bajo" (Low) en los tres pilares de la seguridad de la información implica:
+            </p>
+            <ul>
+                <li><strong>Confidencialidad:</strong> El atacante puede leer datos sensibles limitados, no el inventario completo de la base de datos ni credenciales maestras.</li>
+                <li><strong>Integridad:</strong> El atacante puede alterar registros específicos de poca criticidad operativa, sin comprometer la base de datos del negocio.</li>
+                <li><strong>Disponibilidad:</strong> La explotación ralentiza temporalmente el servidor web o degrada el rendimiento, pero no detiene la operación ni apaga el sistema de forma permanente.</li>
+            </ul>
+
+            <h2>7. Análisis de Riesgo y Priorización Organizacional</h2>
+            <p>
+                El cálculo oficial CVSS otorga una calificación base de **4.7 (Severidad Media)**. En un marco de remediación de vulnerabilidades corporativo, este fallo no requiere de atención de emergencia como ocurriría ante brechas Críticas o Altas (puntuaciones mayores a 7.0). Sin embargo, debe ingresarse formalmente a la cola de parches planificados y resolverse en los ciclos semanales o mensuales.
+            </p>
+            <div class="highlight-box">
+                El riesgo final se incrementa si en la auditoría ambiental se constata la existencia de políticas de contraseñas deficientes, carencia de autenticación de doble factor (MFA) para administradores o falta de monitoreo continuo de logs en consolas de gestión.
+            </div>
+
+            <h2>8. Recomendaciones de Mitigación</h2>
+            <ol>
+                <li><strong>Principio de Mínimo Privilegio (PoLP):</strong> Restringir los accesos privilegiados de administración y asegurar que solo las cuentas indispensables cuenten con este nivel de permisos.</li>
+                <li><strong>Auditoría Periódica de Accesos:</strong> Revisar activamente el estatus de las cuentas activas e inhabilitar de inmediato accesos obsoletos.</li>
+                <li><strong>Establecimiento de MFA:</strong> Exigir segundo factor de autenticación para toda sesión administrativa de red.</li>
+                <li><strong>Aplicación de Parches:</strong> Programar la aplicación del parche del fabricante o, en su defecto, implementar reglas en el WAF (Web Application Firewall) para detectar y bloquear el patrón de explotación específico.</li>
+            </ol>
+
+            <h2>9. Conclusión</h2>
             <div class="reflection">
                 <p>
-                    La asignación de una puntuación CVSS no solo establece un nivel de severidad (Bajo, Medio, Alto, Crítico), sino que permite a los equipos de TI y seguridad priorizar los parches basándose en el riesgo real que representa para la continuidad del negocio.
+                    La evaluación con CVSS v3.1 del escenario arrojó un puntaje base final de 4.7 Medium. Este análisis demuestra que la severidad no se evalúa de manera instintiva, sino a través de variables predefinidas que aseguran consistencia metodológica. Si bien los impactos son reducidos y el requerimiento de credenciales administrativas mitiga la probabilidad del ataque, la vulnerabilidad sigue siendo una vía de intrusión real expuesta por red que debe remediarse para impedir cadenas de ataques complejas dirigidas a la infraestructura corporativa.
                 </p>
+            </div>
+
+            <h2>10. Referencias</h2>
+            <div class="references">
+                <ul>
+                    <li>FIRST. (s.f.). <em>Common Vulnerability Scoring System Version 3.1 Calculator</em>. Recuperado de first.org/cvss/calculator/3.1</li>
+                    <li>FIRST. (s.f.). <em>Common Vulnerability Scoring System v3.1: Specification Document</em>.</li>
+                    <li>NIST. (s.f.). <em>National Vulnerability Database (NVD) CVSS Guide</em>.</li>
+                </ul>
             </div>
 
         </section>
     </main>
 
-    <a href="act17-Equipo5.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
-        rel="noopener">
+    <!-- Botón flotante para descargar PDF -->
+    <a href="act17-Equipo5.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank" rel="noopener">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -78,6 +552,151 @@
         </svg>
     </a>
 
+    <script>
+        // --- Estado de la Calculadora ---
+        let cvssState = {
+            AV: 'N',
+            AC: 'L',
+            PR: 'H',
+            UI: 'N',
+            S: 'U',
+            C: 'L',
+            I: 'L',
+            A: 'L'
+        };
+
+        // --- Coeficientes oficiales CVSS v3.1 ---
+        const weights = {
+            AV: { N: 0.85, A: 0.62, L: 0.55, P: 0.2 },
+            AC: { L: 0.77, H: 0.44 },
+            PR: {
+                // Depende de Scope (S)
+                U: { N: 0.85, L: 0.62, H: 0.27 },
+                C: { N: 0.85, L: 0.68, H: 0.50 }
+            },
+            UI: { N: 0.85, R: 0.62 },
+            C: { N: 0.0, L: 0.22, H: 0.56 },
+            I: { N: 0.0, L: 0.22, H: 0.56 },
+            A: { N: 0.0, L: 0.22, H: 0.56 }
+        };
+
+        function setMetric(metric, value) {
+            cvssState[metric] = value;
+            calculateCVSS();
+        }
+
+        function calculateCVSS() {
+            // 1. Obtener valores
+            const av = weights.AV[cvssState.AV];
+            const ac = weights.AC[cvssState.AC];
+            const ui = weights.UI[cvssState.UI];
+            const s_changed = cvssState.S === 'C';
+            
+            // PR depende de Scope
+            const pr = s_changed ? weights.PR.C[cvssState.PR] : weights.PR.U[cvssState.PR];
+            
+            const c = weights.C[cvssState.C];
+            const i = weights.I[cvssState.I];
+            const a = weights.A[cvssState.A];
+
+            // 2. Calcular ISS (Impact Sub-Score)
+            const iss = 1 - (1 - c) * (1 - i) * (1 - a);
+
+            // 3. Calcular Impacto
+            let impact = 0;
+            if (!s_changed) {
+                impact = 6.42 * iss;
+            } else {
+                impact = 7.52 * (iss - 0.029) - 3.25 * Math.pow((iss - 0.02), 15);
+            }
+
+            // 4. Calcular Explotabilidad
+            const exploitability = 8.22 * av * ac * pr * ui;
+
+            // 5. Calcular Puntuación Base
+            let baseScore = 0;
+            if (impact > 0) {
+                if (!s_changed) {
+                    baseScore = Math.min((impact + exploitability), 10);
+                } else {
+                    baseScore = Math.min(1.08 * (impact + exploitability), 10);
+                }
+            }
+
+            // Redondear al décimo superior de acuerdo a la especificación oficial de FIRST (con precisión flotante)
+            baseScore = Math.ceil(baseScore * 10) / 10;
+            
+            if (iss <= 0) {
+                baseScore = 0.0;
+            }
+
+            // 6. Asignar severidad
+            let severity = "NONE";
+            let severityClass = "none";
+            if (baseScore >= 0.1 && baseScore <= 3.9) {
+                severity = "LOW";
+                severityClass = "low";
+            } else if (baseScore >= 4.0 && baseScore <= 6.9) {
+                severity = "MEDIUM";
+                severityClass = "medium";
+            } else if (baseScore >= 7.0 && baseScore <= 8.9) {
+                severity = "HIGH";
+                severityClass = "high";
+            } else if (baseScore >= 9.0 && baseScore <= 10.0) {
+                severity = "CRITICAL";
+                severityClass = "critical";
+            }
+
+            // 7. Actualizar interfaz gráfica
+            document.getElementById("scoreNumText").textContent = baseScore.toFixed(1);
+            document.getElementById("scoreSeverityText").textContent = severity;
+            
+            const circle = document.getElementById("scoreDisplayCircle");
+            circle.className = "score-display " + severityClass;
+
+            // Generar string de vector
+            const vector = `CVSS:3.1/AV:${cvssState.AV}/AC:${cvssState.AC}/PR:${cvssState.PR}/UI:${cvssState.UI}/S:${cvssState.S}/C:${cvssState.C}/I:${cvssState.I}/A:${cvssState.A}`;
+            document.getElementById("vectorStringText").textContent = vector;
+
+            // Actualizar clases activas en los botones
+            updateActiveButtons();
+        }
+
+        function updateActiveButtons() {
+            // Quitar clase active de todos los botones de la calculadora
+            const buttons = document.querySelectorAll(".calc-btn");
+            buttons.forEach(btn => {
+                const metric = btn.getAttribute("data-metric");
+                const val = btn.getAttribute("data-val");
+                if (cvssState[metric] === val) {
+                    btn.classList.add("active");
+                } else {
+                    btn.classList.remove("active");
+                }
+            });
+        }
+
+        function loadReportScenario() {
+            cvssState = {
+                AV: 'N',
+                AC: 'L',
+                PR: 'H',
+                UI: 'N',
+                S: 'U',
+                C: 'L',
+                I: 'L',
+                A: 'L'
+            };
+            calculateCVSS();
+        }
+
+
+
+        // --- Inicialización ---
+        window.addEventListener("DOMContentLoaded", () => {
+            loadReportScenario();
+        });
+    </script>
 </body>
 
 </html>

@@ -4,8 +4,823 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AC18 - Modelo Diamante</title>
+    <title>AC18 - Análisis de Intrusiones con el Modelo Diamante | Seguridad Informática</title>
     <link rel="stylesheet" href="../../../assets/styles.css">
+    <style>
+        /* --- Estilos Personalizados para AC18 --- */
+        :root {
+            --cyber-cyan: #00e5ff;
+            --cyber-green: #33ff33;
+            --cyber-yellow: #eab308;
+            --cyber-red: #ef4444;
+            --cyber-purple: #a855f7;
+            --widget-bg: #09090b;
+            --widget-border: #27272a;
+            --text-white: #ffffff;
+        }
+
+        /* --- Cuadro de Datos del Equipo (Academic Metadata) --- */
+        .academic-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--stroke);
+            border-left: 3px solid var(--cyber-green);
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+            font-family: var(--sans);
+        }
+
+        .academic-card__header {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .academic-card__title {
+            color: var(--cyber-green);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        .team-member {
+            font-size: 0.9rem;
+            color: #ddd;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .team-member span:last-child {
+            font-family: var(--mono);
+            color: var(--muted);
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--stroke);
+            padding: 18px;
+            margin: 20px 0;
+            border-radius: 4px;
+            border-left: 3px solid var(--cyber-cyan);
+        }
+
+        /* --- Tablas --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9rem;
+        }
+
+        th {
+            font-family: var(--mono);
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--stroke);
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            color: var(--text);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            border: 1px solid var(--stroke);
+            padding: 12px;
+            color: #ccc;
+            vertical-align: top;
+            line-height: 1.5;
+        }
+
+        tr:nth-child(even) td {
+            background-color: rgba(255, 255, 255, 0.01);
+        }
+
+        /* --- Widget 1: Modelo Diamante Interactivo --- */
+        .diamond-widget {
+            margin: 30px 0;
+            border: 1px solid var(--stroke);
+            border-radius: 6px;
+            background: var(--card);
+            overflow: hidden;
+        }
+
+        .diamond-widget__header {
+            background-color: #121214;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--stroke);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .diamond-widget__title {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            color: var(--cyber-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .diamond-widget__subtitle {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .diamond-layout {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            min-height: 430px;
+        }
+
+        .diamond-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.2);
+            border-right: 1px solid var(--stroke);
+            position: relative;
+        }
+
+        .diamond-svg-container {
+            width: 100%;
+            max-width: 360px;
+            height: auto;
+        }
+
+        /* Elementos del SVG */
+        .diamond-axis {
+            stroke: #222;
+            stroke-width: 1.5;
+            stroke-dasharray: 4 4;
+        }
+
+        .diamond-axis-label {
+            font-family: var(--mono);
+            font-size: 9px;
+            fill: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .diamond-edge {
+            stroke: #2c2c30;
+            stroke-width: 2.5;
+            transition: stroke 0.3s, stroke-width 0.3s;
+        }
+
+        .diamond-edge.active-edge {
+            stroke-width: 3;
+        }
+
+        .diamond-node {
+            fill: #0c0c0e;
+            stroke: #444;
+            stroke-width: 2.5;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .diamond-node:hover {
+            stroke: var(--node-color);
+            filter: drop-shadow(0 0 8px var(--node-color));
+            r: 15px;
+        }
+
+        .diamond-node.active {
+            fill: #000;
+            stroke: var(--node-color);
+            stroke-width: 3.5;
+            filter: drop-shadow(0 0 12px var(--node-color));
+            r: 16px;
+        }
+
+        .diamond-label {
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: bold;
+            fill: #8e8e93;
+            text-anchor: middle;
+            cursor: pointer;
+            transition: fill 0.3s;
+        }
+
+        .diamond-label.active {
+            fill: var(--node-color);
+            text-shadow: 0 0 10px var(--node-color);
+        }
+
+        .diamond-info-panel {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background: rgba(255, 255, 255, 0.005);
+            min-height: 380px;
+        }
+
+        .info-card {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .info-card.active {
+            display: block;
+        }
+
+        .info-card__badge {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 2px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            border: 1px solid currentColor;
+        }
+
+        .badge-adversario { color: var(--cyber-red); background: rgba(239, 68, 68, 0.05); }
+        .badge-capacidad { color: var(--cyber-purple); background: rgba(168, 85, 247, 0.05); }
+        .badge-infraestructura { color: var(--cyber-yellow); background: rgba(234, 179, 8, 0.05); }
+        .badge-victima { color: var(--cyber-cyan); background: rgba(0, 229, 255, 0.05); }
+
+        .info-card h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.4rem;
+            color: var(--text-white);
+            font-family: var(--sans);
+        }
+
+        .info-card__desc {
+            color: #b3b3b3;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .info-card__details {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+        }
+
+        .info-detail-row {
+            margin-bottom: 12px;
+        }
+
+        .info-detail-row strong {
+            display: block;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .info-detail-row span {
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        /* --- Widget 2: Slider de Línea de Tiempo del Incidente (T1-T5) --- */
+        .timeline-widget {
+            margin: 35px 0;
+            border: 1px solid var(--stroke);
+            border-radius: 6px;
+            background: var(--card);
+            overflow: hidden;
+        }
+
+        .timeline-widget__header {
+            background-color: #121214;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--stroke);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timeline-widget__title {
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            color: var(--cyber-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline-widget__status {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .timeline-nav {
+            padding: 25px 20px;
+            background: rgba(0, 0, 0, 0.15);
+            border-bottom: 1px solid var(--stroke);
+            position: relative;
+        }
+
+        .timeline-bar {
+            position: absolute;
+            top: 50%;
+            left: 50px;
+            right: 50px;
+            height: 2px;
+            background-color: #222;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .timeline-bar__fill {
+            height: 100%;
+            background-color: var(--cyber-green);
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px var(--cyber-green);
+        }
+
+        .timeline-steps {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 100%;
+        }
+
+        .timeline-step-btn {
+            background-color: #0c0c0e;
+            border: 2px solid #333;
+            color: #777;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            font-family: var(--mono);
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-step-btn:hover {
+            border-color: #666;
+            color: #ccc;
+        }
+
+        .timeline-step-btn.active {
+            border-color: var(--cyber-green);
+            color: #000;
+            background-color: var(--cyber-green);
+            box-shadow: 0 0 12px var(--cyber-green);
+        }
+
+        .timeline-step-label {
+            position: absolute;
+            bottom: -22px;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--muted);
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+
+        .timeline-step-btn.active .timeline-step-label {
+            color: var(--cyber-green);
+            font-weight: bold;
+        }
+
+        .timeline-content-panel {
+            padding: 25px;
+            min-height: 260px;
+        }
+
+        .timeline-event-card {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .timeline-event-card.active {
+            display: block;
+        }
+
+        .timeline-event-card h4 {
+            margin: 0 0 20px 0;
+            font-size: 1.3rem;
+            color: var(--text-white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timeline-event-card h4 span {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            padding: 2px 6px;
+            border-radius: 2px;
+            background: rgba(51, 255, 51, 0.1);
+            color: var(--cyber-green);
+            border: 1px solid rgba(51, 255, 51, 0.2);
+        }
+
+        .event-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .event-meta-item {
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.005);
+            padding: 10px 15px;
+            border-radius: 4px;
+        }
+
+        .event-meta-item strong {
+            display: block;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        .event-meta-item span {
+            font-size: 0.85rem;
+            color: #ddd;
+        }
+
+        .event-interpretation {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+        }
+
+        .event-interpretation h5 {
+            margin: 0 0 8px 0;
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            color: var(--cyber-cyan);
+            text-transform: uppercase;
+        }
+
+        .event-interpretation p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #b3b3b3;
+            line-height: 1.5;
+        }
+
+        /* --- Parte 04: Hilos de Actividad y Diagrama de Pivoting --- */
+        .threads-container {
+            margin: 30px 0;
+            border: 1px solid var(--stroke);
+            border-radius: 6px;
+            padding: 25px;
+            background: rgba(5, 5, 5, 0.5);
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+            position: relative;
+        }
+
+        .flow-group {
+            border: 1px dashed #333;
+            border-radius: 4px;
+            padding: 15px;
+            position: relative;
+            background: rgba(255,255,255,0.002);
+        }
+
+        .flow-group--hilo1 {
+            border-color: rgba(0, 229, 255, 0.2);
+        }
+
+        .flow-group--hilo1::before {
+            content: "HILO 1 - COMPROMISO VÍCTIMA PRIMARIA (ADMINISTRADOR)";
+            position: absolute;
+            top: -9px;
+            left: 15px;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--cyber-cyan);
+            background: #000;
+            padding: 0 5px;
+            font-weight: bold;
+        }
+
+        .flow-group--hilo2 {
+            border-color: rgba(168, 85, 247, 0.2);
+        }
+
+        .flow-group--hilo2::before {
+            content: "HILO 2 - COMPROMISO VÍCTIMA SECUNDARIA (PIVOTE)";
+            position: absolute;
+            top: -9px;
+            left: 15px;
+            font-family: var(--mono);
+            font-size: 0.65rem;
+            color: var(--cyber-purple);
+            background: #000;
+            padding: 0 5px;
+            font-weight: bold;
+        }
+
+        .flow-nodes {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .flow-node {
+            background-color: #0c0c0e;
+            border: 1px solid var(--stroke);
+            border-radius: 4px;
+            padding: 10px 15px;
+            min-width: 160px;
+            text-align: center;
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .flow-node--adv { border-color: var(--cyber-red); color: var(--cyber-red); }
+        .flow-node--v1 { border-color: var(--cyber-cyan); color: var(--cyber-cyan); }
+        .flow-node--v2 { border-color: var(--cyber-purple); color: var(--cyber-purple); }
+
+        .flow-node span {
+            display: block;
+            font-family: var(--sans);
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .flow-arrow {
+            color: var(--muted);
+            font-size: 1.2rem;
+            font-family: var(--mono);
+        }
+
+        .pivot-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 5px 0;
+            color: var(--cyber-yellow);
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            gap: 4px;
+        }
+
+        .pivot-link::before {
+            content: "↓";
+            font-size: 1.4rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(4px); }
+        }
+
+        /* --- Secciones para Impresión --- */
+        .print-only-section {
+            display: none;
+        }
+
+        /* --- Animación de FadeIn --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Responsividad Pantalla --- */
+        @media (max-width: 800px) {
+            .diamond-layout {
+                grid-template-columns: 1fr;
+            }
+            .diamond-visual {
+                border-right: none;
+                border-bottom: 1px solid var(--stroke);
+            }
+            .flow-nodes {
+                flex-direction: column;
+            }
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 5px 0;
+            }
+        }
+
+        /* --- Reglas de Impresión --- */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                background-image: none !important;
+                font-size: 11pt;
+            }
+
+            .topbar, 
+            .pdf-btn, 
+            .back-link, 
+            .scanline,
+            .diamond-widget, 
+            .timeline-widget, 
+            .pivot-link::before {
+                display: none !important;
+            }
+
+            .print-only-section {
+                display: block !important;
+            }
+
+            .article {
+                margin: 0 !important;
+                padding: 0 !important;
+                max-width: 100% !important;
+            }
+
+            .academic-card {
+                border: 1px solid #000 !important;
+                border-left: 4px solid #000 !important;
+                background: #f9fafb !important;
+                color: #000 !important;
+            }
+
+            .academic-card__title {
+                color: #000 !important;
+            }
+
+            .team-member {
+                color: #000 !important;
+            }
+
+            .team-member span:last-child {
+                color: #555 !important;
+            }
+
+            .highlight-box {
+                background: #f9fafb !important;
+                border: 1px solid #000 !important;
+                border-left: 4px solid #000 !important;
+                color: #000 !important;
+            }
+
+            table {
+                page-break-inside: avoid;
+                margin: 15px 0;
+            }
+
+            th {
+                background-color: #f3f4f6 !important;
+                color: #000000 !important;
+                border: 1px solid #000000 !important;
+                font-weight: bold;
+            }
+
+            td {
+                border: 1px solid #000000 !important;
+                color: #000000 !important;
+                background-color: transparent !important;
+            }
+
+            h2, h3, h4, h5 {
+                color: #000000 !important;
+                page-break-after: avoid;
+                page-break-inside: avoid;
+            }
+
+            p, li {
+                color: #000000 !important;
+            }
+
+            /* Hilos de Actividad Impresión */
+            .threads-container {
+                background: none !important;
+                border: 1px solid #000 !important;
+                padding: 15px !important;
+                page-break-inside: avoid;
+            }
+
+            .flow-group {
+                border: 1px dashed #000 !important;
+                background: none !important;
+                margin-bottom: 15px;
+            }
+
+            .flow-group--hilo1::before, 
+            .flow-group--hilo2::before {
+                color: #000 !important;
+                background: #fff !important;
+            }
+
+            .flow-nodes {
+                flex-direction: row !important;
+                justify-content: space-around !important;
+            }
+
+            .flow-node {
+                background: #fff !important;
+                border: 1px solid #000 !important;
+                color: #000 !important;
+            }
+
+            .flow-node span {
+                color: #555 !important;
+            }
+
+            .flow-arrow {
+                color: #000 !important;
+                transform: none !important;
+            }
+
+            .pivot-link {
+                color: #000 !important;
+                margin: 10px 0 !important;
+            }
+
+            /* Listas impresas de widgets dinámicos */
+            .print-diamond-card {
+                border: 1px solid #000000;
+                padding: 15px;
+                margin-bottom: 15px;
+                page-break-inside: avoid;
+                background: #f9fafb;
+            }
+
+            .print-diamond-card h4 {
+                margin-top: 0;
+                border-bottom: 1px solid #000;
+                padding-bottom: 5px;
+                text-transform: uppercase;
+                font-family: var(--mono);
+            }
+
+            .print-event-block {
+                border: 1px solid #000000;
+                padding: 18px;
+                margin-bottom: 20px;
+                page-break-inside: avoid;
+                background: #ffffff;
+            }
+
+            .print-event-block h4 {
+                margin-top: 0;
+                border-bottom: 2px solid #000;
+                padding-bottom: 5px;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .print-event-table {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            .print-event-table td {
+                padding: 6px 10px;
+            }
+
+            .print-event-table tr td:first-child {
+                font-family: var(--mono);
+                font-weight: bold;
+                width: 25%;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -13,6 +828,10 @@
         <div class="container topbar__inner">
             <div class="brand">
                 <a href="../../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+            <div class="brand__text" style="align-items: flex-end;">
+                <span class="brand__title glow">PORTAFOLIO DE SEGURIDAD</span>
+                <span class="brand__meta">Tercer Parcial - AC18</span>
             </div>
         </div>
         <div class="scanline" aria-hidden="true"></div>
@@ -28,47 +847,848 @@
                 <span>Actividad 18</span>
             </div>
 
-            <h1>Análisis de Intrusiones: El Modelo Diamante</h1>
+            <h1 class="glow">Análisis de Intrusiones con el Modelo Diamante</h1>
             <p class="lead">
-                Descomposición de un incidente de seguridad para perfilar adversarios e infraestructura.
+                Descomposición metodológica de incidentes persistentes complejos (APT) y mapeo táctico sobre la Cyber Kill Chain.
             </p>
         </header>
 
         <section class="article__content">
 
+            <!-- Ficha Académica del Equipo -->
+            <div class="academic-card">
+                <div class="academic-card__header">
+                    <span class="academic-card__title">Equipo 5 - Información del Curso</span>
+                    <span>15 de mayo de 2026</span>
+                </div>
+                <div class="info-detail-row" style="margin-bottom: 15px;">
+                    <strong>Materia / Docente</strong>
+                    <span style="font-size: 0.95rem; font-weight: bold; color: var(--text);">CNO V: Seguridad Informática — Ing. Servando López Contreras</span>
+                </div>
+                <strong>Integrantes del Equipo</strong>
+                <div class="team-grid">
+                    <div class="team-member"><span>Coronado Noriega Jesús Olaf</span> <span>178991</span></div>
+                    <div class="team-member"><span>De La Rosa Rodríguez Erik</span> <span>177700</span></div>
+                    <div class="team-member"><span>González Reyes Felipe de Jesús</span> <span>181134</span></div>
+                    <div class="team-member"><span>Mendoza Aguado Karina</span> <span>179859</span></div>
+                    <div class="team-member"><span>Serrano Zermeño Leonardo</span> <span>177301</span></div>
+                    <div class="team-member"><span>Pérez Ventura Juan Alejandro</span> <span>180370</span></div>
+                </div>
+            </div>
+
             <h2>1. Introducción</h2>
             <p>
-                El Modelo Diamante de Análisis de Intrusiones (Diamond Model of Intrusion Analysis) establece las relaciones fundamentales entre cuatro componentes básicos en todo evento malicioso: el Adversario, la Infraestructura, la Capacidad y la Víctima.
+                El Modelo Diamante de Análisis de Intrusiones (Diamond Model) establece las relaciones fundamentales entre cuatro componentes básicos presentes en todo evento malicioso: el Adversario, la Capacidad, la Infraestructura y la Víctima. Esta metodología permite analizar los incidentes no como alertas aisladas, sino como procesos estructurados y vinculados con propósitos operacionales específicos del atacante.
+            </p>
+            <p>
+                Este informe documenta el análisis y estructuración de un incidente técnico en el que una organización detecta malware con capacidades de Comando y Control (C2) en su infraestructura interna. Con base en los datos de monitoreo, logs DNS y auditorías WHOIS, correlacionamos los eventos del incidente utilizando el Modelo Diamante y los ordenamos cronológicamente dentro de las fases de la Cyber Kill Chain, describiendo a su vez un escenario de persistencia avanzada (APT) con pivoteo de red.
             </p>
 
-            <h2>2. Análisis del Incidente</h2>
+            <h2>2. Objetivos</h2>
+            <h3>2.1. Objetivo General</h3>
+            <p>
+                Aplicar el Modelo Diamante del Análisis de Intrusiones para identificar, estructurar y correlacionar eventos de ciberataques, relacionándolos con la Cadena de Eliminación Cibernética (Cyber Kill Chain) para comprender el comportamiento del adversario y coordinar la respuesta defensiva.
+            </p>
+            <h3>2.2. Objetivos Específicos</h3>
+            <ol>
+                <li>Identificar y clasificar los elementos del modelo diamante: adversario, capacidad, infraestructura y víctima en un escenario real.</li>
+                <li>Descomponer un incidente de red en eventos específicos documentados mediante metacaracterísticas temporales y procedimentales.</li>
+                <li>Mapear cronológicamente los eventos detectados dentro de las etapas técnicas de la Cyber Kill Chain de Lockheed Martin.</li>
+                <li>Modelar y describir las relaciones de pivote (pivoting) entre múltiples hosts y redes a través de hilos de actividad del atacante.</li>
+            </ol>
+
+            <h2>3. Parte 01. Comprensión del Modelo Diamante</h2>
+            <p>
+                La utilidad del modelo radica en que obliga a estructurar la información técnica disponible para responder las preguntas clave sobre la intrusión: quién ataca (Adversario), con qué herramientas técnicas opera (Capacidad), a través de qué redes o plataformas ejecuta el ataque (Infraestructura) y hacia quién se dirige el daño (Víctima). Estos cuatro vértices están conectados por ejes que definen relaciones socio-políticas y tecnológicas.
+            </p>
+
+            <!-- Tabla 1: Elementos principales del Modelo Diamante -->
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Elemento</th>
+                        <th style="width: 40%;">Descripción</th>
+                        <th style="width: 40%;">Ejemplo Práctico en el Escenario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-family: var(--mono); color: var(--cyber-red); font-weight: bold;">Adversario</td>
+                        <td>Entidad responsable de conducir o dirigir la intrusión. Puede ser un atacante individual, grupo criminal, actor interno malicioso, grupo APT o un operador externo que controla la campaña.</td>
+                        <td>Operador o grupo APT externo que envía phishing dirigido a un administrador y controla la infraestructura C2 para mantener control en los equipos comprometidos.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: var(--mono); color: var(--cyber-purple); font-weight: bold;">Capacidad</td>
+                        <td>Herramientas, técnicas, procedimientos y recursos técnicos usados por el adversario para ejecutar la intrusión. Incluye malware, scripts, exploits, payloads y métodos de evasión de defensas.</td>
+                        <td>Malware compilado con comunicación C2, correo de phishing con vector inicial de explotación, persistencia en disco y uso del host víctima como proxy de retransmisión.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: var(--mono); color: var(--cyber-yellow); font-weight: bold;">Infraestructura</td>
+                        <td>Sistemas físicos, lógicos, redes, dominios, direcciones IP, servidores DNS, cuentas o proxies empleados por el adversario para desplegar capacidades y comunicarse con la víctima.</td>
+                        <td>Dominios de Comando y Control (C2), servidores de resolución de nombres, direcciones IP externas asociadas a los dominios maliciosos, y el host infectado de la víctima cuando se usa como proxy interno.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: var(--mono); color: var(--cyber-cyan); font-weight: bold;">Víctima</td>
+                        <td>Persona, equipo, sistema operativo, cuenta de usuario, segmento de red o toda la organización afectada por la actividad maliciosa del adversario. Se divide en primaria y secundaria.</td>
+                        <td>Administrador de sistemas que recibe el phishing, el equipo del administrador infectado en T1 (Víctima 1), y la base de datos o segunda víctima comprometida mediante pivoteo (Víctima 2).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- WIDGET INTERACTIVO 1: Modelo Diamante SVG -->
+            <h3>Visualizador Interactivo del Modelo Diamante</h3>
+            <p class="description" style="font-size: 0.9rem; color: var(--muted); margin-top: -10px; margin-bottom: 20px;">
+                Haz clic sobre cualquiera de los cuatro nodos del diamante para inspeccionar los datos técnicos del incidente mapeados a ese vértice específico.
+            </p>
+
+            <div class="diamond-widget">
+                <div class="diamond-widget__header">
+                    <span class="diamond-widget__title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 22 12 12 22 2 12 12 2"/></svg>
+                        Modelo Diamante del Escenario
+                    </span>
+                    <span class="diamond-widget__subtitle">Interactividad Vértices</span>
+                </div>
+                <div class="diamond-layout">
+                    <!-- Parte Visual: SVG del Diamante -->
+                    <div class="diamond-visual">
+                        <svg class="diamond-svg-container" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Ejes Internos (Dashed) -->
+                            <line class="diamond-axis" x1="200" y1="45" x2="200" y2="355" />
+                            <line class="diamond-axis" x1="45" y1="200" x2="355" y2="200" />
+                            
+                            <!-- Etiquetas de los Ejes -->
+                            <text class="diamond-axis-label" x="210" y="110" text-anchor="start">Eje Socio-Político</text>
+                            <text class="diamond-axis-label" x="290" y="190" text-anchor="middle">Eje Tecnológico</text>
+
+                            <!-- Líneas del Borde del Diamante -->
+                            <line id="edge-adv-cap" class="diamond-edge" x1="200" y1="45" x2="45" y2="200" />
+                            <line id="edge-cap-vic" class="diamond-edge" x1="45" y1="200" x2="200" y2="355" />
+                            <line id="edge-vic-inf" class="diamond-edge" x1="200" y1="355" x2="355" y2="200" />
+                            <line id="edge-inf-adv" class="diamond-edge" x1="355" y1="200" x2="200" y2="45" />
+
+                            <!-- Nodos (Círculos Interactivos) -->
+                            <!-- Adversario (Top) -->
+                            <circle id="node-adversario" class="diamond-node" cx="200" cy="45" r="13" style="--node-color: var(--cyber-red);" onclick="selectDiamondNode('adversario')" />
+                            
+                            <!-- Capacidad (Left) -->
+                            <circle id="node-capacidad" class="diamond-node" cx="45" cy="200" r="13" style="--node-color: var(--cyber-purple);" onclick="selectDiamondNode('capacidad')" />
+                            
+                            <!-- Infraestructura (Right) -->
+                            <circle id="node-infraestructura" class="diamond-node" cx="355" cy="200" r="13" style="--node-color: var(--cyber-yellow);" onclick="selectDiamondNode('infraestructura')" />
+                            
+                            <!-- Víctima (Bottom) -->
+                            <circle id="node-victima" class="diamond-node" cx="200" cy="355" r="13" style="--node-color: var(--cyber-cyan);" onclick="selectDiamondNode('victima')" />
+
+                            <!-- Textos de Etiquetas de Nodos -->
+                            <text id="label-adversario" class="diamond-label" x="200" y="22" onclick="selectDiamondNode('adversario')">ADVERSARIO</text>
+                            <text id="label-capacidad" class="diamond-label" x="45" y="225" onclick="selectDiamondNode('capacidad')">CAPACIDAD</text>
+                            <text id="label-infraestructura" class="diamond-label" x="355" y="225" onclick="selectDiamondNode('infraestructura')">INFRAESTRUCTURA</text>
+                            <text id="label-victima" class="diamond-label" x="200" y="385" onclick="selectDiamondNode('victima')">VÍCTIMA</text>
+                        </svg>
+                    </div>
+
+                    <!-- Panel de Información Dinámico -->
+                    <div class="diamond-info-panel" id="diamondInfoPanel">
+                        <!-- Card de Adversario (Activo por defecto) -->
+                        <div class="info-card active" id="card-adversario">
+                            <span class="info-card__badge badge-adversario">Adversario</span>
+                            <h4>Actor / Grupo Operador</h4>
+                            <p class="info-card__desc">
+                                Es la entidad responsable de la intrusión que dirige la campaña maliciosa. En incidentes de red, el adversario rara vez se atribuye de inmediato con nombre y apellido.
+                            </p>
+                            <div class="info-card__details">
+                                <div class="info-detail-row">
+                                    <strong>Identidad Técnica</strong>
+                                    <span>Actor externo no identificado (Grupo organizado o APT básico).</span>
+                                </div>
+                                <div class="info-detail-row">
+                                    <strong>Origen Geográfico / ISP</strong>
+                                    <span>Trazado mediante WHOIS y ASN a un rango IP externo sospechoso (determinado en T5). Sin embargo, el origen exacto es dudoso debido a posibles tácticas de evasión o uso de proxies.</span>
+                                </div>
+                                <div class="info-detail-row">
+                                    <strong>Motivación Hipotética</strong>
+                                    <span>Persistencia interna, acceso privilegiado a la red de la organización y posible exfiltración de activos técnicos críticos.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card de Capacidad -->
+                        <div class="info-card" id="card-capacidad">
+                            <span class="info-card__badge badge-capacidad">Capacidad</span>
+                            <h4>Herramientas & Procedimientos</h4>
+                            <p class="info-card__desc">
+                                El arsenal y métodos técnicos que el adversario utiliza para penetrar, evadir defensas y mantener el control sobre los sistemas afectados.
+                            </p>
+                            <div class="info-card__details">
+                                <div class="info-detail-row">
+                                    <strong>Vector de Ataque</strong>
+                                    <span>Phishing dirigido que contiene un binario malicioso adjunto o enlace de descarga.</span>
+                                </div>
+                                <div class="info-detail-row">
+                                    <strong>Carga Útil (Payload)</strong>
+                                    <span>Malware compilado con funciones internas para extraer strings DNS, conectarse a puertos externos y ejecutar comandos remotamente.</span>
+                                </div>
+                                <div class="info-detail-row">
+                                    <strong>Técnicas de Evasión & Pivoteo</strong>
+                                    <span>Uso del host víctima comprometido como un servidor Proxy local (pivot) para alcanzar sistemas de la red interna sin ser bloqueado por firewalls perimetrales.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card de Infraestructura -->
+                        <div class="info-card" id="card-infraestructura">
+                            <span class="info-card__badge badge-infraestructura">Infraestructura</span>
+                            <h4>Recursos Lógicos & Físicos</h4>
+                            <p class="info-card__desc">
+                                Los sistemas de red y servidores que permiten la operatividad del ataque, sirviendo de puente de comunicación entre el adversario y la red víctima.
+                            </p>
+                            <div class="info-card__details">
+                                <div class="info-detail-row">
+                                    <strong>Dominios de Comando & Control (C2)</strong>
+                                    <span>Dominios embebidos dentro de la estructura de código del malware (detectados en T2).</span>
+                                </div>
+                                <div class="info-detail-row">
+                                    <strong>Resolución de Nombres</strong>
+                                    <span>Servidores de DNS externos que resuelven los dominios maliciosos a IP públicas (T3).</span>
+                                </div>
+                                <div class="info-detail-row">
+                                    <strong>Infraestructura de Pivoteo</strong>
+                                    <span>Las direcciones IP externas asociadas a los C2 y el equipo de la Víctima 1 reconfigurado internamente como proxy operativo.</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card de Víctima -->
+                        <div class="info-card" id="card-victima">
+                            <span class="info-card__badge badge-victima">Víctima</span>
+                            <h4>Entidad Comprometida</h4>
+                            <p class="info-card__desc">
+                                Los activos o identidades que sufren el impacto de la actividad del adversario. En este escenario, la víctima se divide en múltiples niveles.
+                            </p>
+                            <div class="info-card__details">
+                                <div class="info-detail-row">
+                                    <strong>Víctima Primaria (Host)</strong>
+                                    <span>El equipo del administrador de sistemas que ejecutó el archivo malicioso inicial tras el phishing.</span>
+                                </div>
+                                <div class="info-detail-row">
+                                    <strong>Víctima Secundaria (Pivoting)</strong>
+                                    <span>Un servidor interno o base de datos sensible que no tiene conexión directa a internet, pero que fue vulnerado desde el host de la Víctima 1.</span>
+                                </div>
+                                <div class="info-detail-row">
+                                    <strong>Organización Afectada</strong>
+                                    <span>La infraestructura general de la red corporativa cuyos logs registraron múltiples hosts intentando comunicarse con el exterior (T4).</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Impresión para el Widget 1 (Diamond Model) -->
+            <div class="print-only-section">
+                <h3>Detalle de Elementos del Modelo Diamante (Ficha de Análisis)</h3>
+                
+                <div class="print-diamond-card" style="border-left: 4px solid var(--cyber-red);">
+                    <h4>Adversario (Atribución Técnica)</h4>
+                    <p><strong>Identidad:</strong> Actor externo no identificado (Grupo organizado o APT básico que opera la campaña).</p>
+                    <p><strong>Infraestructura Geográfica:</strong> Trazado mediante registros históricos y ASN a un rango IP externo sospechoso. Dificultad de atribución definitiva debido a la posibilidad de proxies intermedios o servidores alquilados.</p>
+                    <p><strong>Motivación:</strong> Espionaje o persistencia de largo plazo para exfiltrar credenciales corporativas y técnicos.</p>
+                </div>
+
+                <div class="print-diamond-card" style="border-left: 4px solid var(--cyber-purple);">
+                    <h4>Capacidad (Vector & Arsenal)</h4>
+                    <p><strong>Vector Inicial:</strong> Phishing dirigido que entrega el vector de ejecución al usuario objetivo.</p>
+                    <p><strong>Capacidades del Malware:</strong> Binario con funcionalidad C2 que evade defensas antivirus, posee persistencia en registro y puede reconfigurar el host local como puente proxy.</p>
+                    <p><strong>Técnicas:</strong> Ejecución remota de comandos, pivoteo interno de red, y ocultamiento de procesos en el endpoint.</p>
+                </div>
+
+                <div class="print-diamond-card" style="border-left: 4px solid var(--cyber-yellow);">
+                    <h4>Infraestructura (Canales de Control)</h4>
+                    <p><strong>Comando & Control:</strong> Nombres de dominios codificados dentro del binario malicioso.</p>
+                    <p><strong>Direcciones IP Asociadas:</strong> Bloques de IPs externas públicas a las que resuelven los dominios mediante consultas DNS maliciosas.</p>
+                    <p><strong>Infraestructura Operativa:</strong> Servidor DNS del adversario, servidores de correo phishing y el host interno comprometido actuando como proxy retransmisor.</p>
+                </div>
+
+                <div class="print-diamond-card" style="border-left: 4px solid var(--cyber-cyan);">
+                    <h4>Víctima (Activos Impactados)</h4>
+                    <p><strong>Víctima Primaria:</strong> Equipo personal y cuenta del administrador del sistema inicialmente comprometido.</p>
+                    <p><strong>Víctima Secundaria:</strong> Servidores internos críticos atacados a través de conexiones de pivoteo lateral.</p>
+                    <p><strong>Organización General:</strong> Toda la red corporativa expuesta, evidenciada por múltiples endpoints internos solicitando acceso a las IPs del C2.</p>
+                </div>
+            </div>
+
+            <h2>4. Parte 02. Análisis de Evento con el Modelo Diamante</h2>
             
-            <h3>2.1 Descomposición en Eventos</h3>
+            <h3>4.1. Escenario Base</h3>
+            <p>
+                El equipo de operaciones de seguridad de la organización detecta comportamiento anómalo en un host interno. Al iniciar la investigación forense digital y respuesta a incidentes (DFIR), se recolectan los siguientes hallazgos correlacionados cronológicamente:
+            </p>
+            <ol>
+                <li>La víctima detecta malware activo en un endpoint corporativo.</li>
+                <li>El análisis estático/dinámico del malware revela la presencia de dominios de Comando y Control (C2) embebidos en el binario.</li>
+                <li>Las consultas de red de los dominios maliciosos resuelven a un grupo de direcciones IP externas.</li>
+                <li>Los logs del firewall y proxy registran que múltiples hosts de la red interna están intentando establecer conexiones salientes a esas mismas direcciones IP externas.</li>
+                <li>El análisis de WHOIS e inteligencia de amenazas (OSINT) sobre las IP externas revela la identidad de los proveedores de red (ASN) y un posible origen geográfico del atacante.</li>
+            </ol>
+
+            <h3>4.2. Descomposición del Incidente en Eventos</h3>
+            <p>
+                Para lograr un entendimiento estructurado, el incidente se desglosa en 5 eventos técnicos correlacionados. Cada evento es analizado bajo metacaracterísticas de inteligencia de amenazas: Marca de Tiempo, Fase, Resultado, Dirección de la Actividad, Metodología Empleada y Recursos Involucrados.
+            </p>
+
+            <!-- WIDGET INTERACTIVO 2: Timeline Slider de Eventos -->
+            <div class="timeline-widget">
+                <div class="timeline-widget__header">
+                    <span class="timeline-widget__title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><circle cx="8" cy="9" r="2"/><circle cx="16" cy="15" r="2"/></svg>
+                        Línea de Tiempo del Incidente (DFIR Tracker)
+                    </span>
+                    <span class="timeline-widget__status" id="timelineStatusText">Mostrando: Evento 1 (T1)</span>
+                </div>
+
+                <!-- Barra de Navegación del Slider -->
+                <div class="timeline-nav">
+                    <div class="timeline-bar">
+                        <div class="timeline-bar__fill" id="timelineBarFill"></div>
+                    </div>
+                    <div class="timeline-steps">
+                        <button class="timeline-step-btn active" onclick="selectTimelineStep(1)">
+                            T1
+                            <span class="timeline-step-label">Detección</span>
+                        </button>
+                        <button class="timeline-step-btn" onclick="selectTimelineStep(2)">
+                            T2
+                            <span class="timeline-step-label">Dominios</span>
+                        </button>
+                        <button class="timeline-step-btn" onclick="selectTimelineStep(3)">
+                            T3
+                            <span class="timeline-step-label">Resolución</span>
+                        </button>
+                        <button class="timeline-step-btn" onclick="selectTimelineStep(4)">
+                            T4
+                            <span class="timeline-step-label">Propagación</span>
+                        </button>
+                        <button class="timeline-step-btn" onclick="selectTimelineStep(5)">
+                            T5
+                            <span class="timeline-step-label">Atribución</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cuerpo Dinámico del Evento -->
+                <div class="timeline-content-panel">
+                    
+                    <!-- Evento 1 -->
+                    <div class="timeline-event-card active" id="event-step-1">
+                        <h4><span>EVENTO 1</span> Detección de malware en equipo víctima</h4>
+                        <div class="event-meta-grid">
+                            <div class="event-meta-item">
+                                <strong>Marca de Tiempo</strong>
+                                <span>T1 - Primer momento de detección de comportamiento anómalo en el host.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Fase</strong>
+                                <span>Instalación / Persistencia inicial observada.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Resultado</strong>
+                                <span>Se confirma el compromiso del endpoint con malware activo.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Dirección</strong>
+                                <span>Adversario → Víctima (Perspectiva interna: Host comprometido → Consola EDR).</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Metodología</strong>
+                                <span>Análisis de procesos sospechosos, alertas de comportamiento y análisis de logs en agente EDR/Antivirus.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Recursos</strong>
+                                <span>Equipo víctima (Host 1), consola de seguridad, archivos binarios sospechosos y hashes.</span>
+                            </div>
+                        </div>
+                        <div class="event-interpretation">
+                            <h5>Interpretación bajo el Modelo Diamante</h5>
+                            <p>
+                                La víctima directa está claramente definida como el host comprometido. La capacidad se materializa en la presencia del malware detectado. La infraestructura en este punto es difusa (se intuye por conexiones de red sospechosas pero no se ha extraído), y el adversario permanece totalmente anónimo.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Evento 2 -->
+                    <div class="timeline-event-card" id="event-step-2">
+                        <h4><span>EVENTO 2</span> Identificación de dominios C2 dentro del malware</h4>
+                        <div class="event-meta-grid">
+                            <div class="event-meta-item">
+                                <strong>Marca de Tiempo</strong>
+                                <span>T2 - Posterior a la extracción y análisis estático del malware.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Fase</strong>
+                                <span>Comando y Control (C2).</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Resultado</strong>
+                                <span>Extracción de dominios DNS maliciosos embebidos en el binario.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Dirección</strong>
+                                <span>Malware (Host Víctima) → Dominios C2 externos.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Metodología</strong>
+                                <span>Análisis estático/dinámico en sandbox, desensamblado del malware, extracción de cadenas de texto (strings).</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Recursos</strong>
+                                <span>Muestra de malware, herramientas de ingeniería inversa, sandbox de análisis automatizado.</span>
+                            </div>
+                        </div>
+                        <div class="event-interpretation">
+                            <h5>Interpretación bajo el Modelo Diamante</h5>
+                            <p>
+                                La caracterización de la capacidad del adversario se refina, puesto que el malware ya no es solo una amenaza de ejecución local, sino que se confirma su funcionalidad de comunicación externa para recibir instrucciones. Los nombres de dominios identificados constituyen los primeros indicadores de la infraestructura del atacante.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Evento 3 -->
+                    <div class="timeline-event-card" id="event-step-3">
+                        <h4><span>EVENTO 3</span> Resolución de dominios C2 a direcciones IP externas</h4>
+                        <div class="event-meta-grid">
+                            <div class="event-meta-item">
+                                <strong>Marca de Tiempo</strong>
+                                <span>T3 - Investigación de infraestructura activa asociada a los indicadores.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Fase</strong>
+                                <span>Comando y Control / Reconocimiento de Infraestructura.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Resultado</strong>
+                                <span>Mapeo de dominios a direcciones IP externas activas en el tráfico.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Dirección</strong>
+                                <span>Red de la víctima → Consulta a servidores DNS públicos → IP del Atacante.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Metodología</strong>
+                                <span>Consultas DNS directas e históricas (Passive DNS) y enriquecimiento de IOCs en bases de datos OSINT.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Recursos</strong>
+                                <span>Dominios maliciosos, servidores DNS, logs de consultas de red e inteligencia de amenazas.</span>
+                            </div>
+                        </div>
+                        <div class="event-interpretation">
+                            <h5>Interpretación bajo el Modelo Diamante</h5>
+                            <p>
+                                La infraestructura del adversario deja de ser lógica o abstracta (nombres de dominios) y se vuelve física y accionable a través de direcciones IP externas. Estas IPs permiten configurar reglas de bloqueo perimetral en firewalls y sirven como firmas de detección inmediata.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Evento 4 -->
+                    <div class="timeline-event-card" id="event-step-4">
+                        <h4><span>EVENTO 4</span> Múltiples hosts conectándose a las IP externas</h4>
+                        <div class="event-meta-grid">
+                            <div class="event-meta-item">
+                                <strong>Marca de Tiempo</strong>
+                                <span>T4 - Auditoría y correlación de logs históricos en toda la red corporativa.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Fase</strong>
+                                <span>Comando y Control con sospecha de Movimiento Lateral interno.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Resultado</strong>
+                                <span>Identificación de múltiples sistemas internos adicionales intentando conectarse a las IP de C2.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Dirección</strong>
+                                <span>Múltiples hosts internos infectados → Direcciones IP de C2 externas.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Metodología</strong>
+                                <span>Búsqueda de IOCs en el SIEM corporativo, correlación de logs de firewall perimetral y proxies web.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Recursos</strong>
+                                <span>Logs del firewall, logs del proxy de navegación, base de datos del SIEM corporativo.</span>
+                            </div>
+                        </div>
+                        <div class="event-interpretation">
+                            <h5>Interpretación bajo el Modelo Diamante</h5>
+                            <p>
+                                El alcance de la víctima se expande radicalmente: ya no es un incidente de un solo host comprometido, sino un ataque a gran escala en la organización. La infraestructura del adversario está siendo consultada por múltiples nodos internos, lo que sugiere una fase de propagación interna o movimiento lateral previo que explotó la capacidad.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Evento 5 -->
+                    <div class="timeline-event-card" id="event-step-5">
+                        <h4><span>EVENTO 5</span> WHOIS/IP revela posible origen del atacante</h4>
+                        <div class="event-meta-grid">
+                            <div class="event-meta-item">
+                                <strong>Marca de Tiempo</strong>
+                                <span>T5 - Análisis profundo de inteligencia y enriquecimiento de infraestructura externa.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Fase</strong>
+                                <span>Atribución técnica preliminar.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Resultado</strong>
+                                <span>Geolocalización aproximada, proveedor de red (ASN) e historial de registro de la infraestructura.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Dirección</strong>
+                                <span>Analista de seguridad → Bases de datos WHOIS/RIPE externas.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Metodología</strong>
+                                <span>Búsqueda en registros WHOIS de dominios, análisis de geolocalización IP y correlación con perfiles de actores conocidos.</span>
+                            </div>
+                            <div class="event-meta-item">
+                                <strong>Recursos</strong>
+                                <span>Servicio WHOIS, bases de datos ASN, registros históricos de DNS (Passive DNS) e inteligencia global de amenazas.</span>
+                            </div>
+                        </div>
+                        <div class="event-interpretation">
+                            <h5>Interpretación bajo el Modelo Diamante</h5>
+                            <p>
+                                Este evento completa la conexión entre la infraestructura y el adversario. Proporciona pistas sobre el proveedor de hosting que aloja el C2 y el país de procedencia de las conexiones IP. Sin embargo, no permite una atribución absoluta del adversario, dado que este pudo haber comprometido servidores legítimos o empleado redes privadas virtuales (VPN) y proxies de retransmisión para ocultar su procedencia real.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Ficha Técnica Impresa de la Línea de Tiempo (Secuencial sin interactividad) -->
+            <div class="print-only-section">
+                <h3>Descomposición Técnica Secuencial del Incidente (T1 - T5)</h3>
+
+                <!-- Evento 1 Impreso -->
+                <div class="print-event-block">
+                    <h4><span>Evento 1 (T1): Detección de malware en equipo víctima</span> <span>Fase: Instalación / Persistencia</span></h4>
+                    <table class="print-event-table">
+                        <tr><td>Resultado</td><td>Se confirma la presencia de malware activo en el equipo del administrador (compromiso de host).</td></tr>
+                        <tr><td>Dirección</td><td>Adversario → Víctima.</td></tr>
+                        <tr><td>Metodología</td><td>Análisis de alertas automáticas de procesos sospechosos e indicadores en EDR/Antivirus.</td></tr>
+                        <tr><td>Recursos</td><td>Equipo víctima primaria (Host 1), agente EDR, hash de archivo malicioso.</td></tr>
+                        <tr><td>Interpretación Diamante</td><td>La víctima es el Host 1; la capacidad es el malware; la infraestructura y el adversario permanecen indeterminados.</td></tr>
+                    </table>
+                </div>
+
+                <!-- Evento 2 Impreso -->
+                <div class="print-event-block">
+                    <h4><span>Evento 2 (T2): Identificación de dominios C2 dentro del malware</span> <span>Fase: Comando y Control</span></h4>
+                    <table class="print-event-table">
+                        <tr><td>Resultado</td><td>Extracción de nombres de dominio maliciosos codificados en el binario del malware.</td></tr>
+                        <tr><td>Dirección</td><td>Malware en host víctima → Servidores de nombres del C2 del atacante.</td></tr>
+                        <tr><td>Metodología</td><td>Análisis estático y dinámico del binario malicioso en entorno controlado (sandbox).</td></tr>
+                        <tr><td>Recursos</td><td>Muestra de malware aislado, entorno de sandbox, extractores de strings.</td></tr>
+                        <tr><td>Interpretación Diamante</td><td>La capacidad se define como malware con enlace externo. Los dominios C2 representan la infraestructura lógica del adversario.</td></tr>
+                    </table>
+                </div>
+
+                <!-- Evento 3 Impreso -->
+                <div class="print-event-block">
+                    <h4><span>Evento 3 (T3): Resolución de dominios C2 a direcciones IP externas</span> <span>Fase: Comando y Control / Infraestructura</span></h4>
+                    <table class="print-event-table">
+                        <tr><td>Resultado</td><td>Los dominios del malware resuelven a direcciones IP externas activas utilizadas por el atacante.</td></tr>
+                        <tr><td>Dirección</td><td>Red interna corporativa → Servidores DNS públicos e IP externas C2.</td></tr>
+                        <tr><td>Metodología</td><td>Resolución DNS activa, análisis de reputación de IP corporativas y consultas históricas DNS.</td></tr>
+                        <tr><td>Recursos</td><td>Nombres de dominios, direcciones IP externas, registros históricos DNS.</td></tr>
+                        <tr><td>Interpretación Diamante</td><td>La infraestructura maliciosa se vuelve física y accionable, mapeando IPs que pueden ser bloqueadas en los firewalls perimetrales.</td></tr>
+                    </table>
+                </div>
+
+                <!-- Evento 4 Impreso -->
+                <div class="print-event-block">
+                    <h4><span>Evento 4 (T4): Múltiples hosts conectándose a las IP externas</span> <span>Fase: Comando y Control / Movimiento Lateral</span></h4>
+                    <table class="print-event-table">
+                        <tr><td>Resultado</td><td>Se descubre que varios equipos internos intentan conectarse a los mismos servidores C2.</td></tr>
+                        <tr><td>Dirección</td><td>Múltiples hosts internos infectados → Direcciones IP de C2 externas.</td></tr>
+                        <tr><td>Metodología</td><td>Búsqueda masiva de IOCs en el SIEM corporativo mediante correlación de logs de firewall y proxy.</td></tr>
+                        <tr><td>Recursos</td><td>Logs de firewall interno, proxy de navegación, base de datos de logs SIEM.</td></tr>
+                        <tr><td>Interpretación Diamante</td><td>La víctima se extiende de un host individual a toda la red empresarial, evidenciando una campaña activa de propagación interna.</td></tr>
+                    </table>
+                </div>
+
+                <!-- Evento 5 Impreso -->
+                <div class="print-event-block">
+                    <h4><span>Evento 5 (T5): WHOIS/IP revela posible origen del atacante</span> <span>Fase: Atribución técnica preliminar</span></h4>
+                    <table class="print-event-table">
+                        <tr><td>Resultado</td><td>Obtención de geolocalización aproximada, proveedor ASN e información de registro del C2.</td></tr>
+                        <tr><td>Dirección</td><td>Analista forense → Servicios de registro WHOIS globales y bases de reputación.</td></tr>
+                        <tr><td>Metodología</td><td>Consultas WHOIS, auditoría de rangos IP, cruce de información con inteligencia de amenazas OSINT.</td></tr>
+                        <tr><td>Recursos</td><td>Bases de datos de WHOIS y ASN, informes de inteligencia de ciberamenazas.</td></tr>
+                        <tr><td>Interpretación Diamante</td><td>Se establece un enlace preliminar entre la infraestructura física y el adversario (geolocalización y proveedor), aunque no constituye atribución concluyente debido al uso de servidores proxy y de alquiler.</td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <h2>5. Identificación de Elementos en el Escenario</h2>
+            <p>
+                A partir de la descomposición anterior, respondemos técnicamente a las preguntas críticas del escenario de intrusión:
+            </p>
+            
+            <h3>5.1. ¿Quién es el adversario en este escenario?</h3>
+            <p>
+                El adversario es un <strong>actor externo o grupo organizado</strong> que opera la campaña de intrusión, controla la infraestructura de Comando y Control (C2) y emplea malware para comprometer los activos de la organización. Aunque la consulta WHOIS en T5 ubica geográficamente e identifica el proveedor ASN de las IP del C2, no es posible atribuir con certeza la identidad de un país o grupo específico (como un grupo APT concreto) debido a que los atacantes suelen emplear proxies, VPNs, servidores legítimos vulnerados o registrar dominios con datos falsificados para inducir a errores de atribución.
+            </p>
+
+            <h3>5.2. ¿Cuál es la capacidad utilizada?</h3>
+            <p>
+                La capacidad desplegada por el adversario incluye:
+            </p>
             <ul>
-                <li><strong>Evento 1:</strong> Detección de malware inicial en el equipo víctima (Capacidad instalada).</li>
-                <li><strong>Evento 2:</strong> Identificación de los dominios de Comando y Control (C2) dentro de la muestra maliciosa.</li>
-                <li><strong>Evento 3:</strong> Resolución DNS de los dominios C2 a direcciones IP externas (Infraestructura).</li>
-                <li><strong>Evento 4:</strong> Identificación de múltiples hosts internos comunicándose con la infraestructura del atacante.</li>
-                <li><strong>Evento 5:</strong> Correlación WHOIS/IP para trazar el posible origen geográfico o ASN del Adversario.</li>
+                <li><strong>Vector Inicial:</strong> Un correo de phishing dirigido que simula ser de una fuente legítima para engañar a un administrador.</li>
+                <li><strong>Binario Malicioso (Malware):</strong> Un ejecutable programado para evadir los controles locales, lograr persistencia en el endpoint, extraer credenciales y establecer canales de comunicación HTTP/HTTPS o TCP personalizados hacia internet.</li>
+                <li><strong>Capacidad de Pivote (Pivoting):</strong> Reconfigurar el host comprometido para actuar como un servidor proxy intermedio que permite redirigir tráfico malicioso hacia zonas internas protegidas de la red corporativa.</li>
             </ul>
 
-            <h2>3. Relación con Cyber Kill Chain</h2>
+            <h3>5.3. ¿Qué tipo de infraestructura se emplea?</h3>
             <p>
-                Al integrar el Modelo Diamante con la Cyber Kill Chain, cada fase de la cadena (Reconocimiento, Armamento, Entrega, Explotación, Instalación, C2, Acciones en Objetivos) se convierte en un evento analizable bajo los cuatro vértices del diamante, permitiendo una inteligencia de amenazas más rica.
+                La infraestructura empleada se compone de:
+            </p>
+            <ul>
+                <li><strong>Dominios C2 y Servidores DNS:</strong> Direcciones lógicas empleadas por el malware para resolver la dirección del servidor de control remoto del atacante.</li>
+                <li><strong>Direcciones IP Externas:</strong> Servidores web y de base de datos controlados por el atacante que escuchan y procesan las peticiones de los hosts comprometidos.</li>
+                <li><strong>Infraestructura Operativa Interna (Pivote):</strong> El propio host de la Víctima 1 (administrador), el cual, al ser comprometido, es convertido por el atacante en parte de su red operativa interna para lanzar ataques laterales contra otros servidores de la organización.</li>
+            </ul>
+
+            <h3>5.4. ¿Quién es la víctima primaria?</h3>
+            <p>
+                La <strong>víctima primaria es el host y la cuenta del administrador</strong> que recibió el correo de phishing y ejecutó el archivo malicioso inicial. A nivel institucional, la víctima final es la organización y su red corporativa global, cuyo control de seguridad se vio superado al permitir el establecimiento de canales C2 salientes.
             </p>
 
-            <h2>4. Conclusión</h2>
-            <div class="reflection">
-                <p>
-                    Perfilar a los atacantes más allá de los IoCs (Indicadores de Compromiso) aislados, entendiendo sus tácticas y la infraestructura que controlan, es vital para una estrategia de ciberdefensa madura y un Threat Hunting efectivo.
-                </p>
+            <h3>5.5. ¿Existe evidencia de movimiento lateral?</h3>
+            <p>
+                <strong>Sí, existe evidencia sólida de movimiento lateral.</strong> Técnicamente, el Evento 4 (T4) documenta que múltiples hosts internos están intentando conectarse a las mismas direcciones IP externas del C2, lo que indica que el malware se ha propagado de manera interna o el atacante ha utilizado el host de la víctima primaria (administrador) como un <strong>proxy de pivoteo</strong> para escanear y comprometer otros equipos internos, retransmitiendo el tráfico a través del primer equipo comprometido.
+            </p>
+
+            <h2>6. Parte 03. Relación con la Cyber Kill Chain</h2>
+            <p>
+                La integración del Modelo Diamante con la Cyber Kill Chain de Lockheed Martin permite estructurar temporalmente el ciberataque, asignando cada evento detectado a la etapa técnica correspondiente de la cadena de intrusión. Esto ayuda a comprender en qué punto el atacante ha logrado sortear las defensas y dónde es prioritario romper el flujo de su actividad.
+            </p>
+
+            <!-- Tabla 2: Relación de eventos del escenario con fases de la Cyber Kill Chain -->
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Evento Técnico</th>
+                        <th style="width: 25%;">Fase de la Cyber Kill Chain</th>
+                        <th style="width: 50%;">Justificación del Mapeo Técnico</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-family: var(--mono); font-weight: bold;">Envío del correo a la bandeja de entrada</td>
+                        <td style="font-family: var(--mono); color: var(--cyber-yellow);">Entrega (Delivery)</td>
+                        <td>Representa la transmisión del vector de ataque (correo de phishing dirigido) desde la infraestructura externa del atacante hacia la bandeja de correo del administrador objetivo.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: var(--mono); font-weight: bold;">Ejecución del archivo por el usuario</td>
+                        <td style="font-family: var(--mono); color: var(--cyber-purple);">Explotación (Exploitation)</td>
+                        <td>La acción del usuario de hacer doble clic o ejecutar el adjunto activa el código malicioso, el cual aprovecha permisos locales o vulnerabilidades del sistema operativo para iniciar su ejecución.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: var(--mono); font-weight: bold;">Detección del malware activo en T1</td>
+                        <td style="font-family: var(--mono); color: var(--cyber-red);">Instalación (Installation)</td>
+                        <td>El malware ha completado su copia en los directorios del sistema, ha creado claves de registro para persistencia y se encuentra en ejecución activa dentro de los procesos de memoria del host.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: var(--mono); font-weight: bold;">Conexión a IP externas y dominios C2</td>
+                        <td style="font-family: var(--mono); color: var(--cyber-green);">Comando y Control (C2)</td>
+                        <td>El malware utiliza los dominios embebidos para resolver IP externas a través del DNS corporativo y abre sockets TCP salientes para recibir comandos del panel del atacante.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: var(--mono); font-weight: bold;">Múltiples hosts comprometidos y pivoteo</td>
+                        <td style="font-family: var(--mono); color: var(--cyber-cyan);">Acciones sobre Objetivos</td>
+                        <td>El adversario utiliza los accesos obtenidos para propagar malware internamente, recolectar credenciales y usar el host del administrador como proxy de salto para penetrar bases de datos u otros servidores internos.</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>
+                <strong>Análisis de la Progresión del Ataque:</strong>
+                Este mapeo secuencial demuestra que una alerta de malware en un endpoint no debe interpretarse como un hecho aislado. El ataque es una progresión continua. Si el equipo de seguridad interviene únicamente eliminando el archivo detectado en la fase de <i>Instalación</i>, sin identificar y bloquear las direcciones IP en la fase de <i>Comando y Control</i>, el atacante mantendrá abiertas sus vías de acceso en otros hosts de la red comprometidos en la etapa de <i>Acciones sobre Objetivos</i>.
+            </p>
+
+            <h2>7. Parte 04. Hilos de Actividad</h2>
+            
+            <h3>7.1. Escenario Tipo APT</h3>
+            <p>
+                Un <strong>hilo de actividad</strong> es el conjunto de eventos de intrusión (diamantes) conectados en una secuencia temporal y causal que describen una campaña de ataque. En un escenario de persistencia avanzada (APT), la actividad del atacante no se limita a un único canal. Se modela el incidente mediante dos hilos entrelazados a través de un proceso de pivote técnico:
+            </p>
+            <ol>
+                <li><strong>Phishing dirigido:</strong> El adversario envía un correo diseñado específicamente para el administrador de sistemas (Víctima 1).</li>
+                <li><strong>Ejecución e Instalación:</strong> El administrador ejecuta el payload, comprometiendo su endpoint corporativo.</li>
+                <li><strong>Establecimiento de C2:</strong> El malware en el equipo del administrador establece comunicación con las IP externas del C2.</li>
+                <li><strong>Configuración del Proxy:</strong> El adversario instala una capacidad de proxy inverso en el equipo del administrador, convirtiéndolo en parte de su infraestructura de red operativa.</li>
+                <li><strong>Movimiento Lateral / Pivoteo:</strong> Desde el proxy del administrador (Víctima 1), el atacante lanza escaneos e inicia un exploit contra un servidor de base de datos interno (Víctima 2) que carece de salida directa a internet.</li>
+            </ol>
+
+            <!-- DIAGRAMA VISUAL DE HILOS DE ACTIVIDAD Y PIVOTING -->
+            <div class="threads-container">
+                <h4 style="margin-top: 0; font-family: var(--mono); font-size: 0.9rem; color: var(--cyber-yellow); text-transform: uppercase;">
+                    Modelado de Hilos de Actividad (Pivoting Avanzado)
+                </h4>
+                <div class="flow-diagram">
+                    <!-- Nodo Inicial del Adversario -->
+                    <div style="display: flex; justify-content: center;">
+                        <div class="flow-node flow-node--adv">
+                            [ADV] Adversario
+                            <span>Campaña APT Externa</span>
+                        </div>
+                    </div>
+
+                    <div class="pivot-link" style="margin: 2px 0;">Envía Phishing Dirigido</div>
+
+                    <!-- Grupo de Hilo 1 -->
+                    <div class="flow-group flow-group--hilo1">
+                        <div class="flow-nodes">
+                            <div class="flow-node flow-node--v1">
+                                [VÍCTIMA 1] Admin Host
+                                <span>Ejecuta adjunto malicioso</span>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node">
+                                [CAPACIDAD] Malware C2
+                                <span>Persistencia e Infección</span>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node">
+                                [INFRA] Dominios / IP C2
+                                <span>Conexión saliente establecida</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conexión de Pivoteo -->
+                    <div class="pivot-link">
+                        Pivoting Técnico
+                        <span style="font-size: 0.65rem; color: var(--muted); font-family: var(--sans); font-weight: normal; margin-top: 2px;">
+                            Host 1 reconfigurado como Proxy Interno
+                        </span>
+                    </div>
+
+                    <!-- Grupo de Hilo 2 -->
+                    <div class="flow-group flow-group--hilo2">
+                        <div class="flow-nodes">
+                            <div class="flow-node flow-node--v1">
+                                [INFRA INTERNA] Proxy Host 1
+                                <span>Retransmite tráfico malicioso</span>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node">
+                                [NUEVA CAP] Exploit Interno
+                                <span>Escaneo de puertos / SMB</span>
+                            </div>
+                            <div class="flow-arrow">→</div>
+                            <div class="flow-node flow-node--v2">
+                                [VÍCTIMA 2] Servidor de BD
+                                <span>Red aislada comprometida</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
+            <h3>7.2. Descripción de los Hilos y Pivoting</h3>
+            <p>
+                <strong>Hilo 1 - Víctima 1 (Administrador):</strong>
+                Este hilo modela el acceso inicial. El adversario, utilizando su capacidad (phishing de correo) y apoyado en infraestructura externa (servidores de correo phishing), compromete a la Víctima 1 (administrador). Tras la ejecución, se establece un canal C2 continuo entre el host infectado y las IP del C2. En este punto, el host es la víctima del ataque.
+            </p>
+            <p>
+                <strong>Hilo 2 - Víctima 2 (Servidor de Base de Datos):</strong>
+                Este hilo modela el movimiento lateral y la exfiltración. El adversario aprovecha el acceso obtenido en el Hilo 1 y reconfigura el host comprometido de la Víctima 1 para que sirva de <strong>proxy</strong>. Así, el host del administrador cambia de rol bajo el Modelo Diamante: <i>deja de ser exclusivamente una Víctima y pasa a formar parte de la Infraestructura Operativa del atacante</i>. A través de este proxy, el atacante despliega nuevas capacidades (ej. escaneo de red local con herramientas nativas o exploits de MS-SQL/SMB) contra la Víctima 2 (servidor de base de datos) que se encuentra en un segmento interno aislado.
+            </p>
+            <p>
+                <strong>La Relación Crítica de Pivoteo (Pivoting):</strong>
+                El pivoting demuestra la continuidad operacional del atacante. El análisis diamante revela que las defensas tradicionales que solo monitorean el tráfico perimetral (internet a intranet) no detectarán el tráfico del Hilo 2, puesto que este ocurre de manera interna entre el host del administrador y el servidor de base de datos. Por lo tanto, aislar y limpiar el host del administrador es una medida incompleta si no se investiga a qué otros sistemas internos se conectó el host mientras estuvo bajo el control del proxy del atacante.
+            </p>
+
+            <h2>8. Síntesis del Análisis Diamante</h2>
+            <p>
+                Para resumir los hallazgos del escenario de intrusión combinando el análisis de eventos y los hilos de actividad de red, se estructuran los componentes del Modelo Diamante en la siguiente tabla de síntesis:
+            </p>
+
+            <!-- Tabla 3: Síntesis del análisis diamante -->
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Vértice del Diamante</th>
+                        <th style="width: 75%;">Aplicación Concreta al Incidente Corporativo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="font-family: var(--mono); color: var(--cyber-red); font-weight: bold;">Adversario</td>
+                        <td>Grupo cibercriminal externo u operador APT con capacidades avanzadas. La investigación de WHOIS en T5 geolocaliza la infraestructura, pero la identidad directa del adversario permanece oculta bajo técnicas de anonimato y falsas banderas.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: var(--mono); color: var(--cyber-purple); font-weight: bold;">Capacidad</td>
+                        <td>Phishing dirigido contra personal de administración, binario de malware ejecutable evasivo, mecanismos de persistencia en registro de Windows, sockets TCP para comunicación C2 y scripts de reconfiguración de proxy.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: var(--mono); color: var(--cyber-yellow); font-weight: bold;">Infraestructura</td>
+                        <td>Nombres de dominios dinámicos maliciosos incrustados en el binario, servidores DNS externos que resuelven las peticiones, direcciones IP públicas que alojan los paneles de control y el host del administrador utilizado como proxy local.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: var(--mono); color: var(--cyber-cyan); font-weight: bold;">Víctima</td>
+                        <td><strong>Primaria:</strong> El administrador de red de la organización y su equipo de cómputo corporativo infectado.<br><strong>Secundaria:</strong> Servidor de base de datos corporativo aislado, alcanzado y comprometido mediante movimiento lateral.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-family: var(--mono); font-weight: bold;">Relación Crítica (Ejes)</td>
+                        <td>El host de la primera víctima se transforma en infraestructura del atacante mediante una conexión de pivote técnico, lo que evidencia que la actividad maliciosa se extendió lateralmente por la red corporativa.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>9. Recomendaciones de Respuesta y Contención</h2>
+            <p>
+                Con base en el análisis estructurado bajo el Modelo Diamante y la Cyber Kill Chain, el equipo de respuesta a incidentes de la organización debe desplegar las siguientes contramedidas técnicas de manera inmediata:
+            </p>
+            <ol>
+                <li><strong>Aislamiento de Red Inmediato:</strong> Aislar físicamente o mediante VLAN de cuarentena todos los endpoints identificados en el Evento 4 (T4) y al host de la víctima primaria (T1) para interrumpir las conexiones de Comando y Control (C2) activas.</li>
+                <li><strong>Bloqueo Perimetral de IOCs:</strong> Implementar reglas de denegación (Drop) en el firewall perimetral, proxy de navegación y servidores DNS corporativos para todas las direcciones IP externas y nombres de dominios maliciosos identificados en T2 y T3.</li>
+                <li><strong>Cacería de Amenazas (Threat Hunting):</strong> Realizar un barrido de seguridad en todos los hosts corporativos de la red para buscar persistencia o procesos activos relacionados con el hash del malware extraído en el Evento 1.</li>
+                <li><strong>Auditoría de Cuentas y Rotación de Credenciales:</strong> Revocar todas las sesiones activas y forzar el cambio de credenciales de la cuenta del administrador afectado (Víctima 1) y de cualquier servicio expuesto en el servidor de base de datos (Víctima 2).</li>
+                <li><strong>Análisis Forense de Conexiones Internas:</strong> Analizar los logs de red interna (NetFlow) y autenticaciones recientes (Kerberos / NTML) desde el equipo de la Víctima 1 hacia la red corporativa para trazar el alcance del proxy malicioso y detectar otros servidores alcanzados.</li>
+                <li><strong>Inspección de Persistencia:</strong> Escanear tareas programadas, servicios del sistema y claves de registro en busca de mecanismos que permitan al malware reejecutarse tras el reinicio del sistema.</li>
+                <li><strong>Preservación de Evidencias Digitales:</strong> Tomar imágenes forenses de memoria RAM y clonar los discos duros de los equipos comprometidos antes de proceder con el borrado o reinstalación del sistema operativo, garantizando la cadena de custodia.</li>
+                <li><strong>Fortalecimiento Tecnológico en Correo:</strong> Mejorar los filtros de seguridad del servidor de correo institucional implementando políticas DMARC, SPF, y DKIM estrictas, además de desplegar autenticación multifactor (MFA) obligatoria para todas las cuentas con privilegios administrativos.</li>
+            </ol>
+
+            <h2>10. Conclusión</h2>
+            <p>
+                El Modelo Diamante permitió estructurar el incidente de forma mucho más precisa que una simple lista de alertas. La detección del malware, la presencia de dominios C2, la resolución hacia IP externas y la conexión de múltiples hosts forman una secuencia coherente de intrusión.
+            </p>
+            <p>
+                El análisis muestra que el adversario utilizó capacidades técnicas avanzadas como phishing dirigido, ejecución de malware y comunicación C2, apoyándose en infraestructura externa y, posteriormente, en un host comprometido como recurso de pivote. La relación con la Cyber Kill Chain confirma una progresión desde la entrega inicial del ataque hasta el establecimiento de comando y control y la posterior expansión hacia una segunda víctima.
+            </p>
+            <p>
+                Por ello, la respuesta no debe limitarse a eliminar el malware del primer equipo. Es necesario investigar la infraestructura, buscar indicadores en toda la red, revisar cuentas privilegiadas y comprobar si existió movimiento lateral. En conclusión, el escenario corresponde a una intrusión con comportamiento compatible con una campaña dirigida o APT básica, donde la correcta correlación de eventos permite comprender el comportamiento del adversario y priorizar acciones de contención, erradicación y monitoreo.
+            </p>
+
+            <h2>Referencias</h2>
+            <ul class="references" style="font-size: 0.9rem; line-height: 1.5; color: var(--muted); padding-left: 20px;">
+                <li>Caltagirone, S., Pendergast, A., & Betz, C. (2013). <i>The Diamond Model of Intrusion Analysis</i>. Center for Cyber Intelligence Analysis and Threat Research.</li>
+                <li>Hutchins, E. M., Cloppert, M. J., & Amin, R. M. (2011). <i>Intelligence-Driven Computer Network Defense Informed by Analysis of Adversary Campaigns and Intrusion Kill Chains</i>. Lockheed Martin Corporation.</li>
+                <li>MITRE. (s. f.). <i>ATT&CK: Enterprise Matrix</i>. MITRE Corporation.</li>
+            </ul>
 
         </section>
     </main>
 
-    <a href="act18-Equipo5.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
-        rel="noopener">
+    <!-- Botón flotante para descargar PDF -->
+    <a href="act18-Equipo5.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank" rel="noopener">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -77,6 +1697,119 @@
         </svg>
     </a>
 
+    <script>
+        // --- Widget 1: Lógica del Modelo Diamante ---
+        function selectDiamondNode(nodeId) {
+            // Quitar clase active de todos los nodos y etiquetas del SVG
+            const nodes = ['adversario', 'capacidad', 'infraestructura', 'victima'];
+            nodes.forEach(id => {
+                const nodeCircle = document.getElementById(`node-${id}`);
+                const nodeLabel = document.getElementById(`label-${id}`);
+                const infoCard = document.getElementById(`card-${id}`);
+                
+                if (nodeCircle) nodeCircle.classList.remove('active');
+                if (nodeLabel) nodeLabel.classList.remove('active');
+                if (infoCard) infoCard.classList.remove('active');
+            });
+
+            // Resaltar el nodo y la etiqueta seleccionados
+            const activeCircle = document.getElementById(`node-${nodeId}`);
+            const activeLabel = document.getElementById(`label-${nodeId}`);
+            const activeCard = document.getElementById(`card-${nodeId}`);
+
+            if (activeCircle) activeCircle.classList.add('active');
+            if (activeLabel) activeLabel.classList.add('active');
+            if (activeCard) activeCard.classList.add('active');
+
+            // Actualizar color de bordes conectados al nodo seleccionado (opcional / decorativo)
+            updateDiamondEdgeHighlight(nodeId);
+        }
+
+        function updateDiamondEdgeHighlight(nodeId) {
+            // Restablecer todas las líneas a color base
+            const edges = ['edge-adv-cap', 'edge-cap-vic', 'edge-vic-inf', 'edge-inf-adv'];
+            edges.forEach(edgeId => {
+                const edge = document.getElementById(edgeId);
+                if (edge) {
+                    edge.style.stroke = '#2c2c30';
+                    edge.classList.remove('active-edge');
+                }
+            });
+
+            // Colorear las líneas conectadas al nodo activo
+            let edgesToHighlight = [];
+            let color = '#2c2c30';
+            if (nodeId === 'adversario') {
+                edgesToHighlight = ['edge-adv-cap', 'edge-inf-adv'];
+                color = 'var(--cyber-red)';
+            } else if (nodeId === 'capacidad') {
+                edgesToHighlight = ['edge-adv-cap', 'edge-cap-vic'];
+                color = 'var(--cyber-purple)';
+            } else if (nodeId === 'victima') {
+                edgesToHighlight = ['edge-cap-vic', 'edge-vic-inf'];
+                color = 'var(--cyber-cyan)';
+            } else if (nodeId === 'infraestructura') {
+                edgesToHighlight = ['edge-vic-inf', 'edge-inf-adv'];
+                color = 'var(--cyber-yellow)';
+            }
+
+            edgesToHighlight.forEach(edgeId => {
+                const edge = document.getElementById(edgeId);
+                if (edge) {
+                    edge.style.stroke = color;
+                    edge.classList.add('active-edge');
+                }
+            });
+        }
+
+
+        // --- Widget 2: Lógica de la Línea de Tiempo ---
+        function selectTimelineStep(stepNum) {
+            // Quitar clase active de todos los botones y de las tarjetas de evento
+            const steps = [1, 2, 3, 4, 5];
+            const buttons = document.querySelectorAll('.timeline-step-btn');
+            
+            buttons.forEach((btn, index) => {
+                if (index + 1 === stepNum) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            steps.forEach(num => {
+                const eventCard = document.getElementById(`event-step-${num}`);
+                if (eventCard) eventCard.classList.remove('active');
+            });
+
+            // Resaltar la tarjeta correspondiente
+            const activeCard = document.getElementById(`event-step-${stepNum}`);
+            if (activeCard) activeCard.classList.add('active');
+
+            // Actualizar la barra de progreso del timeline
+            const fillPercent = ((stepNum - 1) / 4) * 100;
+            document.getElementById('timelineBarFill').style.width = `${fillPercent}%`;
+
+            // Actualizar cabecera de estado
+            const titles = [
+                "Detección de malware en equipo víctima (T1)",
+                "Identificación de dominios C2 dentro del malware (T2)",
+                "Resolución de dominios C2 a direcciones IP (T3)",
+                "Múltiples hosts conectándose a las IP externas (T4)",
+                "WHOIS/IP revela posible origen del atacante (T5)"
+            ];
+            document.getElementById('timelineStatusText').textContent = `Mostrando: ${titles[stepNum - 1]}`;
+        }
+
+
+
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Inicializar los widgets en sus primeros estados
+            selectDiamondNode('adversario');
+            selectTimelineStep(1);
+        });
+    </script>
 </body>
 
 </html>

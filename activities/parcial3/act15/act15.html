@@ -4,8 +4,491 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AC15 - Campaña de Phishing con SET</title>
+    <title>AC15 - Campaña de Phishing con SET | Seguridad Informática</title>
     <link rel="stylesheet" href="../../../assets/styles.css">
+    <style>
+        /* Estilos personalizados para AC15 */
+        :root {
+            --terminal-green: #33ff33;
+            --terminal-bg: #09090b;
+            --terminal-border: #27272a;
+            --danger-glow: rgba(239, 68, 68, 0.4);
+            --danger-border: #ef4444;
+            --warning-border: #f59e0b;
+            --info-border: #3b82f6;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--stroke);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        /* --- Terminal de SET --- */
+        .terminal {
+            background-color: var(--terminal-bg);
+            border: 1px solid var(--terminal-border);
+            border-radius: 6px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin: 30px 0;
+            overflow: hidden;
+            font-family: var(--mono);
+        }
+
+        .terminal__header {
+            background-color: #18181b;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--terminal-border);
+        }
+
+        .terminal__dots {
+            display: flex;
+            gap: 6px;
+            margin-right: 15px;
+        }
+
+        .terminal__dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal__dot--red { background-color: #ef4444; }
+        .terminal__dot--yellow { background-color: #eab308; }
+        .terminal__dot--green { background-color: #22c55e; }
+
+        .terminal__title {
+            color: #a1a1aa;
+            font-size: 0.8rem;
+            flex-grow: 1;
+            text-align: center;
+            margin-right: 50px;
+        }
+
+        .terminal__body {
+            padding: 20px;
+            min-height: 280px;
+            max-height: 400px;
+            overflow-y: auto;
+            color: #e4e4e7;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .terminal__prompt {
+            color: var(--terminal-green);
+        }
+
+        .terminal__input {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .terminal__controls {
+            background-color: #18181b;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--terminal-border);
+        }
+
+        .terminal__btn {
+            background-color: #27272a;
+            color: #fff;
+            border: 1px solid var(--terminal-border);
+            padding: 6px 12px;
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .terminal__btn:hover:not(:disabled) {
+            background-color: #3f3f46;
+            border-color: #52525b;
+        }
+
+        .terminal__btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .terminal__step-indicator {
+            color: #71717a;
+            font-size: 0.8rem;
+        }
+
+        /* --- Inspector de Correos de Phishing --- */
+        .inspector {
+            border: 1px solid var(--stroke);
+            background: var(--card);
+            border-radius: 6px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .inspector__tabs {
+            display: flex;
+            background: #0d0d0f;
+            border-bottom: 1px solid var(--stroke);
+        }
+
+        .inspector__tab {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            padding: 12px 15px;
+            font-family: var(--mono);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            border-right: 1px solid var(--stroke);
+        }
+
+        .inspector__tab:last-child {
+            border-right: none;
+        }
+
+        .inspector__tab:hover {
+            color: var(--text);
+            background: rgba(255,255,255,0.01);
+        }
+
+        .inspector__tab.active {
+            color: var(--accent);
+            background: var(--card);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .inspector__layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+        }
+
+        .inspector__email-container {
+            padding: 25px;
+            border-right: 1px solid var(--stroke);
+            background: #020202;
+        }
+
+        .email-headers {
+            border-bottom: 1px solid var(--stroke);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .email-headers div {
+            margin-bottom: 4px;
+        }
+
+        .email-headers strong {
+            color: var(--muted);
+            font-family: var(--mono);
+            display: inline-block;
+            width: 70px;
+        }
+
+        .email-body {
+            font-family: var(--sans);
+            font-size: 0.95rem;
+            color: #d4d4d8;
+            line-height: 1.6;
+        }
+
+        /* Áreas interactivas de phishing */
+        .phish-spot {
+            background: rgba(239, 68, 68, 0.15);
+            border-bottom: 2px dotted var(--danger-border);
+            padding: 2px 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .phish-spot:hover, .phish-spot.active {
+            background: rgba(239, 68, 68, 0.35);
+            border-bottom-style: solid;
+            box-shadow: 0 0 8px var(--danger-glow);
+        }
+
+        .phish-spot::after {
+            content: "🔍";
+            font-size: 0.7rem;
+            margin-left: 4px;
+            opacity: 0.6;
+        }
+
+        .email-body p {
+            margin-bottom: 16px;
+            color: #d4d4d8 !important; /* Overwrite general style to keep dark readable */
+        }
+
+        .email-btn-link {
+            display: inline-block;
+            background: #27272a;
+            color: #fff;
+            border: 1px solid #3f3f46;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-align: center;
+            margin: 15px 0;
+            font-family: var(--sans);
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+
+        .inspector__analysis-panel {
+            padding: 25px;
+            background: rgba(255,255,255,0.01);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .analysis-card {
+            border: 1px solid var(--stroke);
+            background: rgba(0,0,0,0.4);
+            padding: 20px;
+            border-radius: 4px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .analysis-card__header {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .analysis-card__badge {
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .analysis-card__badge--high {
+            background-color: rgba(239, 68, 68, 0.2);
+            border: 1px solid var(--danger-border);
+            color: #f87171;
+        }
+
+        .analysis-card__content p {
+            font-size: 0.9rem;
+            color: #a1a1aa;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .analysis-card__placeholder {
+            text-align: center;
+            color: var(--muted);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        /* --- Tablas estructuradas --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9rem;
+        }
+
+        th {
+            font-family: var(--mono);
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--stroke);
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: normal;
+            color: var(--muted);
+        }
+
+        td {
+            border: 1px solid var(--stroke);
+            padding: 10px 12px;
+            vertical-align: top;
+            color: #ccc;
+        }
+
+        tr:nth-child(even) td {
+            background-color: rgba(255, 255, 255, 0.01);
+        }
+
+        .badge-risk {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            font-weight: bold;
+        }
+
+        .badge-risk--high {
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .badge-risk--med {
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.5);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        /* Contenedor estático oculto para la impresión */
+        .print-only-emails {
+            display: none;
+        }
+
+        /* --- Media Queries --- */
+        @media (max-width: 850px) {
+            .inspector__layout {
+                grid-template-columns: 1fr;
+            }
+            .inspector__email-container {
+                border-right: none;
+                border-bottom: 1px solid var(--stroke);
+            }
+        }
+
+        /* --- Reglas de Impresión --- */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                font-size: 11pt;
+            }
+
+            .topbar, .back-link, .pdf-btn, .terminal__controls, .inspector, .terminal {
+                display: none !important;
+            }
+
+            .article {
+                max-width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+
+            .article__header {
+                border-bottom: 2px solid #000;
+                margin-bottom: 20px;
+                padding-bottom: 10px;
+            }
+
+            .article__content p, .article__content li, td {
+                color: #000 !important;
+            }
+
+            .article__content h2 {
+                color: #000 !important;
+                border-left: 3px solid #000 !important;
+                page-break-after: avoid;
+            }
+
+            .highlight-box {
+                background: #fff;
+                border: 2px solid #000;
+                color: #000;
+                page-break-inside: avoid;
+            }
+
+            /* Mostrar la terminal de forma estática en la impresión */
+            .terminal-print-version {
+                display: block !important;
+                border: 1px solid #000;
+                padding: 15px;
+                margin: 20px 0;
+                background-color: #f8f9fa;
+                color: #000;
+                font-family: var(--mono);
+                font-size: 8.5pt;
+                white-space: pre-wrap;
+                page-break-inside: avoid;
+            }
+
+            /* Mostrar todos los correos en la impresión de forma estructurada */
+            .print-only-emails {
+                display: block !important;
+            }
+
+            .print-email-block {
+                border: 1px solid #000;
+                padding: 20px;
+                margin-top: 25px;
+                margin-bottom: 25px;
+                background: #fff;
+                color: #000;
+                page-break-inside: avoid;
+            }
+
+            .print-email-block h3 {
+                border-bottom: 1px solid #000;
+                padding-bottom: 5px;
+                margin-top: 0;
+                font-size: 12pt;
+            }
+
+            .print-email-block .phish-spot {
+                background: none !important;
+                border-bottom: 1px dashed #000 !important;
+                text-decoration: underline;
+                font-weight: bold;
+            }
+
+            .print-email-block .phish-spot::after {
+                content: " (Señal de alerta)";
+                font-size: 7.5pt;
+                font-style: italic;
+                font-weight: normal;
+            }
+
+            .print-analysis-list {
+                margin-top: 15px;
+                font-size: 9pt;
+                border-top: 1px solid #ccc;
+                padding-top: 10px;
+            }
+
+            .print-analysis-list li {
+                margin-bottom: 6px;
+            }
+
+            th, td {
+                border: 1px solid #000 !important;
+                color: #000 !important;
+            }
+
+            th {
+                background-color: #f2f2f2 !important;
+                font-weight: bold;
+            }
+
+            table {
+                page-break-inside: avoid;
+            }
+        }
+
+        .terminal-print-version {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,6 +496,10 @@
         <div class="container topbar__inner">
             <div class="brand">
                 <a href="../../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+            <div class="brand__text" style="align-items: flex-end;">
+                <span class="brand__title glow">PORTAFOLIO DE SEGURIDAD</span>
+                <span class="brand__meta">Tercer Parcial - AC15</span>
             </div>
         </div>
         <div class="scanline" aria-hidden="true"></div>
@@ -27,10 +514,9 @@
                 <span>•</span>
                 <span>Actividad 15</span>
             </div>
-
-            <h1>Creando una campaña de phishing con SET</h1>
+            <h1 class="glow">Creando una campaña de phishing con SET</h1>
             <p class="lead">
-                Simulación y análisis de ingeniería social utilizando Social Engineer Toolkit (SET).
+                Diseño, simulación y análisis de ingeniería social empleando Social Engineer Toolkit (SET) en un entorno de laboratorio controlado.
             </p>
         </header>
 
@@ -38,32 +524,363 @@
 
             <h2>1. Resumen Ejecutivo</h2>
             <p>
-                La presente práctica documenta la creación y ejecución de una campaña de phishing simulada en un entorno controlado, empleando la herramienta Social Engineer Toolkit (SET). El objetivo es comprender la anatomía de estos ataques para fortalecer las barreras de defensa y concientización.
+                Este reporte técnico documenta la simulación y análisis de una campaña de phishing orientada al contexto escolar de la Universidad Politécnica de San Luis Potosí (UPSLP). La simulación fue desplegada a través de la herramienta <strong>Social Engineer Toolkit (SET)</strong> para observar cómo vectores de ingeniería social explotan impulsos humanos básicos como la autoridad institucional, la urgencia de respuesta y el temor a consecuencias administrativas graves.
+            </p>
+            <div class="highlight-box">
+                <strong>Nota de Manejo de Información:</strong> Con fines estrictamente didácticos, las evidencias no han sido anonimizadas dentro de este portafolio con el objetivo de demostrar la trazabilidad completa requerida por la rúbrica docente. Este material representa una simulación cerrada y controlada.
+            </div>
+
+            <h2>2. Relación con la Actividad de Clase</h2>
+            <p>
+                La práctica se encuadra dentro de los contenidos sobre técnicas de explotación de vulnerabilidades y seguridad defensiva. Específicamente, aplica los conceptos de clasificación del phishing (masivo vs. dirigido), psicología de la ingeniería social y medidas institucionales para mitigar ataques a nivel humano. La actividad evidencia la transición entre el análisis teórico y la experimentación práctica con frameworks estándar de pruebas de penetración.
             </p>
 
-            <h2>2. Objetivos y Alcance</h2>
+            <h2>3. Alcance, Límites y Consideraciones Éticas</h2>
+            <p>
+                La ingeniería social ética exige regulaciones estrictas para proteger la confianza organizacional. Los parámetros que rigieron esta práctica fueron:
+            </p>
+            <h3>3.1. Alcance de la Práctica</h3>
             <ul>
-                <li><strong>Objetivo General:</strong> Desplegar una campaña de ingeniería social simulada para analizar vectores de ataque basados en correo electrónico.</li>
-                <li><strong>Alcance:</strong> La práctica se limita a una simulación académica controlada, sin interacción con infraestructura externa real no autorizada.</li>
+                <li>Simulación limitada a la infraestructura interna del laboratorio escolar.</li>
+                <li>Uso de pretextos típicos que enfrentan los estudiantes en su ciclo académico habitual.</li>
+                <li>Análisis visual del mensaje recibido para determinar los indicadores técnicos que exponen el engaño.</li>
+            </ul>
+            <h3>3.2. Límites de Seguridad</h3>
+            <ul>
+                <li><strong>No captura de credenciales:</strong> Los enlaces de la campaña no redirigían a portales activos de recolección de contraseñas (Credential Harvesting) ni registraban datos personales.</li>
+                <li><strong>Origen SMTP controlado:</strong> Empleo de un servidor local de correo (laboratorio) sin salida hacia Internet para prevenir incidentes de suplantación externos.</li>
+                <li><strong>Población acotada:</strong> Envío restringido exclusivamente a las direcciones de prueba de los integrantes del equipo evaluador.</li>
             </ul>
 
-            <h2>3. Diseño de la Campaña</h2>
+            <h2>4. Objetivos</h2>
+            <ul>
+                <li><strong>Objetivo General:</strong> Analizar el funcionamiento de una campaña de phishing simulada mediante SET, caracterizando los disparadores psicológicos involucrados y formulando controles técnicos y de concientización corporativos.</li>
+                <li><strong>Objetivos Específicos:</strong>
+                    <ol>
+                        <li>Estructurar narrativas basadas en procesos estudiantiles críticos (seguridad de cuenta, inasistencias y estatus de reinscripción).</li>
+                        <li>Configurar y desplegar el módulo de envío de correo masivo en SET.</li>
+                        <li>Realizar una autopsia visual y técnica de los correos resultantes.</li>
+                        <li>Elaborar un plan de remediación integral que contemple controles para el usuario final y la institución.</li>
+                    </ol>
+                </li>
+            </ul>
+
+            <h2>5. Marco Teórico</h2>
             <p>
-                Se seleccionó el módulo de "Social-Engineering Attacks" y posteriormente "Mass Mailer Attack" en SET para crear correos electrónicos engañosos con narrativas persuasivas, simulando comunicaciones de seguridad corporativas para incitar a las víctimas a hacer clic en enlaces o abrir archivos adjuntos maliciosos controlados.
+                El phishing es una forma de ingeniería social que engaña a las víctimas para que ejecuten una acción no segura (ingresar datos, descargar malware). Se apoya en disparadores de influencia social descritos por la psicología de la persuasión:
+            </p>
+            <ul>
+                <li><strong>Autoridad:</strong> El destinatario obedece porque el mensaje parece provenir de un área con jerarquía (ej. Servicios Escolares o Administración).</li>
+                <li><strong>Urgencia:</strong> Se define un marco de tiempo estricto (ej. 12-24 horas) para suspender el análisis crítico del receptor.</li>
+                <li><strong>Temor/Pérdida:</strong> Se amenaza con consecuencias desfavorables de gran impacto (baja académica, suspensión de cuenta, pérdida de derechos a examen).</li>
+            </ul>
+
+            <h2>6. Diseño de la Campaña Simulada</h2>
+            <p>
+                Se definieron tres variantes con un enfoque de ingeniería social adecuado al público estudiantil de la UPSLP:
+            </p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variante</th>
+                        <th>Pretexto (Narrativa)</th>
+                        <th>Mecanismo Psicológico</th>
+                        <th>Consecuencia Amenazada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. Seguridad de Cuenta</strong></td>
+                        <td>Alerta de actividad inusual en la cuenta y obligatoriedad de validación de identidad.</td>
+                        <td>Autoridad Técnica + Urgencia</td>
+                        <td>Desactivación o bloqueo temporal del correo institucional.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. Límite de Faltas</strong></td>
+                        <td>Advertencia de inasistencias acumuladas fuera del límite del reglamento general de la UPSLP.</td>
+                        <td>Temor / Castigo Académico</td>
+                        <td>Pérdida inminente de derecho a presentar exámenes ordinarios.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. Reinscripción</strong></td>
+                        <td>Inconsistencias técnicas en el registro administrativo de materias asignadas.</td>
+                        <td>Urgencia Operativa</td>
+                        <td>Baja definitiva de las asignaturas en la plataforma escolar.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>7. Evidencias de la Práctica (Simulación de Configuración)</h2>
+            <p>
+                A continuación se presenta un emulador de terminal interactivo que recrea paso a paso la configuración de la campaña dentro de <strong>Social Engineer Toolkit (SET)</strong>:
             </p>
 
-            <h2>4. Conclusión Técnica</h2>
+            <!-- Terminal SET Interactiva -->
+            <div class="terminal">
+                <div class="terminal__header">
+                    <div class="terminal__dots">
+                        <div class="terminal__dot terminal__dot--red"></div>
+                        <div class="terminal__dot terminal__dot--yellow"></div>
+                        <div class="terminal__dot terminal__dot--green"></div>
+                    </div>
+                    <div class="terminal__title">setoolkit@laboratory-node:~</div>
+                </div>
+                <div class="terminal__body" id="terminalConsole">
+                    <!-- Dinámico -->
+                </div>
+                <div class="terminal__controls">
+                    <button class="terminal__btn" id="btnPrevStep" disabled>← Anterior</button>
+                    <span class="terminal__step-indicator" id="terminalStepText">Paso 1 de 6</span>
+                    <button class="terminal__btn" id="btnNextStep">Siguiente →</button>
+                </div>
+            </div>
+
+            <!-- Terminal estática para el PDF -->
+            <div class="terminal-print-version">
+=== SOCIAL-ENGINEER TOOLKIT (SET) SIMULATION SUMMARY ===
+$ sudo setoolkit
+[+] Select from the menu:
+1) Social-Engineering Attacks
+2) Penetration Testing (Fast-Track)
+3) Third-Party Modules
+set> 1
+
+[+] Select module:
+5) Mass Mailer Attack
+set> 5
+
+[+] Mass Mailer Options:
+1) E-Mail Attack Single Email Address
+2) E-Mail Attack Mass Mailer
+set> 1
+
+[+] Define Email Configuration:
+Send email to: target_student@alumno.upslp.edu.mx
+Use a 1) Gmail Account or 2) Custom SMTP Server
+Option: 2
+SMTP Server address: 127.0.0.1
+Port: 25
+From Address: alertas@soporte-academico.net
+From Name: Seguridad Universitaria
+Subject: NOTIFICACIÓN DE SEGURIDAD
+Body Format: HTML
+Message body loaded from: campaign_template.html
+
+[+] Sending simulated email to target_student@alumno.upslp.edu.mx...
+[+] Email sent successfully. Monitoring SMTP logs...
+            </div>
+
+            <h2>8. Análisis Técnico de los Correos (Inspector Interactivo)</h2>
+            <p>
+                El éxito del phishing radica en la verosimilitud del formato, sin embargo, existen múltiples señales de alerta técnicas y visuales. Interactúa con las tres variantes simuladas para analizar sus fallas de seguridad:
+            </p>
+
+            <!-- Inspector de Correos Interactivo -->
+            <div class="inspector">
+                <div class="inspector__tabs">
+                    <button class="inspector__tab active" id="tabEmailSeguridad" onclick="switchEmail('seguridad')">Seguridad de Cuenta</button>
+                    <button class="inspector__tab" id="tabEmailFaltas" onclick="switchEmail('faltas')">Límite de Faltas</button>
+                    <button class="inspector__tab" id="tabEmailReinscripcion" onclick="switchEmail('reinscripcion')">Irregularidad Reinscripción</button>
+                </div>
+                <div class="inspector__layout">
+                    <div class="inspector__email-container">
+                        <div class="email-headers" id="emailHeadersArea">
+                            <!-- Dinámico -->
+                        </div>
+                        <div class="email-body" id="emailBodyArea">
+                            <!-- Dinámico -->
+                        </div>
+                    </div>
+                    <div class="inspector__analysis-panel">
+                        <div class="analysis-card" id="analysisCard">
+                            <div class="analysis-card__placeholder" id="analysisPlaceholder">
+                                Haz clic o pasa el cursor sobre las zonas marcadas en rojo dentro del correo para analizar el indicador de phishing.
+                            </div>
+                            <div class="analysis-card__header" id="analysisHeader" style="display:none;">
+                                <span class="analysis-card__badge analysis-card__badge--high">Riesgo</span>
+                                <span id="analysisTitle">Título del Indicador</span>
+                            </div>
+                            <div class="analysis-card__content" id="analysisContent" style="display:none;">
+                                <p id="analysisDescription">Descripción técnica del indicador.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Correos estáticos para el PDF -->
+            <div class="print-only-emails">
+                <div class="print-email-block">
+                    <h3>Variante 1: Notificación de Seguridad</h3>
+                    <p><strong>De:</strong> "Seguridad Universitaria" &lt;alertas@soporte-academico.net&gt; (Remitente no institucional)</p>
+                    <p><strong>Para:</strong> target_student@alumno.upslp.edu.mx</p>
+                    <p><strong>Asunto:</strong> NOTIFICACIÓN DE SEGURIDAD</p>
+                    <hr>
+                    <p>Estimado alumno:</p>
+                    <p>Se ha detectado una actividad de inicio de sesión inusual en su cuenta institucional desde una dirección IP fuera de la región. Para evitar la <span class="phish-spot">suspensión temporal</span> (Lenguaje de Urgencia) de sus servicios y cuentas académicas, es obligatorio que vincule su cuenta con nuestro nuevo sistema de verificación en un plazo no mayor a <span class="phish-spot">24 horas</span> (Plazo Limitado).</p>
+                    <p>Vincule sus servicios haciendo clic en el siguiente enlace:</p>
+                    <p><strong>[ <span class="phish-spot">VALIDAR MI IDENTIDAD Y SERVICIOS</span> ]</strong> (Redirección a bit.ly/upslp-auth - Enlace acortado sospechoso)</p>
+                    <p>Atentamente,<br>Servicio de Soporte y Seguridad UPSLP</p>
+                    
+                    <div class="print-analysis-list">
+                        <strong>Indicadores clave analizados:</strong>
+                        <ul>
+                            <li><strong>Remitente sospechoso:</strong> El dominio '@soporte-academico.net' no corresponde a la UPSLP.</li>
+                            <li><strong>Urgencia desmedida:</strong> Plazo de 24 horas para evitar la desactivación.</li>
+                            <li><strong>Enlace encubierto:</strong> Se utiliza un acortador para ocultar el sitio final de captura de credenciales.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="print-email-block">
+                    <h3>Variante 2: Límite de Faltas</h3>
+                    <p><strong>De:</strong> "Control Escolar UPSLP" &lt;avisos@control-escolar-adm.org&gt; (Remitente no institucional)</p>
+                    <p><strong>Para:</strong> target_student@alumno.upslp.edu.mx</p>
+                    <p><strong>Asunto:</strong> ALERTA DE INASISTENCIAS - LÍMITE EXCEDIDO</p>
+                    <hr>
+                    <p>Aviso de Urgencia Académica:</p>
+                    <p>Se le notifica que ha superado el porcentaje permitido de inasistencias en una o más asignaturas del presente ciclo escolar. De acuerdo con el reglamento de la Universidad Politécnica de San Luis Potosí, esto conlleva la <span class="phish-spot">pérdida del derecho a examen ordinario</span> (Impacto intimidatorio).</p>
+                    <p>Usted cuenta con un plazo de <span class="phish-spot">12 horas</span> (Urgencia) para ingresar al portal de aclaraciones y regularizar su situación o agendar una cita con su tutor académico.</p>
+                    <p>Ingrese al portal para registrar su justificación:</p>
+                    <p><strong>[ <span class="phish-spot">ACCEDER AL PORTAL DE ACLARACIONES</span> ]</strong> (Redirección a bit.ly/upslp-justifica - Enlace acortado)</p>
+                    <p>Dirección de Servicios Escolares</p>
+                </div>
+
+                <div class="print-email-block">
+                    <h3>Variante 3: Irregularidad en Reinscripción</h3>
+                    <p><strong>De:</strong> "Servicios Escolares UPSLP" &lt;reinscripciones@upslp-portal.com&gt;</p>
+                    <p><strong>Para:</strong> target_student@alumno.upslp.edu.mx</p>
+                    <p><strong>Asunto:</strong> NOTIFICACIÓN - IRREGULARIDAD EN REINSCRIPCIÓN</p>
+                    <hr>
+                    <p>Notificación urgente de reinscripción:</p>
+                    <p>Hemos detectado una inconsistencia en el registro de su inscripción para el ciclo escolar actual, lo que podría resultar en la <span class="phish-spot">suspensión definitiva de sus materias</span> (Amenaza grave) registradas en la plataforma académica.</p>
+                    <p>Para validar su estatus e impedir la baja de sus asignaturas, ingrese de manera inmediata a la plataforma oficial de confirmación de datos:</p>
+                    <p><strong>[ <span class="phish-spot">CONFIRMAR DATOS DE ACCESO Y MATERIAS</span> ]</strong> (Redirección a bit.ly/upslp-reinscripcion)</p>
+                    <p>Tiene un plazo límite de <span class="phish-spot">24 horas</span> a partir del recibo de esta comunicación.</p>
+                    <p>Departamento de Control Escolar</p>
+                </div>
+            </div>
+
+            <h3>8.1. Tabla de Indicadores de Phishing Identificados</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indicador Detectado</th>
+                        <th>Observación Técnica en la Simulación</th>
+                        <th>Criterio Defensivo (Contramedida)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Remitente No Oficial</strong></td>
+                        <td>Uso de dominios ajenos como <code>@soporte-academico.net</code> o <code>@control-escolar-adm.org</code> en lugar del dominio oficial <code>@upslp.edu.mx</code>.</td>
+                        <td>Ignorar el nombre visible y verificar la dirección de correo SMTP en las cabeceras del correo.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Uso de Enlaces Acortados</strong></td>
+                        <td>Direccionamiento a través de servicios como <code>bit.ly/upslp-auth</code> para ocultar la URL final de destino.</td>
+                        <td>No hacer clic. Examinar la URL real pasando el cursor (hover) o utilizar herramientas de expansión de enlaces.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Plazos Impositivos</strong></td>
+                        <td>Establecimiento de límites estrictos (12 o 24 horas) bajo apercibimiento de penalización inmediata.</td>
+                        <td>Validar el estatus académico a través del portal oficial del alumno o llamando por teléfono a Control Escolar.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Solicitud de Credenciales</strong></td>
+                        <td>Invitación a "validar" o "confirmar" datos de acceso (usuario y contraseña) a través del enlace.</td>
+                        <td>Ninguna autoridad legítima solicita contraseñas por correo electrónico. Utilizar autenticación de doble factor (MFA).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>8.2. Evaluación de Riesgo de las Variantes</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variante</th>
+                        <th>Rango de Severidad</th>
+                        <th>Justificación Técnica y Psicológica</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Seguridad de Cuenta</strong></td>
+                        <td><span class="badge-risk badge-risk--high">ALTO</span></td>
+                        <td>La advertencia sobre accesos no autorizados asusta al usuario y lo empuja a validar credenciales rápidamente bajo la premisa de protegerse, generando el efecto contrario.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Límite de Faltas</strong></td>
+                        <td><span class="badge-risk badge-risk--high">ALTO</span></td>
+                        <td>Ataca directamente el temor de perder el semestre. El impacto académico y la urgencia (12 horas) disminuyen notablemente la probabilidad de que el alumno valide el dominio.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reinscripción</strong></td>
+                        <td><span class="badge-risk badge-risk--med">MEDIO-ALTO</span></td>
+                        <td>La posibilidad de perder la inscripción de materias es alarmante, pero su efectividad depende de la época del año (solo es altamente efectiva al inicio del ciclo escolar).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>9. Controles Recomendados</h2>
+            
+            <h3>9.1. Controles para Estudiantes y Usuarios Finales</h3>
+            <ul>
+                <li><strong>Hábito de Navegación Segura:</strong> Nunca abrir enlaces directamente desde correos no esperados. Escribir manualmente la dirección oficial en el navegador (<code>www.upslp.edu.mx</code>).</li>
+                <li><strong>Examen de Cabeceras:</strong> Validar el remitente y sospechar de dominios genéricos (gmail.com, hotmail.com) o ligeramente modificados (typosquatting).</li>
+                <li><strong>Confirmación por Canales Oficiales:</strong> Comunicarse directamente con el departamento de Servicios Escolares por las vías de contacto preestablecidas.</li>
+            </ul>
+
+            <h3>9.2. Controles para la Institución (UPSLP)</h3>
+            <ul>
+                <li><strong>Implementación de Registros de Correo:</strong>
+                    <ul>
+                        <li><strong>SPF (Sender Policy Framework):</strong> Define cuáles servidores SMTP están autorizados para enviar correos a nombre de la universidad.</li>
+                        <li><strong>DKIM (DomainKeys Identified Mail):</strong> Firma digitalmente los mensajes para asegurar que no han sido alterados en tránsito.</li>
+                        <li><strong>DMARC (Domain-based Message Authentication):</strong> Instruye a los servidores receptores sobre cómo procesar los correos que fallen las pruebas SPF y DKIM.</li>
+                    </ul>
+                </li>
+                <li><strong>Seguridad de Cuentas:</strong> Configuración obligatoria de Autenticación de Doble Factor (MFA) para mitigar el impacto si el usuario entrega sus credenciales en el sitio clonado.</li>
+                <li><strong>Soluciones de Filtrado Avanzado:</strong> Uso de pasarelas de seguridad (Secure Email Gateway) que bloqueen enlaces acortados y sandboxeen archivos adjuntos sospechosos.</li>
+            </ul>
+
+            <h2>10. Buenas Prácticas para Campañas Éticas de Concientización</h2>
+            <p>
+                Las campañas éticas dirigidas a empleados o estudiantes no deben buscar el castigo o la ridiculización del individuo que cae en la trampa. Sus principios son:
+            </p>
+            <ol>
+                <li><strong>Autorización Formal:</strong> Aprobación expresa del comité directivo y el área legal de la institución antes del despliegue.</li>
+                <li><strong>Protección de Datos:</strong> El servidor de recolección de datos no debe registrar información de contraseñas reales, únicamente métricas agregadas (número de clics).</li>
+                <li><strong>Retroalimentación Inmediata (Teachable Moment):</strong> Si el usuario hace clic, redirigirlo a una página interactiva corta que le explique de forma amigable y didáctica las señales de phishing que omitió.</li>
+                <li><strong>Anonimato en los Reportes:</strong> Presentar resultados por áreas de manera estadística para evitar señalamientos personales.</li>
+            </ol>
+
+            <h2>11. Conclusiones</h2>
             <div class="reflection">
                 <p>
-                    Las campañas de phishing siguen siendo uno de los vectores más exitosos debido a su enfoque en el factor humano. Las simulaciones con herramientas como SET son fundamentales para evaluar el nivel de madurez y concientización de los usuarios en una organización.
+                    La realización de esta práctica simulando campañas de phishing con SET demuestra que la seguridad de la información no reside únicamente en cortafuegos o antivirus. El eslabón humano sigue siendo el vector preferido de los atacantes debido a la facilidad para manipular emociones básicas como el miedo o el respeto a la autoridad.
                 </p>
+                <p>
+                    Las herramientas de simulación resultan críticas para diagnosticar el estado real de la conciencia de seguridad dentro de una organización. No obstante, deben complementarse con políticas organizacionales claras, autenticación robusta y una cultura corporativa no punitiva que fomente el reporte oportuno de incidentes.
+                </p>
+            </div>
+
+            <h2>12. Referencias</h2>
+            <div class="references">
+                <ul>
+                    <li>Association for Computing Machinery. (s.f.). <em>ACM Code of Ethics and Professional Conduct</em>.</li>
+                    <li>Caltagirone, S., Pendergast, A., & Betz, C. (2013). <em>The Diamond Model of Intrusion Analysis</em>. Center for Cyber Intelligence Analysis and Threat Research.</li>
+                    <li>Cybersecurity and Infrastructure Security Agency (CISA). (s.f.). <em>Avoiding Social Engineering and Phishing Attacks</em>. Recuperado de cisa.gov</li>
+                    <li>TrustedSec. (s.f.). <em>The Social-Engineer Toolkit (SET) User Manual</em>. Recuperado de github.com/trustedsec/social-engineer-toolkit</li>
+                </ul>
             </div>
 
         </section>
     </main>
 
-    <a href="act15-Equipo5.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
-        rel="noopener">
+    <!-- Botón flotante para descargar PDF -->
+    <a href="act15-Equipo5.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank" rel="noopener">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -72,6 +889,328 @@
         </svg>
     </a>
 
+    <script>
+        // --- Datos de la Terminal ---
+        const terminalSteps = [
+            {
+                prompt: "setoolkit@laboratory-node:~$ ",
+                input: "sudo setoolkit",
+                output: `
+[sudo] password for setoolkit: *******
+
+                  ___________ _____ 
+                 /  ___|  ___|_   _|
+                 \\ \`--.| |__   | |  
+                  \`--. \\  __|  | |  
+                 /\\__/ / |____ | |  
+                 \\____/\\____/  \\_/  
+                                    
+         The Social-Engineer Toolkit (SET)
+         Version: 8.5.8
+         Codename: "Black Rose"
+
+         Written by: David Kennedy (ReL1K)
+         Website: https://www.trustedsec.com
+
+   Welcome to the Social-Engineer Toolkit (SET). Your one-stop shop
+   for all things social engineering. Please read the disclaimer before
+   proceeding.
+
+   Select from the menu:
+
+   1) Social-Engineering Attacks
+   2) Penetration Testing (Fast-Track)
+   3) Third-Party Modules
+   4) Update the Social-Engineer Toolkit
+   5) Update SET Configuration
+   6) Help, Credits, and About
+
+set> `
+            },
+            {
+                prompt: "set> ",
+                input: "1",
+                output: `
+   Select from the menu:
+
+   1) Spear-Phishing Attack Vectors
+   2) Website Attack Vectors
+   3) Infectious Media Generator
+   4) Create a Payload and Listener
+   5) Mass Mailer Attack
+   6) Arduino-Based Attack Vector
+   7) Wireless Access Point Attack Vector
+   8) QRCode Generator Attack Vector
+   9) Powershell Attack Vectors
+  10) Third-Party Modules
+
+set> `
+            },
+            {
+                prompt: "set> ",
+                input: "5",
+                output: `
+   Social-Engineer Toolkit Mass Mailer Attack Menu:
+
+   1) E-Mail Attack Single Email Address
+   2) E-Mail Attack Mass Mailer
+
+set> `
+            },
+            {
+                prompt: "set> ",
+                input: "1",
+                output: `
+[+] Preparing single e-mail campaign...
+[-] You can choose to use a Gmail account or your own SMTP.
+[+] Select your choice:
+   1) Use a Gmail Account
+   2) Use a Custom SMTP Server
+
+set> `
+            },
+            {
+                prompt: "set> ",
+                input: "2",
+                output: `
+set:mailer> SMTP Server Address: 127.0.0.1
+set:mailer> Port: 25
+set:mailer> From Address: alertas@soporte-academico.net
+set:mailer> From Name: Seguridad Universitaria
+set:mailer> Subject: NOTIFICACIÓN DE SEGURIDAD
+set:mailer> Send email to: target_student@alumno.upslp.edu.mx
+set:mailer> Do you want to attach a file? [y/n]: n
+set:mailer> Send message as: 1) HTML or 2) Plain Text
+set:mailer> Option: 1
+set:mailer> Enter email body, type 'EOF' on a new line when done:
+(Loaded template campaign_template.html...)
+set:mailer> EOF
+`
+            },
+            {
+                prompt: "set:mailer> ",
+                input: "Send",
+                output: `
+[+] Connect to SMTP server 127.0.0.1 on port 25...
+[+] Connected. Authenticating...
+[+] Sending simulated email to: target_student@alumno.upslp.edu.mx
+[+] Email has been sent successfully.
+[+] Mass Mailer finished. Exiting...
+setoolkit@laboratory-node:~$ `
+            }
+        ];
+
+        let currentTerminalStep = 0;
+
+        function renderTerminal() {
+            const consoleEl = document.getElementById("terminalConsole");
+            let html = "";
+            for (let i = 0; i <= currentTerminalStep; i++) {
+                const step = terminalSteps[i];
+                html += `<div><span class="terminal__prompt">${step.prompt}</span><span class="terminal__input">${step.input}</span></div>`;
+                if (i < currentTerminalStep || currentTerminalStep === terminalSteps.length - 1) {
+                    html += `<div style="white-space: pre-wrap; color: #a1a1aa; margin-bottom: 10px;">${step.output}</div>`;
+                }
+            }
+            consoleEl.innerHTML = html;
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+
+            document.getElementById("btnPrevStep").disabled = currentTerminalStep === 0;
+            document.getElementById("btnNextStep").disabled = currentTerminalStep === terminalSteps.length - 1;
+            document.getElementById("terminalStepText").textContent = `Paso ${currentTerminalStep + 1} de ${terminalSteps.length}`;
+        }
+
+        document.getElementById("btnNextStep").addEventListener("click", () => {
+            if (currentTerminalStep < terminalSteps.length - 1) {
+                currentTerminalStep++;
+                renderTerminal();
+            }
+        });
+
+        document.getElementById("btnPrevStep").addEventListener("click", () => {
+            if (currentTerminalStep > 0) {
+                currentTerminalStep--;
+                renderTerminal();
+            }
+        });
+
+        // --- Datos del Inspector de Correos ---
+        const emailData = {
+            seguridad: {
+                fromName: "Seguridad Universitaria",
+                fromAddress: "alertas@soporte-academico.net",
+                to: "target_student@alumno.upslp.edu.mx",
+                subject: "NOTIFICACIÓN DE SEGURIDAD",
+                body: `
+                    <p>Estimado alumno:</p>
+                    <p>Se ha detectado una actividad de inicio de sesión inusual en su cuenta institucional desde una dirección IP fuera de la región. Para evitar la <span class="phish-spot" data-id="urgency">suspensión temporal</span> de sus servicios y cuentas académicas, es obligatorio que vincule su cuenta con nuestro nuevo sistema de verificación en un plazo no mayor a <span class="phish-spot" data-id="deadline">24 horas</span>.</p>
+                    <p>Vincule sus servicios haciendo clic en el siguiente enlace:</p>
+                    <p style="text-align: center;"><a href="#" class="email-btn-link phish-spot" data-id="link">VALIDAR MI IDENTIDAD Y SERVICIOS</a></p>
+                    <p>Si no realiza este procedimiento, su cuenta será desactivada temporalmente de acuerdo con el protocolo de seguridad institucional.</p>
+                    <p>Atentamente,<br><span class="phish-spot" data-id="signature">Servicio de Soporte y Seguridad UPSLP</span></p>
+                `
+            },
+            faltas: {
+                fromName: "Control Escolar UPSLP",
+                fromAddress: "avisos@control-escolar-adm.org",
+                to: "target_student@alumno.upslp.edu.mx",
+                subject: "ALERTA DE INASISTENCIAS - LÍMITE EXCEDIDO",
+                body: `
+                    <p>Aviso de Urgencia Académica:</p>
+                    <p>Se le notifica que ha superado el porcentaje permitido de inasistencias en una o más asignaturas del presente ciclo escolar. De acuerdo con el reglamento de la Universidad Politécnica de San Luis Potosí, esto conlleva la <span class="phish-spot" data-id="threat">pérdida del derecho a examen ordinario</span>.</p>
+                    <p>Usted cuenta con un plazo de <span class="phish-spot" data-id="urgency_time">12 horas</span> para ingresar al portal de aclaraciones y regularizar su situación o agendar una cita con su tutor académico.</p>
+                    <p>Ingrese al portal para registrar su justificación:</p>
+                    <p style="text-align: center;"><a href="#" class="email-btn-link phish-spot" data-id="link_faltas">ACCEDER AL PORTAL DE ACLARACIONES</a></p>
+                    <p>La falta de respuesta en el plazo indicado consolidará el estatus de 'Sin Derecho'.</p>
+                    <p>Dirección de Servicios Escolares</p>
+                `
+            },
+            reinscripcion: {
+                fromName: "Servicios Escolares UPSLP",
+                fromAddress: "reinscripciones@upslp-portal.com",
+                to: "target_student@alumno.upslp.edu.mx",
+                subject: "NOTIFICACIÓN - IRREGULARIDAD EN REINSCRIPCIÓN",
+                body: `
+                    <p>Notificación urgente de reinscripción:</p>
+                    <p>Hemos detectado una inconsistencia en el registro de su inscripción para el ciclo escolar actual, lo que podría resultar en la <span class="phish-spot" data-id="threat_reinscripcion">suspensión definitiva de sus materias</span> registradas en la plataforma académica.</p>
+                    <p>Para validar su estatus e impedir la baja de sus asignaturas, ingrese de manera inmediata a la plataforma oficial de confirmación de datos:</p>
+                    <p style="text-align: center;"><a href="#" class="email-btn-link phish-spot" data-id="link_reinscripcion">CONFIRMAR DATOS DE ACCESO Y MATERIAS</a></p>
+                    <p>Tiene un plazo límite de <span class="phish-spot" data-id="deadline_reinscripcion">24 horas</span> a partir del recibo de esta comunicación.</p>
+                    <p>Departamento de Control Escolar</p>
+                `
+            }
+        };
+
+        const phishIndicators = {
+            urgency: {
+                title: "Lenguaje de Urgencia",
+                desc: "Uso de amenazas como 'suspensión de servicios' diseñado para alterar el estado emocional del receptor y anular su sentido de precaución."
+            },
+            deadline: {
+                title: "Plazo Artificial Ajustado",
+                desc: "Establecer límites estrictos de tiempo ('24 horas') incita a tomar decisiones rápidas sin pararse a corroborar el contenido del mensaje."
+            },
+            link: {
+                title: "Enlace Externo / Acortado",
+                desc: "El botón redirige a 'bit.ly/upslp-auth'. Los acortadores de URL ocultan el servidor final (ej. un portal clonado en AWS o Azure)."
+            },
+            signature: {
+                title: "Firma Genérica Incompleta",
+                desc: "Aunque utiliza siglas conocidas, la firma no contiene un departamento o responsable directo verificable dentro de la estructura de la UPSLP."
+            },
+            threat: {
+                title: "Temor / Amenaza Grave",
+                desc: "Amenazar con la 'pérdida de derecho a examen' asusta a cualquier estudiante universitario, facilitando la caída en el engaño."
+            },
+            urgency_time: {
+                title: "Urgencia Extrema",
+                desc: "Dar solo '12 horas' genera pánico, impidiendo que el estudiante consulte de manera adecuada con su tutor o en ventanillas."
+            },
+            link_faltas: {
+                title: "Enlace Sospechoso",
+                desc: "Direcciona a 'bit.ly/upslp-justifica'. Los trámites de justificación siempre se realizan en persona o dentro de la intranet segura oficial."
+            },
+            threat_reinscripcion: {
+                title: "Consecuencia Desproporcionada",
+                desc: "La baja de materias por un supuesto error técnico es una consecuencia demasiado severa para comunicarse informalmente por correo electrónico."
+            },
+            link_reinscripcion: {
+                title: "Redirección SOSPECHOSA",
+                desc: "El botón lleva a 'bit.ly/upslp-reinscripcion'. Las confirmaciones de materias nunca solicitan logearse desde ligas de correos."
+            },
+            deadline_reinscripcion: {
+                title: "Límite Operativo Corto",
+                desc: "Presión innecesaria basada en el temor de verse afectado administrativamente."
+            }
+        };
+
+        function switchEmail(type) {
+            const data = emailData[type];
+            
+            // Cambiar botones activos
+            document.querySelectorAll(".inspector__tab").forEach(tab => tab.classList.remove("active"));
+            
+            if (type === "seguridad") document.getElementById("tabEmailSeguridad").classList.add("active");
+            if (type === "faltas") document.getElementById("tabEmailFaltas").classList.add("active");
+            if (type === "reinscripcion") document.getElementById("tabEmailReinscripcion").classList.add("active");
+
+            // Cabeceras
+            const headersHtml = `
+                <div><strong>De:</strong> <span class="phish-spot" data-id="sender_${type}">${data.fromName}</span> &lt;${data.fromAddress}&gt;</div>
+                <div><strong>Para:</strong> ${data.to}</div>
+                <div><strong>Asunto:</strong> ${data.subject}</div>
+            `;
+            document.getElementById("emailHeadersArea").innerHTML = headersHtml;
+
+            // Cuerpo
+            document.getElementById("emailBodyArea").innerHTML = data.body;
+
+            // Restablecer análisis
+            resetAnalysisPanel();
+
+            // Configurar listeners para las zonas interactivas
+            setupSpotListeners();
+        }
+
+        function resetAnalysisPanel() {
+            document.getElementById("analysisPlaceholder").style.display = "block";
+            document.getElementById("analysisHeader").style.display = "none";
+            document.getElementById("analysisContent").style.display = "none";
+        }
+
+        function showAnalysis(indicatorId) {
+            let indicator = phishIndicators[indicatorId];
+            
+            // Caso especial para remitentes dinámicos
+            if (indicatorId.startsWith("sender_")) {
+                const type = indicatorId.split("_")[1];
+                let domain = "";
+                if (type === "seguridad") domain = "soporte-academico.net";
+                if (type === "faltas") domain = "control-escolar-adm.org";
+                if (type === "reinscripcion") domain = "upslp-portal.com";
+
+                indicator = {
+                    title: "Remitente Externo no UPSLP",
+                    desc: `El dominio '${domain}' NO es oficial. Los correos legítimos de la universidad provienen únicamente del dominio institucional '@upslp.edu.mx'.`
+                };
+            }
+
+            if (!indicator) return;
+
+            document.getElementById("analysisPlaceholder").style.display = "none";
+            document.getElementById("analysisHeader").style.display = "flex";
+            document.getElementById("analysisContent").style.display = "block";
+            
+            document.getElementById("analysisTitle").textContent = indicator.title;
+            document.getElementById("analysisDescription").textContent = indicator.desc;
+        }
+
+        function setupSpotListeners() {
+            const spots = document.querySelectorAll(".phish-spot");
+            spots.forEach(spot => {
+                spot.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    spots.forEach(s => s.classList.remove("active"));
+                    spot.classList.add("active");
+                    const id = spot.getAttribute("data-id");
+                    showAnalysis(id);
+                });
+
+                spot.addEventListener("mouseenter", () => {
+                    const id = spot.getAttribute("data-id");
+                    showAnalysis(id);
+                });
+            });
+        }
+
+
+
+        // --- Inicialización ---
+        window.addEventListener("DOMContentLoaded", () => {
+            renderTerminal();
+            switchEmail("seguridad");
+        });
+    </script>
 </body>
 
 </html>

@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PR03 - SGSI</title>
+    <title>PR03 - Sistema de Gestión de Seguridad de la Información (SGSI)</title>
     <link rel="stylesheet" href="../../../assets/styles.css">
+    <link rel="stylesheet" href="pr03.css">
 </head>
 
 <body>
@@ -13,6 +14,10 @@
         <div class="container topbar__inner">
             <div class="brand">
                 <a href="../../../index.html#actividades" class="back-link">← Volver a Actividades</a>
+            </div>
+            <div class="brand__text" style="align-items: flex-end;">
+                <span class="brand__title glow">PORTAFOLIO DE SEGURIDAD</span>
+                <span class="brand__meta">Tercer Parcial - PR03</span>
             </div>
         </div>
         <div class="scanline" aria-hidden="true"></div>
@@ -30,48 +35,1708 @@
 
             <h1>Sistema de Gestión de Seguridad de la Información (SGSI)</h1>
             <p class="lead">
-                Documentación y diseño normativo de seguridad de la información.
+                Propuesta y diseño normativo de seguridad de la información basado en ISO/IEC 27001:2022 para la Universidad Politécnica de San Luis Potosí (UPSLP).
             </p>
         </header>
 
         <section class="article__content">
+            
+            <!-- Dashboard del SGSI -->
+            <div class="sgsi-dashboard">
+                
+                <!-- Menú del Dashboard (Lateral en Desktop, Horizontal en Mobile) -->
+                <nav class="sgsi-menu no-print" aria-label="Navegación del Dashboard del SGSI">
+                    <button class="sgsi-menu__btn active" data-tab="tab-alcance">1. Alcance & Resumen</button>
+                    <button class="sgsi-menu__btn" data-tab="tab-normas">2. Normas & Vocabulario</button>
+                    <button class="sgsi-menu__btn" data-tab="tab-activos">3. Contexto & Activos</button>
+                    <button class="sgsi-menu__btn" data-tab="tab-politicas">4. Liderazgo & Políticas</button>
+                    <button class="sgsi-menu__btn" data-tab="tab-riesgos">5. Planificación & Riesgos</button>
+                    <button class="sgsi-menu__btn" data-tab="tab-operacion">6. Soporte & Operación</button>
+                    <button class="sgsi-menu__btn" data-tab="tab-auditoria">7. Evaluación & Auditoría</button>
+                    <button class="sgsi-menu__btn" data-tab="tab-mejora">8. Incidentes & Mejora</button>
+                </nav>
 
-            <h2>1. Resumen de la Práctica</h2>
-            <p>
-                La Práctica 03 se enfoca en la conceptualización y estructuración de un Sistema de Gestión de Seguridad de la Información (SGSI). A través de este documento se establecen los términos, condiciones y referencias normativas necesarias para proteger los activos críticos de una organización de acuerdo con estándares como ISO 27001.
-            </p>
+                <!-- Área de Contenido -->
+                <div class="sgsi-content">
+                    
+                    <!-- ==========================================
+                         TAB 1: ALCANCE & RESUMEN
+                         ========================================== -->
+                    <div id="tab-alcance" class="sgsi-tab-content">
+                        <h2>Resumen Ejecutivo</h2>
+                        <p>
+                            Este proyecto propone un **Sistema de Gestión de Seguridad de la Información (SGSI)** para la Universidad Politécnica de San Luis Potosí (UPSLP), tomando como eje la norma internacional **ISO/IEC 27001:2022** y la estructura de alto nivel del Anexo SL. El SGSI traduce los requisitos normativos en activos de información, responsables operativos, directrices, análisis de riesgos y procedimientos prácticos que resguardan la operación institucional.
+                        </p>
 
-            <h2>2. Contexto e Inventario de Activos</h2>
-            <p>
-                Un componente crucial del SGSI es la comprensión del entorno en el que opera la organización y las partes interesadas involucradas. En esta práctica se elaboró un inventario exhaustivo detallando 40 activos de información vitales, clasificándolos según su nivel de criticidad.
-            </p>
+                        <h3>1.1. Datos Generales de la Organización</h3>
+                        <div class="asset-table-wrapper" style="margin-bottom: 20px;">
+                            <table class="asset-table">
+                                <thead>
+                                    <tr>
+                                        <th>Elemento</th>
+                                        <th>Descripción aplicada a la UPSLP</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Nombre</strong></td>
+                                        <td>Universidad Politécnica de San Luis Potosí (UPSLP)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Giro</strong></td>
+                                        <td>Institución pública de educación superior (docencia, investigación aplicada y servicios académicos)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Tamaño Verosímil</strong></td>
+                                        <td>Comunidad amplia integrada por estudiantes, docentes, personal administrativo, técnico y proveedores</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Servicios Críticos</strong></td>
+                                        <td>Control escolar, plataformas académicas, correo institucional, red LAN/Wi-Fi, laboratorios y sistemas administrativos</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Clientes / Usuarios</strong></td>
+                                        <td>Estudiantes, aspirantes, egresados, docentes, personal administrativo y sociedad</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Entorno Tecnológico</strong></td>
+                                        <td>Infraestructura híbrida con servidores locales (Site principal), red de campus, servicios en la nube (SaaS, LMS, correo) y pasarelas de pago</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-            <h2>3. Liderazgo y Políticas de Seguridad</h2>
-            <ul>
-                <li><strong>Política General:</strong> Se definió la declaración formal de la alta dirección en apoyo a la seguridad de la información.</li>
-                <li><strong>Políticas Específicas:</strong> Se desarrollaron diez políticas específicas que abordan controles concretos dentro del marco del SGSI, garantizando así un enfoque estructurado de defensa en profundidad.</li>
-            </ul>
+                        <h3>1.2. Misión, Visión, Objetivos y Valores del SGSI</h3>
+                        <ul>
+                            <li><strong>Misión:</strong> Proteger la información académica, administrativa y tecnológica de la UPSLP mediante controles proporcionales al riesgo, permitiendo la continuidad operativa y el cumplimiento normativo.</li>
+                            <li><strong>Visión:</strong> Consolidar un SGSI institucional medible, auditado y mejorable, capaz de mitigar incidentes críticos, fortalecer la cultura de ciberseguridad y respaldar los servicios digitales.</li>
+                            <li><strong>Objetivos del SGSI:</strong>
+                                <ol>
+                                    <li>Asegurar la disponibilidad de servicios digitales críticos durante periodos académicos sensibles.</li>
+                                    <li>Proteger la confidencialidad e integridad de datos personales, calificaciones y finanzas de la comunidad.</li>
+                                    <li>Reducir el riesgo de phishing, secuestro de cuentas, ransomware y abuso de privilegios.</li>
+                                    <li>Establecer evidencia documental verificable para auditorías internas y mejora continua.</li>
+                                </ol>
+                            </li>
+                            <li><strong>Valores de Seguridad:</strong> Legalidad, responsabilidad, confidencialidad, trazabilidad, continuidad y colaboración institucional.</li>
+                        </ul>
 
-            <h2>4. Conclusión Técnica</h2>
-            <div class="reflection">
-                <p>
-                    La seguridad informática no se limita a implementaciones técnicas; requiere un marco normativo sólido (Gobierno de TI). El desarrollo de un SGSI asegura que la protección de la información se alinee directamente con los objetivos de negocio y cumpla con las normativas internacionales aplicables.
-                </p>
+                        <h3>1.3. Relación de Procesos y Activos</h3>
+                        <div class="asset-table-wrapper" style="margin-bottom: 20px;">
+                            <table class="asset-table">
+                                <thead>
+                                    <tr>
+                                        <th>Área Funcional</th>
+                                        <th>Proceso de Negocio</th>
+                                        <th>Activos Asociados Ejemplares</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Rectoría / Dirección</strong></td>
+                                        <td>Decisión institucional, asignación de recursos y aceptación de riesgos</td>
+                                        <td>Políticas del SGSI, actas de comité, planes de tratamiento de riesgos</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Servicios Informáticos</strong></td>
+                                        <td>Administración de red, servidores, identidades, respaldos y soporte</td>
+                                        <td>Directorio Activo, firewall, red LAN/Wi-Fi, backups y consola EDR</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Servicios Escolares</strong></td>
+                                        <td>Inscripciones, expedientes académicos y calificaciones</td>
+                                        <td>Base de datos de Control Escolar, expedientes digitales y portales</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Administración y Finanzas</strong></td>
+                                        <td>Pagos de inscripción, presupuestos, nómina y facturación</td>
+                                        <td>Pasarela de cobros, base de datos financiera y sistema de nómina</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Áreas Académicas</strong></td>
+                                        <td>Impartición de cursos, evaluaciones, laboratorios y biblioteca</td>
+                                        <td>Plataforma LMS (Moodle/Canvas), laboratorios y biblioteca digital</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Comunicación</strong></td>
+                                        <td>Difusión oficial y mantenimiento del portal institucional</td>
+                                        <td>Portal web oficial y redes sociales institucionales</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h3>1.4. Justificación y Delimitación del Alcance</h3>
+                        <p>
+                            El SGSI incluye todos los servicios digitales administrados por la universidad, redes de campus y servicios cloud utilizados.
+                        </p>
+                        <div class="grid2">
+                            <div class="card">
+                                <h4>Inclusiones del Alcance</h4>
+                                <ul class="bullets">
+                                    <li>Red cableada e inalámbrica de las instalaciones de la UPSLP.</li>
+                                    <li>Cuentas de correo institucionales y almacenamiento colaborativo.</li>
+                                    <li>Bases de datos de servicios escolares, nómina y contabilidad.</li>
+                                    <li>Servicios cloud críticos de terceros (LMS, pasarelas de pago y consolas SaaS).</li>
+                                </ul>
+                            </div>
+                            <div class="card">
+                                <h4>Exclusiones Justificadas</h4>
+                                <ul class="bullets">
+                                    <li>Dispositivos personales de usuarios (BYOD) que no accedan a servicios críticos.</li>
+                                    <li>Redes domésticas de docentes y estudiantes en modo remoto.</li>
+                                    <li>Sistemas informáticos ajenos al control de la universidad.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         TAB 2: NORMAS & VOCABULARIO
+                         ========================================== -->
+                    <div id="tab-normas" class="sgsi-tab-content hidden">
+                        <h2>2. Referencias Normativas</h2>
+                        <p>
+                            El diseño e implementación del SGSI se sustenta en un marco normativo e internacional sólido para asegurar la cobertura técnica y regulatoria:
+                        </p>
+                        
+                        <div class="asset-table-wrapper" style="margin-bottom: 30px;">
+                            <table class="asset-table">
+                                <thead>
+                                    <tr>
+                                        <th>Norma / Referencia</th>
+                                        <th>Función Principal</th>
+                                        <th>Uso Práctico dentro de la UPSLP</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>ISO/IEC 27001:2022</strong></td>
+                                        <td>Requisitos certificables del SGSI</td>
+                                        <td>Define la estructura y ciclo del sistema de gestión (secciones 4 a 10).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ISO/IEC 27000</strong></td>
+                                        <td>Glosario y fundamentos</td>
+                                        <td>Establece la base terminológica común de seguridad de la información.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ISO/IEC 27002:2022</strong></td>
+                                        <td>Guía de buenas prácticas de controles</td>
+                                        <td>Orienta el diseño técnico y operativo de los controles del Anexo A (MFA, parches, etc.).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ISO/IEC 27005</strong></td>
+                                        <td>Gestión de riesgos de seguridad</td>
+                                        <td>Provee las pautas para identificar, evaluar y tratar riesgos organizacionales.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ISO/IEC 27017 / 27018</strong></td>
+                                        <td>Seguridad y privacidad en la nube</td>
+                                        <td>Aplica para el correo en nube, LMS y almacenamiento cloud de datos personales.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ISO/IEC 27031 / 27035</strong></td>
+                                        <td>Continuidad TIC y gestión de incidentes</td>
+                                        <td>Establece planes de recuperación y playbooks ante phishing, malware o caídas de red.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Marco Legal Mexicano</strong></td>
+                                        <td>Cumplimiento regulatorio</td>
+                                        <td>Alineación con la Ley de Protección de Datos Personales (LGPDPPSO) y transparencia.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h2>3. Términos y Condiciones de Intervención</h2>
+                        <h3>3.1. Términos Clave del SGSI</h3>
+                        <div class="asset-table-wrapper" style="margin-bottom: 30px;">
+                            <table class="asset-table">
+                                <thead>
+                                    <tr>
+                                        <th>Término</th>
+                                        <th>Definición Operativa</th>
+                                        <th>Ejemplo en la UPSLP</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Activo de Información</strong></td>
+                                        <td>Todo lo que tiene valor para la operación de la universidad.</td>
+                                        <td>Bases de datos de calificaciones, expedientes de personal.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Amenaza</strong></td>
+                                        <td>Causa potencial de un incidente no deseado.</td>
+                                        <td>Campaña de phishing a personal administrativo.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Vulnerabilidad</strong></td>
+                                        <td>Debilidad de un activo que puede ser explotada.</td>
+                                        <td>Falta de doble factor de autenticación (MFA) en accesos privilegiados.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Riesgo</strong></td>
+                                        <td>Efecto de la incertidumbre sobre los objetivos de seguridad.</td>
+                                        <td>Robo de credenciales de administradores y alteración de base de datos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Control</strong></td>
+                                        <td>Medida técnica, física o administrativa para mitigar riesgos.</td>
+                                        <td>Autenticación multifactor obligatoria, segmentación de redes.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Confidencialidad</strong></td>
+                                        <td>Garantía de acceso exclusivo a usuarios autorizados.</td>
+                                        <td>Privacidad de expedientes de nómina de recursos humanos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Integridad</strong></td>
+                                        <td>Precisión y completitud de la información.</td>
+                                        <td>Evitar la alteración no autorizada de calificaciones escolares.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Disponibilidad</strong></td>
+                                        <td>Acceso oportuno a la información y servicios cuando se requiere.</td>
+                                        <td>Portal de reinscripciones en línea operativo 24/7.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Incidente de Seguridad</strong></td>
+                                        <td>Evento sospechoso que compromete la operación o la seguridad.</td>
+                                        <td>Phishing exitoso que resulta en el envío masivo de spam desde cuentas oficiales.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>RTO / RPO</strong></td>
+                                        <td>Tiempos y puntos de recuperación objetivos tolerados ante desastres.</td>
+                                        <td>Restaurar el portal escolar en menos de 8 horas perdiendo máximo 24h de cambios.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h3>3.2. Condiciones de Intervención Académica</h3>
+                        <p>
+                            La propuesta del SGSI se realiza bajo las siguientes condiciones de confidencialidad y control:
+                        </p>
+                        <div class="reflection">
+                            <p>
+                                <strong>Compromiso ético y técnico:</strong> Toda la información de carácter sensible ha sido anonimizada y las evidencias corresponden a simulaciones técnicas controladas en entornos de prueba. No se han modificado ni vulnerado sistemas en producción de la UPSLP, respetando la seguridad e integridad real de la infraestructura universitaria.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         TAB 3: CONTEXTO & ACTIVOS
+                         ========================================== -->
+                    <div id="tab-activos" class="sgsi-tab-content hidden">
+                        <h2>4. Contexto Organizacional & Partes Interesadas</h2>
+                        <p>
+                            El análisis del contexto interno/externo y las necesidades de las partes interesadas determinan los requisitos prioritarios de protección:
+                        </p>
+
+                        <div class="grid2">
+                            <div class="card">
+                                <h3>Contexto Externo e Interno</h3>
+                                <ul class="bullets">
+                                    <li><strong>Usuarios Diversos:</strong> Estudiantes, docentes, administrativos y proveedores con distintos niveles de conocimiento técnico.</li>
+                                    <li><strong>Carga Operativa de TI:</strong> Personal de TI enfocado en soporte; se requieren controles automatizados o de bajo mantenimiento.</li>
+                                    <li><strong>Riesgos Globales:</strong> Incremento en ataques de phishing, ransomware y robo de cuentas en nubes educativas.</li>
+                                    <li><strong>Dependencia Cloud:</strong> Correo corporativo y LMS en nube con proveedores externos, requiriendo SLAs claros.</li>
+                                </ul>
+                            </div>
+                            <div class="card">
+                                <h3>Partes Interesadas y Expectativas</h3>
+                                <ul class="bullets">
+                                    <li><strong>Estudiantes:</strong> Esperan disponibilidad del portal académico, rapidez en reinscripciones y protección de sus datos personales.</li>
+                                    <li><strong>Docentes:</strong> Requieren acceso ininterrumpido al LMS y listas escolares, con soporte a dudas técnicas.</li>
+                                    <li><strong>Rectoría:</strong> Exige cumplimiento regulatorio, preservación de la reputación institucional y eficiencia en el gasto de TI.</li>
+                                    <li><strong>Autoridades Gubernamentales:</strong> Piden transparencia y apego a leyes de datos y de rendición de cuentas.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <h2>4.3. Inventario de 40 Activos de Información</h2>
+                        <p>
+                            Se listan los 40 activos críticos de la UPSLP clasificados por tipo, propietario, proceso y criticidad (Confidencialidad, Integridad, Disponibilidad).
+                        </p>
+
+                        <!-- Filtros del Buscador de Activos -->
+                        <div class="asset-controls no-print">
+                            <input type="text" id="assetSearch" placeholder="Buscar por código, nombre, proceso o propietario..." aria-label="Buscar activo">
+                            <select id="assetFilterType" aria-label="Filtrar por tipo">
+                                <option value="all">Todos los Tipos</option>
+                                <option value="interno">Interno</option>
+                                <option value="externo">Externo</option>
+                            </select>
+                            <select id="assetFilterCia" aria-label="Filtrar por criticidad CIA">
+                                <option value="all">Todas las Criticidades</option>
+                                <option value="alta">Criticidad Alta</option>
+                                <option value="media">Criticidad Media</option>
+                                <option value="baja">Criticidad Baja</option>
+                            </select>
+                        </div>
+
+                        <div class="asset-counter no-print">
+                            <span id="assetCounterText">Cargando activos...</span>
+                            <span class="muted">Usa el buscador para filtrar en tiempo real</span>
+                        </div>
+
+                        <!-- Tabla de Activos Completa -->
+                        <div class="asset-table-wrapper">
+                            <table class="asset-table" id="assetTable">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Tipo</th>
+                                        <th>Activo de Información</th>
+                                        <th>Propietario</th>
+                                        <th>Proceso Asociado</th>
+                                        <th style="text-align: center;">C/I/D</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- ACTIVOS INTERNOS -->
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-01</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Base de Datos de Control Escolar</strong><br><small>Oracle/MySQL, almacena trayectorias, calificaciones e inscripciones en Site principal.</small></td>
+                                        <td>Servicios Escolares</td>
+                                        <td>Control escolar</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-02</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Sistema de Gestión Escolar</strong><br><small>Aplicación web interna para coordinar trámites académicos e inscripciones.</small></td>
+                                        <td>Servicios Escolares</td>
+                                        <td>Inscripciones</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-03</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Servidor de Autenticación / Directorio Activo</strong><br><small>AD/LDAP, controla credenciales, roles y accesos a toda la infraestructura.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Gestión de identidades</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-04</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Servidor de Archivos Administrativos</strong><br><small>NAS local con permisos SMB que resguarda oficios, actas y correspondencia interna.</small></td>
+                                        <td>Administración</td>
+                                        <td>Gestión documental</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-05</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Sistema Financiero y Contable</strong><br><small>Bases de datos de egresos, presupuestos y control interno de caja.</small></td>
+                                        <td>Finanzas</td>
+                                        <td>Contabilidad y pagos</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-06</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Sistema de Nómina Interno</strong><br><small>Aplicación de recursos humanos para el pago al personal académico y administrativo.</small></td>
+                                        <td>Recursos Humanos</td>
+                                        <td>Pago de personal</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-07</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Red LAN Administrativa</strong><br><small>Switches, cableado estructurado y segmentación VLAN para áreas críticas.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Conectividad interna</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-08</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Red Wi-Fi Institucional</strong><br><small>Access Points, controlador inalámbrico y autenticación RADIUS institucional.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Acceso inalámbrico</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">M/M/A</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-09</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Firewall Perimetral UTM</strong><br><small>Equipo físico de borde con filtrado de paquetes, VPNs y reglas de acceso externas.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Seguridad perimetral</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-10</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Servidor de Respaldos Local</strong><br><small>Software y hardware de almacenamiento local que centraliza copias del site.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Continuidad y backup</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-11</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Repositorio de Documentación Técnica</strong><br><small>Wiki interna y diagramas de red críticos para la gestión de incidentes.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Operación TI</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/M/M</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-12</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Equipos Administrativos de Servicios Escolares</strong><br><small>Computadoras de ventanillas y oficinas de atención a alumnos.</small></td>
+                                        <td>Servicios Escolares</td>
+                                        <td>Atención escolar</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-13</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Equipos Administrativos de Finanzas</strong><br><small>Equipos terminales con accesos a bancos y portales contables.</small></td>
+                                        <td>Finanzas</td>
+                                        <td>Operaciones de caja</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-14</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Laboratorios de Cómputo</strong><br><small>Aulas de cómputo para clases prácticas, desarrollo y exámenes en campus.</small></td>
+                                        <td>Áreas Académicas</td>
+                                        <td>Docencia práctica</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">M/M/A</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-15</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>CCTV y Grabadores NVR</strong><br><small>Cámaras IP y sistema de almacenamiento para la seguridad física del campus.</small></td>
+                                        <td>Seguridad Física</td>
+                                        <td>Vigilancia física</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">M/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-16</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Sistema de Tickets de Soporte</strong><br><small>Aplicación interna de mesa de ayuda (Helpdesk) para registrar incidencias.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Soporte a usuarios</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">M/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-17</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Inventario de Activos TIC (CMDB)</strong><br><small>Hojas de cálculo de control del SGSI y asignación de activos.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Gobierno de TI</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">M/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-18</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Servidores de Aplicaciones Internas</strong><br><small>Servidores Proxmox/VMware que alojan sistemas web e internos de la universidad.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Servicios virtuales</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-19</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>UPS y Planta de Energía Eléctrica</strong><br><small>Infraestructura de soporte eléctrico del Site de telecomunicaciones.</small></td>
+                                        <td>Mantenimiento</td>
+                                        <td>Continuidad física</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">B/M/A</span></td>
+                                    </tr>
+                                    <tr data-type="interno" data-cia="alta">
+                                        <td class="asset-code">ACT-INT-20</td>
+                                        <td><span class="asset-badge asset-badge--interno">Interno</span></td>
+                                        <td><strong>Documentación y Actas del SGSI</strong><br><small>Políticas aprobadas, minutas y registros de auditorías del sistema.</small></td>
+                                        <td>Responsable SGSI</td>
+                                        <td>Gobierno de seguridad</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">M/A/M</span></td>
+                                    </tr>
+
+                                    <!-- ACTIVOS EXTERNOS -->
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-01</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Correo Institucional en la Nube</strong><br><small>Servicio cloud de correo electrónico institucional (Google Workspace / M365).</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Comunicación oficial</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-02</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Plataforma LMS (Moodle/Canvas)</strong><br><small>Aula virtual interactiva y repositorio de evaluaciones en servidor en la nube.</small></td>
+                                        <td>Áreas Académicas</td>
+                                        <td>Docencia en línea</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-03</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Portal Web Institucional</strong><br><small>Servidor web de hosting externo con información pública de la universidad.</small></td>
+                                        <td>Comunicación</td>
+                                        <td>Comunicación pública</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">M/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-04</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Nombre de Dominio Oficial (upslp.edu.mx)</strong><br><small>Registros de DNS y delegación del dominio administrado por NIC México.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Identidad web</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-05</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Certificados TLS/SSL Oficiales</strong><br><small>Firmas y llaves públicas de servidores institucionales de CA externa.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Cifrado de datos</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">M/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-06</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Proveedor de Internet Dedicado Principal</strong><br><small>Enlace de fibra óptica simétrica que conecta al campus.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Acceso a Internet</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">B/M/A</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-07</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Enlace de Internet Secundario (Respaldo)</strong><br><small>Enlace de internet secundario mediante proveedor secundario o satelital.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Continuidad de red</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">B/M/A</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-08</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Pasarela de Cobros Bancarios (API)</strong><br><small>Portal externo y APIs bancarias para el pago con tarjetas en línea.</small></td>
+                                        <td>Finanzas</td>
+                                        <td>Cobro de inscripciones</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-09</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Almacenamiento Cloud de Respaldos</strong><br><small>Repositorio cifrado externo para recuperación de desastres (DRP) fuera del campus.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Resguardo fuera del sitio</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="media">
+                                        <td class="asset-code">ACT-EXT-10</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Licenciamiento de Software Educativo</strong><br><small>Licencias de Matlab, SolidWorks, Microsoft, etc., en la nube.</small></td>
+                                        <td>Áreas Académicas</td>
+                                        <td>Cumplimiento de software</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--media">B/M/M</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="media">
+                                        <td class="asset-code">ACT-EXT-11</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Plataforma de Videoconferencias</strong><br><small>Servicios SaaS para clases virtuales y reuniones de comités (Teams/Zoom).</small></td>
+                                        <td>Áreas Académicas</td>
+                                        <td>Clases virtuales</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--media">M/M/M</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-12</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Servicios de Almacenamiento Colaborativo</strong><br><small>Espacios cloud compartidos para personal (OneDrive/Google Drive).</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Colaboración digital</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-13</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Proveedor Externo de Soporte Físico de Red</strong><br><small>Contrato de mantenimiento correctivo y preventivo de fibra e infraestructura.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Soporte físico de red</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-14</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Servicio de Monitoreo SOC Externo</strong><br><small>Proveedor de alertas y correlación de eventos de seguridad remota.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Monitoreo y detección</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-15</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Sistema de Facturación de Proveedor Autorizado</strong><br><small>Plataforma del PAC para timbrado y facturación de servicios escolares.</small></td>
+                                        <td>Finanzas</td>
+                                        <td>Comprobación fiscal</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-16</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Plataforma Gubernamental de Reportes Tributarios</strong><br><small>Cuentas externas del SAT y portales estatales para declaraciones fiscales.</small></td>
+                                        <td>Finanzas</td>
+                                        <td>Cumplimiento legal</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-17</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Redes Sociales Oficiales</strong><br><small>Cuentas de difusión institucional en redes como Facebook e Instagram.</small></td>
+                                        <td>Comunicación</td>
+                                        <td>Comunicación social</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">M/A/M</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="media">
+                                        <td class="asset-code">ACT-EXT-18</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Sistema de Biblioteca Digital</strong><br><small>Plataformas externas de editoriales para consulta académica de alumnos.</small></td>
+                                        <td>Áreas Académicas</td>
+                                        <td>Biblioteca y consulta</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--media">M/M/M</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="alta">
+                                        <td class="asset-code">ACT-EXT-19</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Consola Cloud de Antivirus / EDR</strong><br><small>Administrador central en la nube de agentes en computadoras administrativas.</small></td>
+                                        <td>Servicios Informáticos</td>
+                                        <td>Protección endpoint</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--alta">A/A/A</span></td>
+                                    </tr>
+                                    <tr data-type="externo" data-cia="media">
+                                        <td class="asset-code">ACT-EXT-20</td>
+                                        <td><span class="asset-badge asset-badge--externo">Externo</span></td>
+                                        <td><strong>Servicio de Impresión Administrada</strong><br><small>Cola de impresión en red y mantenimiento externo de impresoras.</small></td>
+                                        <td>Administración</td>
+                                        <td>Impresión segura</td>
+                                        <td style="text-align: center;"><span class="cia-badge cia-badge--media">M/M/M</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         TAB 4: LIDERAZGO & POLÍTICAS
+                         ========================================== -->
+                    <div id="tab-politicas" class="sgsi-tab-content hidden">
+                        <h2>5. Liderazgo</h2>
+                        <h3>5.1. Política General de Seguridad de la Información</h3>
+                        <p>
+                            La Alta Dirección de la Universidad Politécnica de San Luis Potosí declara formalmente su compromiso de proteger la confidencialidad, integridad y disponibilidad de la información de alumnos, docentes y colaboradores mediante un marco de trabajo de ciberseguridad proporcional al riesgo y alineado a las legislaciones de privacidad mexicanas vigentes. Esta directriz obliga a todo usuario de sistemas de la universidad a respetar y acatar los controles normativos definidos.
+                        </p>
+
+                        <h3>5.2. Diez Políticas Específicas del SGSI</h3>
+                        <p>
+                            Para asegurar la operatividad del liderazgo de seguridad, se establecen diez políticas específicas estructuradas de forma que sirvan de guía directa en auditorías:
+                        </p>
+
+                        <!-- POL-01 -->
+                        <article class="policy-card">
+                            <div class="policy-card__header">
+                                <h4 class="policy-card__title">Gestión de Identidades y Accesos</h4>
+                                <span class="policy-card__id">POL-01</span>
+                            </div>
+                            <div class="policy-card__body">
+                                <div>
+                                    <p class="policy-section-title">Estándar Obligatorio</p>
+                                    <p class="policy-section-content">Toda cuenta para acceder a servicios informáticos debe ser única, individual y asignada a un rol.</p>
+                                </div>
+                                <div>
+                                    <p class="policy-section-title">Directriz Recomendada</p>
+                                    <p class="policy-section-content">Activar autenticación multifactor (MFA) en cuentas de correo y accesos administrativos privilegiados.</p>
+                                </div>
+                                <div>
+                                    <p class="policy-section-title">Procedimiento Específico</p>
+                                    <p class="policy-section-content">Altas, bajas y cambios de permisos mediante ticket formal con aprobación escrita del propietario del activo.</p>
+                                </div>
+                                <div class="policy-linebase">
+                                    <p class="policy-section-title">Línea Base de Cumplimiento</p>
+                                    <p class="policy-section-content">100% de cuentas de administradores identificadas y auditadas trimestralmente.</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- POL-02 -->
+                        <article class="policy-card">
+                            <div class="policy-card__header">
+                                <h4 class="policy-card__title">Uso Aceptable de Red e Infraestructura</h4>
+                                <span class="policy-card__id">POL-02</span>
+                            </div>
+                            <div class="policy-card__body">
+                                <div>
+                                    <p class="policy-section-title">Estándar Obligatorio</p>
+                                    <p class="policy-section-content">La red institucional de campus se usará únicamente para fines educativos y administrativos.</p>
+                                </div>
+                                <div>
+                                    <p class="policy-section-title">Directriz Recomendada</p>
+                                    <p class="policy-section-content">Segmentar la red Wi-Fi separando tráfico de invitados, alumnos, docentes y administrativos.</p>
+                                </div>
+                                <div>
+                                    <p class="policy-section-title">Procedimiento Específico</p>
+                                    <p class="policy-section-content">El equipo de redes bloqueará categorías de contenido no educativo (juegos, streaming no académico).</p>
+                                </div>
+                                <div class="policy-linebase">
+                                    <p class="policy-section-title">Línea Base de Cumplimiento</p>
+                                    <p class="policy-section-content">Segmentación activa y bloqueo automático de tráfico ilícito en firewall perimetral.</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- POL-03 -->
+                        <article class="policy-card">
+                            <div class="policy-card__header">
+                                <h4 class="policy-card__title">Protección de Datos Personales</h4>
+                                <span class="policy-card__id">POL-03</span>
+                            </div>
+                            <div class="policy-card__body">
+                                <div>
+                                    <p class="policy-section-title">Estándar Obligatorio</p>
+                                    <p class="policy-section-content">Resguardo bajo estricta confidencialidad de datos sensibles y PII (información personal identificable).</p>
+                                </div>
+                                <div>
+                                    <p class="policy-section-title">Directriz Recomendada</p>
+                                    <p class="policy-section-content">Cifrar en reposo bases de datos escolares y evitar compartir listas por correos desprotegidos.</p>
+                                </div>
+                                <div>
+                                    <p class="policy-section-title">Procedimiento Específico</p>
+                                    <p class="policy-section-content">Clasificar documentos, obtener consentimiento de tratamiento de datos y registrar fugas potenciales.</p>
+                                </div>
+                                <div class="policy-linebase">
+                                    <p class="policy-section-title">Línea Base de Cumplimiento</p>
+                                    <p class="policy-section-content">Aviso de privacidad publicado y auditoría anual de cumplimiento legal de datos.</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- POL-04 -->
+                        <article class="policy-card">
+                            <div class="policy-card__header">
+                                <h4 class="policy-card__title">Respaldos y Recuperación ante Incidentes</h4>
+                                <span class="policy-card__id">POL-04</span>
+                            </div>
+                            <div class="policy-card__body">
+                                <div>
+                                    <p class="policy-section-title">Estándar Obligatorio</p>
+                                    <p class="policy-section-content">Los activos clasificados con criticidad alta deben respaldarse de forma periódica y programada.</p>
+                                </div>
+                                <div>
+                                    <p class="policy-section-title">Directriz Recomendada</p>
+                                    <p class="policy-section-content">Mantener respaldos cifrados con copias en la nube y replicaciones físicas desconectadas de la red (offline).</p>
+                                </div>
+                                <div>
+                                    <p class="policy-section-title">Procedimiento Específico</p>
+                                    <p class="policy-section-content">Ejecución automática, bitácora diaria de finalización y pruebas de restauración programadas.</p>
+                                </div>
+                                <div class="policy-linebase">
+                                    <p class="policy-section-title">Línea Base de Cumplimiento</p>
+                                    <p class="policy-section-content">RPO máximo de 24 horas y pruebas de restauración de bases escolares cada 3 meses.</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- POL-05 a POL-10 Resumidas -->
+                        <div class="grid2">
+                            <div class="card">
+                                <h5>POL-05: Gestión de Cambios</h5>
+                                <p class="muted"><strong>Estándar:</strong> Todo cambio técnico en redes o producción debe documentarse, probarse y autorizarse previamente por el Comité del SGSI con plan de reversa.</p>
+                            </div>
+                            <div class="card">
+                                <h5>POL-06: Parches y Vulnerabilidades</h5>
+                                <p class="muted"><strong>Estándar:</strong> Actualización mensual de parches en servidores y endpoints. Mitigación inmediata de vulnerabilidades críticas en un plazo máximo de 15 días.</p>
+                            </div>
+                            <div class="card">
+                                <h5>POL-07: Respuesta a Incidentes</h5>
+                                <p class="muted"><strong>Estándar:</strong> Canal de reporte de incidentes único para usuarios, con roles claros de contención, registro en bitácoras y erradicación técnica.</p>
+                            </div>
+                            <div class="card">
+                                <h5>POL-08: Seguridad con Proveedores</h5>
+                                <p class="muted"><strong>Estándar:</strong> Los proveedores externos con acceso remoto a la red deben firmar acuerdos de confidencialidad (NDAs) y usar accesos supervisados.</p>
+                            </div>
+                            <div class="card">
+                                <h5>POL-09: Concienciación</h5>
+                                <p class="muted"><strong>Estándar:</strong> Campañas anti-phishing obligatorias dirigidas a personal de ventanilla y administrativo de forma semestral con métricas de clics.</p>
+                            </div>
+                            <div class="card">
+                                <h5>POL-10: Monitoreo y Auditoría</h5>
+                                <p class="muted"><strong>Estándar:</strong> Generar evidencias continuas de auditoría interna de todos los controles de acceso y realizar revisiones bimestrales.</p>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <h3>5.3. Matriz RACI General por Políticas</h3>
+                        <p>
+                            Establece quién es responsable de la ejecución técnica (R), aprobador directivo (A), consultado para el diseño (C) e informado tras cambios (I) por cada política:
+                        </p>
+                        <div class="asset-table-wrapper">
+                            <table class="asset-table raci-table">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: left;">ID / Política</th>
+                                        <th>Rectoría</th>
+                                        <th>Servicios Informáticos</th>
+                                        <th>Escolares / Finanzas</th>
+                                        <th>Recursos Humanos</th>
+                                        <th>Comunidad / Alumnos</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="text-align: left;"><strong>POL-01: Identidades y Accesos</strong></td>
+                                        <td><span class="raci-badge raci-badge--a">A</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--c">C</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;"><strong>POL-02: Uso Aceptable</strong></td>
+                                        <td><span class="raci-badge raci-badge--a">A</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;"><strong>POL-03: Datos Personales</strong></td>
+                                        <td><span class="raci-badge raci-badge--a">A</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--c">C</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;"><strong>POL-04: Respaldos y Backup</strong></td>
+                                        <td><span class="raci-badge raci-badge--a">A</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--c">C</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;"><strong>POL-05: Gestión de Cambios</strong></td>
+                                        <td><span class="raci-badge raci-badge--a">A</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--c">C</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;"><strong>POL-06: Parches e Infraestructura</strong></td>
+                                        <td><span class="raci-badge raci-badge--a">A</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;"><strong>POL-07: Respuesta a Incidentes</strong></td>
+                                        <td><span class="raci-badge raci-badge--a">A</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--c">C</span></td>
+                                        <td><span class="raci-badge raci-badge--c">C</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;"><strong>POL-08: Seguridad Proveedores</strong></td>
+                                        <td><span class="raci-badge raci-badge--a">A</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;"><strong>POL-09: Concienciación</strong></td>
+                                        <td><span class="raci-badge raci-badge--a">A</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: left;"><strong>POL-10: Monitoreo y Auditoría</strong></td>
+                                        <td><span class="raci-badge raci-badge--a">A</span></td>
+                                        <td><span class="raci-badge raci-badge--r">R</span></td>
+                                        <td><span class="raci-badge raci-badge--c">C</span></td>
+                                        <td><span class="raci-badge raci-badge--c">C</span></td>
+                                        <td><span class="raci-badge raci-badge--i">I</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         TAB 5: PLANIFICACIÓN & RIESGOS
+                         ========================================== -->
+                    <div id="tab-riesgos" class="sgsi-tab-content hidden">
+                        <h2>6. Planificación</h2>
+                        <h3>6.1. Metodología de Evaluación de Riesgos</h3>
+                        <p>
+                            Se evalúan los riesgos de la información bajo la fórmula: 
+                            <code class="glow">Riesgo (Score) = Probabilidad × Impacto</code>, utilizando escalas del 1 al 5.
+                        </p>
+                        <ul class="bullets">
+                            <li><strong>Probabilidad (1-5):</strong> 1 Rara, 2 Poco probable, 3 Posible, 4 Probable, 5 Casi segura.</li>
+                            <li><strong>Impacto (1-5):</strong> 1 Insignificante, 2 Menor, 3 Moderado, 4 Mayor, 5 Catastrófico.</li>
+                            <li><strong>Nivel de Riesgo:</strong> Bajo (1-6), Medio (7-12), Alto (13-19), Crítico (20-25).</li>
+                        </ul>
+
+                        <div class="divider"></div>
+
+                        <h3>6.2. Matriz de Riesgos Interactiva 5x5</h3>
+                        <p>
+                            Haz clic en las celdas de la matriz de calor para filtrar la tabla inferior y analizar los riesgos específicos del proyecto:
+                        </p>
+
+                        <!-- Matriz visual 5x5 -->
+                        <div class="matrix-container">
+                            <div class="matrix-grid-wrapper">
+                                <div class="matrix-y-axis">
+                                    <div class="matrix-y-label">Probabilidad</div>
+                                    <div class="matrix-grid">
+                                        <!-- Fila 5: P=5 (Riesgos: R-01 en I=4; R-02,03,05,06,07 en I=3; R-10 en I=2) -->
+                                        <div class="matrix-cell matrix-cell--bajo" data-p="5" data-i="1" title="P: 5, I: 1 - Bajo (5)">5</div>
+                                        <div class="matrix-cell matrix-cell--medio" data-p="5" data-i="2" title="P: 5, I: 2 - Medio (10) | Contiene 1 Riesgo">10
+                                            <div class="matrix-cell__indicators"><span class="matrix-indicator-dot"></span></div>
+                                        </div>
+                                        <div class="matrix-cell matrix-cell--alto" data-p="5" data-i="3" title="P: 5, I: 3 - Alto (15) | Contiene 5 Riesgos">15
+                                            <div class="matrix-cell__indicators">
+                                                <span class="matrix-indicator-dot"></span>
+                                                <span class="matrix-indicator-dot"></span>
+                                                <span class="matrix-indicator-dot"></span>
+                                                <span class="matrix-indicator-dot"></span>
+                                                <span class="matrix-indicator-dot"></span>
+                                            </div>
+                                        </div>
+                                        <div class="matrix-cell matrix-cell--critico" data-p="5" data-i="4" title="P: 5, I: 4 - Crítico (20) | Contiene R-01">20
+                                            <div class="matrix-cell__indicators"><span class="matrix-indicator-dot"></span></div>
+                                        </div>
+                                        <div class="matrix-cell matrix-cell--critico" data-p="5" data-i="5" title="P: 5, I: 5 - Crítico (25)">25</div>
+
+                                        <!-- Fila 4: P=4 (Riesgos: R-04, R-09 en I=4; R-08, R-11 en I=3) -->
+                                        <div class="matrix-cell matrix-cell--bajo" data-p="4" data-i="1" title="P: 4, I: 1 - Bajo (4)">4</div>
+                                        <div class="matrix-cell matrix-cell--medio" data-p="4" data-i="2" title="P: 4, I: 2 - Medio (8)">8</div>
+                                        <div class="matrix-cell matrix-cell--medio" data-p="4" data-i="3" title="P: 4, I: 3 - Medio (12) | Contiene 2 Riesgos">12
+                                            <div class="matrix-cell__indicators">
+                                                <span class="matrix-indicator-dot"></span>
+                                                <span class="matrix-indicator-dot"></span>
+                                            </div>
+                                        </div>
+                                        <div class="matrix-cell matrix-cell--alto" data-p="4" data-i="4" title="P: 4, I: 4 - Alto (16) | Contiene 2 Riesgos">16
+                                            <div class="matrix-cell__indicators">
+                                                <span class="matrix-indicator-dot"></span>
+                                                <span class="matrix-indicator-dot"></span>
+                                            </div>
+                                        </div>
+                                        <div class="matrix-cell matrix-cell--critico" data-p="4" data-i="5" title="P: 4, I: 5 - Crítico (20)">20</div>
+
+                                        <!-- Fila 3: P=3 (Riesgos: R-12 en I=3) -->
+                                        <div class="matrix-cell matrix-cell--bajo" data-p="3" data-i="1" title="P: 3, I: 1 - Bajo (3)">3</div>
+                                        <div class="matrix-cell matrix-cell--bajo" data-p="3" data-i="2" title="P: 3, I: 2 - Bajo (6)">6</div>
+                                        <div class="matrix-cell matrix-cell--medio" data-p="3" data-i="3" title="P: 3, I: 3 - Medio (9) | Contiene R-12">9
+                                            <div class="matrix-cell__indicators"><span class="matrix-indicator-dot"></span></div>
+                                        </div>
+                                        <div class="matrix-cell matrix-cell--medio" data-p="3" data-i="4" title="P: 3, I: 4 - Medio (12)">12</div>
+                                        <div class="matrix-cell matrix-cell--alto" data-p="3" data-i="5" title="P: 3, I: 5 - Alto (15)">15</div>
+
+                                        <!-- Fila 2: P=2 -->
+                                        <div class="matrix-cell matrix-cell--bajo" data-p="2" data-i="1" title="P: 2, I: 1 - Bajo (2)">2</div>
+                                        <div class="matrix-cell matrix-cell--bajo" data-p="2" data-i="2" title="P: 2, I: 2 - Bajo (4)">4</div>
+                                        <div class="matrix-cell matrix-cell--bajo" data-p="2" data-i="3" title="P: 2, I: 3 - Bajo (6)">6</div>
+                                        <div class="matrix-cell matrix-cell--medio" data-p="2" data-i="4" title="P: 2, I: 4 - Medio (8)">8</div>
+                                        <div class="matrix-cell matrix-cell--medio" data-p="2" data-i="5" title="P: 2, I: 5 - Medio (10)">10</div>
+
+                                        <!-- Fila 1: P=1 -->
+                                        <div class="matrix-cell matrix-cell--bajo" data-p="1" data-i="1" title="P: 1, I: 1 - Bajo (1)">1</div>
+                                        <div class="matrix-cell matrix-cell--bajo" data-p="1" data-i="2" title="P: 1, I: 2 - Bajo (2)">2</div>
+                                        <div class="matrix-cell matrix-cell--bajo" data-p="1" data-i="3" title="P: 1, I: 3 - Bajo (3)">3</div>
+                                        <div class="matrix-cell matrix-cell--bajo" data-p="1" data-i="4" title="P: 1, I: 4 - Bajo (4)">4</div>
+                                        <div class="matrix-cell matrix-cell--bajo" data-p="1" data-i="5" title="P: 1, I: 5 - Bajo (5)">5</div>
+                                    </div>
+                                </div>
+                                <div class="matrix-x-labels">
+                                    <div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>
+                                </div>
+                                <div class="matrix-x-title">Impacto</div>
+                            </div>
+
+                            <div class="matrix-info-panel">
+                                <h4 class="matrix-info-title">Guía de Filtrado Rápido</h4>
+                                <p class="muted" style="font-size: 0.85rem; line-height: 1.4;">
+                                    El gráfico de calor muestra la criticidad de los riesgos calculados. Las celdas con puntos representan riesgos activos asignados en esas coordenadas de evaluación.
+                                </p>
+                                <ul style="padding-left: 20px; font-size: 0.85rem;" class="bullets">
+                                    <li><span style="color: var(--color-critico);">●</span> **Crítico (20-25):** Mitigación prioritaria e inmediata.</li>
+                                    <li><span style="color: var(--color-alto);">●</span> **Alto (13-19):** Tratamiento planificado de corto plazo.</li>
+                                    <li><span style="color: var(--color-medio);">●</span> **Medio (7-12):** Monitoreo periódico y controles básicos.</li>
+                                    <li><span style="color: var(--color-bajo);">●</span> **Bajo (1-6):** Aceptación bajo supervisión.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Alerta de Filtro Activo de Riesgos -->
+                        <div class="risk-filter-alert" id="riskFilterAlert" style="display: none;">
+                            <span id="riskFilterDesc">Filtrado activo...</span>
+                            <button class="risk-filter-clear" id="clearRiskFilter">Ver todos los riesgos</button>
+                        </div>
+
+                        <!-- Tabla de Riesgos Detallada -->
+                        <div class="asset-table-wrapper">
+                            <table class="asset-table risk-table" id="riskTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Activo de Información</th>
+                                        <th>Amenaza</th>
+                                        <th>Vulnerabilidad</th>
+                                        <th style="text-align: center;">I × P</th>
+                                        <th>Nivel</th>
+                                        <th>Control Recomendado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-p="5" data-i="4" data-nivel="critico">
+                                        <td class="asset-code">R-01</td>
+                                        <td><strong>ACT-EXT-01</strong><br><small>Correo Institucional</small></td>
+                                        <td>Phishing y robo de identidades</td>
+                                        <td>Falta de MFA / Cuentas sin segundo factor</td>
+                                        <td style="text-align: center;"><strong>4 × 5 = 20</strong></td>
+                                        <td><span class="asset-badge" style="color: var(--color-critico); border-color: var(--color-critico);">Crítico</span></td>
+                                        <td>MFA obligatorio (POL-01), campañas anti-phishing (POL-09)</td>
+                                    </tr>
+                                    <tr data-p="5" data-i="3" data-nivel="alto">
+                                        <td class="asset-code">R-02</td>
+                                        <td><strong>ACT-INT-02</strong><br><small>Sistema Escolar</small></td>
+                                        <td>Caída o interrupción de sistema en inscripciones</td>
+                                        <td>Enlace único sin redundancia / Sin planes de RTO/RPO</td>
+                                        <td style="text-align: center;"><strong>3 × 5 = 15</strong></td>
+                                        <td><span class="asset-badge" style="color: var(--color-alto); border-color: var(--color-alto);">Alto</span></td>
+                                        <td>Plan de continuidad del LMS e internet redundante (POL-04)</td>
+                                    </tr>
+                                    <tr data-p="5" data-i="3" data-nivel="alto">
+                                        <td class="asset-code">R-03</td>
+                                        <td><strong>ACT-INT-01</strong><br><small>BD Control Escolar</small></td>
+                                        <td>Acceso no autorizado y alteración de calificaciones</td>
+                                        <td>Permisos excesivos / Falta de rol único (RBAC)</td>
+                                        <td style="text-align: center;"><strong>3 × 5 = 15</strong></td>
+                                        <td><span class="asset-badge" style="color: var(--color-alto); border-color: var(--color-alto);">Alto</span></td>
+                                        <td>Control de accesos granular e individual (POL-01, POL-03)</td>
+                                    </tr>
+                                    <tr data-p="4" data-i="4" data-nivel="alto">
+                                        <td class="asset-code">R-04</td>
+                                        <td><strong>ACT-INT-08</strong><br><small>Red Wi-Fi</small></td>
+                                        <td>Intrusión de red y robo de tráfico de red local</td>
+                                        <td>Falta de segmentación / Wi-Fi abierta o compartida</td>
+                                        <td style="text-align: center;"><strong>4 × 4 = 16</strong></td>
+                                        <td><span class="asset-badge" style="color: var(--color-alto); border-color: var(--color-alto);">Alto</span></td>
+                                        <td>Aislamiento de VLAN de red de invitados y RADIUS (POL-02)</td>
+                                    </tr>
+                                    <tr data-p="5" data-i="3" data-nivel="alto">
+                                        <td class="asset-code">R-05</td>
+                                        <td><strong>ACT-INT-12</strong><br><small>Equipos Escolares</small></td>
+                                        <td>Ransomware en computadoras administrativas</td>
+                                        <td>Equipos desactualizados / Antivirus inactivo</td>
+                                        <td style="text-align: center;"><strong>3 × 5 = 15</strong></td>
+                                        <td><span class="asset-badge" style="color: var(--color-alto); border-color: var(--color-alto);">Alto</span></td>
+                                        <td>Instalación de consola EDR y parches periódicos (POL-06)</td>
+                                    </tr>
+                                    <tr data-p="5" data-i="3" data-nivel="alto">
+                                        <td class="asset-code">R-06</td>
+                                        <td><strong>ACT-EXT-08</strong><br><small>Pasarela de Pagos</small></td>
+                                        <td>Fraude bancario o transacciones alteradas</td>
+                                        <td>Credenciales débiles compartidas en portales</td>
+                                        <td style="text-align: center;"><strong>3 × 5 = 15</strong></td>
+                                        <td><span class="asset-badge" style="color: var(--color-alto); border-color: var(--color-alto);">Alto</span></td>
+                                        <td>Doble aprobación para egresos y MFA (POL-01, POL-10)</td>
+                                    </tr>
+                                    <tr data-p="5" data-i="3" data-nivel="alto">
+                                        <td class="asset-code">R-07</td>
+                                        <td><strong>ACT-INT-10</strong><br><small>Servidor Respaldos</small></td>
+                                        <td>Pérdida definitiva de información crítica</td>
+                                        <td>No se realizan simulacros de restauración de backup</td>
+                                        <td style="text-align: center;"><strong>3 × 5 = 15</strong></td>
+                                        <td><span class="asset-badge" style="color: var(--color-alto); border-color: var(--color-alto);">Alto</span></td>
+                                        <td>Simulaciones trimestrales de restauración escolar (POL-04)</td>
+                                    </tr>
+                                    <tr data-p="4" data-i="3" data-nivel="medio">
+                                        <td class="asset-code">R-08</td>
+                                        <td><strong>ACT-EXT-03</strong><br><small>Portal Web</small></td>
+                                        <td>Defacement (alteración visual de portada)</td>
+                                        <td>Sitio en CMS (Wordpress) con extensiones vulnerables</td>
+                                        <td style="text-align: center;"><strong>3 × 4 = 12</strong></td>
+                                        <td><span class="asset-badge" style="color: var(--color-medio); border-color: var(--color-medio);">Medio</span></td>
+                                        <td>Actualización mensual de extensiones y plugins (POL-06, POL-10)</td>
+                                    </tr>
+                                    <tr data-p="4" data-i="4" data-nivel="alto">
+                                        <td class="asset-code">R-09</td>
+                                        <td><strong>ACT-EXT-12</strong><br><small>Nube Colaborativa</small></td>
+                                        <td>Fuga de datos personales por enlaces compartidos</td>
+                                        <td>Permisos de enlace configurados como públicos ("Cualquiera")</td>
+                                        <td style="text-align: center;"><strong>4 × 4 = 16</strong></td>
+                                        <td><span class="asset-badge" style="color: var(--color-alto); border-color: var(--color-alto);">Alto</span></td>
+                                        <td>Configuración de políticas DLP en Google Workspace/M365 (POL-03)</td>
+                                    </tr>
+                                    <tr data-p="5" data-i="2" data-nivel="medio">
+                                        <td class="asset-code">R-10</td>
+                                        <td><strong>ACT-INT-09</strong><br><small>Firewall Perimetral</small></td>
+                                        <td>Acceso externo a puertos expuestos de desarrollo</td>
+                                        <td>Reglas obsoletas sin control ni depuración en firewall</td>
+                                        <td style="text-align: center;"><strong>2 × 5 = 10</strong></td>
+                                        <td><span class="asset-badge" style="color: var(--color-medio); border-color: var(--color-medio);">Medio</span></td>
+                                        <td>Revisión mensual de puertos y gestión de cambios (POL-05, POL-10)</td>
+                                    </tr>
+                                    <tr data-p="4" data-i="3" data-nivel="medio">
+                                        <td class="asset-code">R-11</td>
+                                        <td><strong>ACT-EXT-13</strong><br><small>Proveedor Red</small></td>
+                                        <td>Acceso permanente posterior a soporte técnico</td>
+                                        <td>Falta de revocación automática de cuentas de terceros</td>
+                                        <td style="text-align: center;"><strong>3 × 4 = 12</strong></td>
+                                        <td><span class="asset-badge" style="color: var(--color-medio); border-color: var(--color-medio);">Medio</span></td>
+                                        <td>Contratos NDA y accesos supervisados temporales (POL-08)</td>
+                                    </tr>
+                                    <tr data-p="3" data-i="3" data-nivel="medio">
+                                        <td class="asset-code">R-12</td>
+                                        <td><strong>ACT-INT-20</strong><br><small>Doc. SGSI</small></td>
+                                        <td>Pérdida o alteración de políticas de seguridad</td>
+                                        <td>Modificaciones informales sin versión o resguardo controlado</td>
+                                        <td style="text-align: center;"><strong>3 × 3 = 9</strong></td>
+                                        <td><span class="asset-badge" style="color: var(--color-medio); border-color: var(--color-medio);">Medio</span></td>
+                                        <td>Versionado riguroso de políticas y resguardo seguro (POL-10)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div id="noRisksMessage" style="display: none; padding: 20px; text-align: center; font-family: var(--mono); color: var(--muted);">
+                                No hay riesgos asignados a la celda seleccionada.
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <h3>6.4. Declaración de Aplicabilidad de Controles (ISO/IEC 27002:2022)</h3>
+                        <div class="asset-table-wrapper">
+                            <table class="asset-table">
+                                <thead>
+                                    <tr>
+                                        <th>Control</th>
+                                        <th>Estado</th>
+                                        <th>Justificación de Aplicación</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>5.9 Inventario de activos de información</strong></td>
+                                        <td><b class="ok">Aplicable</b></td>
+                                        <td>Establece la base para identificar el valor de la información y asignar propietarios.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>5.15 Control de acceso lógico</strong></td>
+                                        <td><b class="ok">Aplicable</b></td>
+                                        <td>Resguarda el acceso a base escolar y servidores de identidades.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>5.17 Información de autenticación (MFA)</strong></td>
+                                        <td><b class="ok">Aplicable</b></td>
+                                        <td>Control crítico mitigante contra el phishing (POL-01).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>8.8 Gestión de vulnerabilidades técnicas</strong></td>
+                                        <td><b class="ok">Aplicable</b></td>
+                                        <td>Evita incidentes de ransomware mediante parches mensuales de servidores (POL-06).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>8.13 Respaldo de información</strong></td>
+                                        <td><b class="ok">Aplicable</b></td>
+                                        <td>Permite la recuperación en caso de desastre y hackeos (POL-04).</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>8.16 Actividades de monitoreo de red</strong></td>
+                                        <td><b class="ok">Aplicable</b></td>
+                                        <td>Revisión mensual de inicios de sesión sospechosos y cambios de firewall.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         TAB 6: SOPORTE & OPERACIÓN
+                         ========================================== -->
+                    <div id="tab-operacion" class="sgsi-tab-content hidden">
+                        <h2>7. Soporte</h2>
+                        <h3>7.1. Minuta Formal del Comité de Seguridad</h3>
+                        <div class="asset-table-wrapper" style="margin-bottom: 25px;">
+                            <table class="asset-table">
+                                <thead>
+                                    <tr>
+                                        <th>Detalle</th>
+                                        <th>Acuerdo del Comité del SGSI</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Fecha</strong></td>
+                                        <td>20 de mayo de 2026</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Asistentes</strong></td>
+                                        <td>Rectoría, Servicios Informáticos, Dirección de Servicios Escolares, Administración, Recursos Humanos.</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Acuerdos Tomados</strong></td>
+                                        <td>Aprobación formal del marco normativo del SGSI, inicio del plan piloto de MFA en cuentas privilegiadas e inicio del diseño de la campaña anti-phishing.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h3>7.2. Lenguaje Técnico vs. Ejecutivo</h3>
+                        <p>
+                            Para la aprobación del SGSI por parte de Rectoría, se traduce la jerga técnica a impactos organizacionales:
+                        </p>
+                        <div class="asset-table-wrapper" style="margin-bottom: 30px;">
+                            <table class="asset-table">
+                                <thead>
+                                    <tr>
+                                        <th>Lenguaje Técnico</th>
+                                        <th>Traducción al Lenguaje Ejecutivo (Rectoría)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>"Activar MFA en cuentas LDAP/Active Directory y deshabilitar SMBv1 de la NAS."</td>
+                                        <td>"Implementar una segunda llave de acceso en las cuentas críticas para evitar el robo de información de alumnos."</td>
+                                    </tr>
+                                    <tr>
+                                        <td>"Probar la restauración de backups fríos con RPO de 24h y RTO de 8h."</td>
+                                        <td>"Asegurar que, en caso de un fallo informático, la universidad no pierda más de un día de inscripciones y se recupere en menos de 8 horas."</td>
+                                    </tr>
+                                    <tr>
+                                        <td>"Segmentar redes Wi-Fi locales mediante servidores RADIUS y VLANs aisladas."</td>
+                                        <td>"Evitar que un estudiante o visitante de la Wi-Fi pública pueda ingresar a los servidores administrativos de finanzas."</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <h2>8. Operación</h2>
+                        <h3>8.1. Política Operada: Gestión de Identidades (POL-01)</h3>
+                        <p>
+                            Se detalla el procedimiento de control para la validación de cuentas de administradores y la habilitación de doble factor (MFA) para mitigar el phishing.
+                        </p>
+
+                        <h3>8.2. Procedimiento Operativo Paso a Paso</h3>
+                        <div class="asset-table-wrapper" style="margin-bottom: 25px;">
+                            <table class="asset-table">
+                                <thead>
+                                    <tr>
+                                        <th>Paso</th>
+                                        <th>Actividad</th>
+                                        <th>Detalle Técnico / Administrativo</th>
+                                        <th>Código Evidencia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>1</strong></td>
+                                        <td>Identificar cuentas</td>
+                                        <td>Exportación de la lista de administradores de correo y del Directorio Activo.</td>
+                                        <td>EVID-OP-01</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>2</strong></td>
+                                        <td>Validar propietario</td>
+                                        <td>Confirmación mediante ticket de que la cuenta sigue siendo requerida para el puesto.</td>
+                                        <td>EVID-OP-02</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>3</strong></td>
+                                        <td>Habilitar MFA</td>
+                                        <td>Activación obligatoria en consola de segundo factor por aplicación móvil.</td>
+                                        <td>EVID-OP-04</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>4</strong></td>
+                                        <td>Depurar accesos</td>
+                                        <td>Deshabilitación inmediata de cuentas sin uso por más de 90 días o sin propietario.</td>
+                                        <td>EVID-OP-05</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>5</strong></td>
+                                        <td>Prueba de acceso</td>
+                                        <td>Intento de sesión con y sin el token del segundo factor.</td>
+                                        <td>EVID-OP-07</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h3>8.3. Evidencias Técnicas Simuladas</h3>
+                        <p>
+                            Ejemplo de ejecución del paso 1 mediante script administrativo en PowerShell y validación del paso 5:
+                        </p>
+
+                        <!-- Consola 1 -->
+                        <div class="console-wrapper">
+                            <div class="console-header">
+                                <div class="console-dots">
+                                    <span class="console-dot console-dot--red"></span>
+                                    <span class="console-dot console-dot--yellow"></span>
+                                    <span class="console-dot console-dot--green"></span>
+                                </div>
+                                <span class="console-title">EVID-OP-01: PowerShell - Exportar Usuarios Privilegiados</span>
+                            </div>
+                            <pre class="console-body"><div class="console-input">Get-ADUser -Filter {AdminCount -eq 1} -Properties memberof | Select-Object Name, UserPrincipalName, Enabled | Export-Csv -Path "C:\SGSI\cuentas_privilegiadas.csv"</div><div class="console-output">Exportación finalizada. 18 cuentas privilegias encontradas.
+3 cuentas marcadas para depuración inmediata (inactivas > 90 días).
+1 cuenta de proveedor temporal expira hoy. Acciones programadas.</div></pre>
+                        </div>
+
+                        <!-- Consola 2 -->
+                        <div class="console-wrapper">
+                            <div class="console-header">
+                                <div class="console-dots">
+                                    <span class="console-dot console-dot--red"></span>
+                                    <span class="console-dot console-dot--yellow"></span>
+                                    <span class="console-dot console-dot--green"></span>
+                                </div>
+                                <span class="console-title">EVID-OP-07: Intento de inicio de sesión simulado - Registros del EDR/Servidor</span>
+                            </div>
+                            <pre class="console-body"><div class="console-input console-input--bash">grep -i "multifactor" /var/log/auth.log | tail -n 3</div><div class="console-output">May 21 08:30:12 ups-escolares-srv pam_unix(sshd:auth): login allowed for admin_escolar
+May 21 08:30:13 ups-escolares-srv sshd[14512]: MFA challenge requested for user admin_escolar (Method: Authenticator App)
+May 21 08:30:18 ups-escolares-srv sshd[14512]: MFA token verified successfully. Session established.
+May 21 08:31:02 ups-escolares-srv sshd[14601]: MFA challenge requested for user hacker_ext (Method: Authenticator App)
+May 21 08:31:05 ups-escolares-srv sshd[14601]: MFA challenge TIMEOUT. Connection closed from IP: 198.51.100.42 (Unauthorized)</div></pre>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         TAB 7: EVALUACIÓN & AUDITORÍA
+                         ========================================== -->
+                    <div id="tab-auditoria" class="sgsi-tab-content hidden">
+                        <h2>9. Evaluación del Desempeño</h2>
+                        <h3>9.1. Checklist de Auditoría Interna</h3>
+                        <p>
+                            Se presenta la evaluación del grado de cobertura de las políticas en el entorno simulado del SGSI:
+                        </p>
+                        <div class="asset-table-wrapper" style="margin-bottom: 30px;">
+                            <table class="asset-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID Criterio</th>
+                                        <th>Requisito Evaluado</th>
+                                        <th>Estado</th>
+                                        <th>Evidencia Observada</th>
+                                        <th>Relación Control</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>AUD-01</strong></td>
+                                        <td>Existencia de políticas de seguridad aprobadas.</td>
+                                        <td><span class="audit-status audit-status--cumple">Cumple</span></td>
+                                        <td>Políticas POL-01 a POL-10 con firma y minuta de aprobación.</td>
+                                        <td>Sección 5</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>AUD-02</strong></td>
+                                        <td>Todas las cuentas administrativas tienen MFA.</td>
+                                        <td><span class="audit-status audit-status--parcial">Parcial</span></td>
+                                        <td>14 de 18 cuentas con MFA activo. 4 cuentas obsoletas en depuración.</td>
+                                        <td>POL-01 / R-01</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>AUD-03</strong></td>
+                                        <td>Existe un inventario clasificado de activos.</td>
+                                        <td><span class="audit-status audit-status--cumple">Cumple</span></td>
+                                        <td>Trazabilidad de 40 activos (internos/externos) con criticidad.</td>
+                                        <td>Sección 4</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>AUD-04</strong></td>
+                                        <td>Pruebas de restauración de respaldos.</td>
+                                        <td><span class="audit-status audit-status--parcial">Parcial</span></td>
+                                        <td>Bitácoras de restauración parciales solo para el sistema escolar.</td>
+                                        <td>POL-04 / R-07</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>AUD-05</strong></td>
+                                        <td>Proveedores con accesos temporales controlados.</td>
+                                        <td><span class="audit-status audit-status--parcial">Parcial</span></td>
+                                        <td>1 proveedor de mantenimiento de red con acceso permanente.</td>
+                                        <td>POL-08 / R-11</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>AUD-06</strong></td>
+                                        <td>Registro y bitácora de incidentes activa.</td>
+                                        <td><span class="audit-status audit-status--cumple">Cumple</span></td>
+                                        <td>Mesa de ayuda con folios asignados a phishing y reportes de red.</td>
+                                        <td>POL-07</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>AUD-07</strong></td>
+                                        <td>Campañas de concienciación anti-phishing.</td>
+                                        <td><span class="audit-status audit-status--nocumple">No Cumple</span></td>
+                                        <td>No se cuenta con evidencia física de folletos o asistencia reciente.</td>
+                                        <td>POL-09 / R-01</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h3>9.2. Plan de Acción y Acciones Correctivas (CAPA)</h3>
+                        <p>
+                            Acciones correctivas programadas para cerrar los hallazgos de la auditoría simulada:
+                        </p>
+                        <div class="asset-table-wrapper" style="margin-bottom: 25px;">
+                            <table class="asset-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID Hallazgo</th>
+                                        <th>Hallazgo Detectado</th>
+                                        <th>Prioridad</th>
+                                        <th>Acción Correctiva</th>
+                                        <th>Responsable / Fecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>H-01</strong></td>
+                                        <td>Cuentas de administradores de red sin doble factor activo.</td>
+                                        <td><span class="asset-badge" style="color: var(--color-critico); border-color: var(--color-critico);">Alta</span></td>
+                                        <td>Deshabilitar las cuentas inactivas y forzar MFA en las 4 restantes.</td>
+                                        <td>Servicios Informáticos / 30 Mayo 2026</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>H-02</strong></td>
+                                        <td>Proveedores externos con accesos de red persistentes sin caducidad.</td>
+                                        <td><span class="asset-badge" style="color: var(--color-critico); border-color: var(--color-critico);">Alta</span></td>
+                                        <td>Modificar credenciales en firewall y colocar expiración automática.</td>
+                                        <td>Administrador de Red / 25 Mayo 2026</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>H-03</strong></td>
+                                        <td>Falta de evidencias en simulacros de restauración de copias de seguridad.</td>
+                                        <td><span class="asset-badge" style="color: var(--color-alto); border-color: var(--color-alto);">Media</span></td>
+                                        <td>Calendarizar simulacro trimestral de restauración y documentar logs.</td>
+                                        <td>Administrador de Backup / 15 Junio 2026</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>H-04</strong></td>
+                                        <td>Ausencia de reportes en campañas de concienciación de usuarios.</td>
+                                        <td><span class="asset-badge" style="color: var(--color-alto); border-color: var(--color-alto);">Media</span></td>
+                                        <td>Diseñar flyer impreso y enviarlo por correo general para su registro.</td>
+                                        <td>Responsable SGSI / 10 Junio 2026</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h3>9.3. Diagnóstico Ejecutivo de Madurez</h3>
+                        <div class="reflection" style="border-left-color: var(--color-alto);">
+                            <p>
+                                El SGSI de la UPSLP se diagnostica en un nivel de **Madurez Inicial Controlado**. El sistema cuenta con bases normativas e inventario de activos sólidos. Las prioridades de corto plazo están en resolver la obligatoriedad de MFA en la totalidad de accesos privilegias de red y revocar los permisos heredados o persistentes de proveedores.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         TAB 8: INCIDENTES & MEJORA
+                         ========================================== -->
+                    <div id="tab-mejora" class="sgsi-tab-content hidden">
+                        <h2>10. Incidente Verosímil: Phishing Exitoso</h2>
+                        <p>
+                            Para evidenciar la resiliencia del SGSI, se analiza la respuesta del equipo de seguridad ante un caso práctico real:
+                        </p>
+
+                        <div class="timeline">
+                            <div class="timeline-item timeline-item--alert">
+                                <div class="timeline-date">18 de Mayo de 2026, 09:15 AM</div>
+                                <h4 class="timeline-title">Detección de Compromiso</h4>
+                                <p class="timeline-desc">
+                                    Una cuenta administrativa ingresa credenciales en un portal de contraseña falso simulando ser de soporte de TI. Se reporta inicio de sesión inusual desde el extranjero.
+                                </p>
+                            </div>
+                            <div class="timeline-item timeline-item--action">
+                                <div class="timeline-date">18 de Mayo de 2026, 09:30 AM</div>
+                                <h4 class="timeline-title">Contención Inicial</h4>
+                                <p class="timeline-desc">
+                                    El equipo de TI bloquea de forma remota la sesión activa del usuario, inhabilita la cuenta de forma temporal y realiza el cambio de contraseña de su cuenta del Directorio Activo.
+                                </p>
+                            </div>
+                            <div class="timeline-item timeline-item--action">
+                                <div class="timeline-date">18 de Mayo de 2026, 11:00 AM</div>
+                                <h4 class="timeline-title">Análisis de Impacto y Mitigación</h4>
+                                <p class="timeline-desc">
+                                    Se inspecciona el log del correo. Se descarta la fuga de información confidencial. Se activa MFA de forma obligatoria en la cuenta administrativa afectada y cuentas adyacentes.
+                                </p>
+                            </div>
+                            <div class="timeline-item timeline-item--success">
+                                <div class="timeline-date">19 de Mayo de 2026, 10:00 AM</div>
+                                <h4 class="timeline-title">Lecciones Aprendidas</h4>
+                                <p class="timeline-desc">
+                                    El incidente evidencia la necesidad de apurar la campaña de concienciación (POL-09) y ajustar la línea base de MFA para forzar su uso en todo el personal administrativo y escolar.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <h2>10.4. Material de Prevención: Campaña Anti-Phishing</h2>
+                        <p>
+                            Flyer digital diseñado como material informativo y preventivo de difusión general para mitigar el factor de riesgo humano:
+                        </p>
+
+                        <!-- Flyer Digital de Campaña -->
+                        <div class="flyer-card">
+                            <div class="flyer-header">
+                                <h3 class="flyer-title">Alto al Phishing</h3>
+                                <span class="flyer-subtitle">Pausa · Verifica · Reporta</span>
+                            </div>
+                            
+                            <div class="flyer-steps">
+                                <div class="flyer-step flyer-step--1">
+                                    <div class="flyer-step__num">1</div>
+                                    <h4 class="flyer-step__title">Pausa</h4>
+                                    <p class="flyer-step__desc">
+                                        Desconfía de correos urgentes que exigen actualizar contraseñas o tokens bancarios de inmediato para evitar bloqueos.
+                                    </p>
+                                </div>
+                                <div class="flyer-step flyer-step--2">
+                                    <div class="flyer-step__num">2</div>
+                                    <h4 class="flyer-step__title">Verifica</h4>
+                                    <p class="flyer-step__desc">
+                                        Revisa la dirección del remitente. La universidad nunca te pedirá credenciales o códigos MFA mediante formularios o enlaces externos.
+                                    </p>
+                                </div>
+                                <div class="flyer-step flyer-step--3">
+                                    <div class="flyer-step__num">3</div>
+                                    <h4 class="flyer-step__title">Reporta</h4>
+                                    <p class="flyer-step__desc">
+                                        Si el correo es sospechoso, no abras archivos ni enlaces. Reenvíalo de inmediato al canal oficial de la Mesa de Ayuda.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="flyer-alert-box">
+                                <h4 class="flyer-alert-box__title">⚠️ Señales de Alerta de Phishing en 60 Segundos</h4>
+                                <p class="flyer-alert-box__desc">
+                                    • Remitentes con dominios no oficiales o ligeramente modificados.<br>
+                                    • Frases de urgencia ("Último aviso", "Tu cuenta se cerrará en 24h").<br>
+                                    • Enlaces que dirigen a sitios externos fuera de un dominio corporativo/escolar oficial.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <h2>11. Verificación Final de Cobertura del SGSI</h2>
+                        <p>
+                            Lista de verificación para validar la correspondencia técnica del SGSI propuesto:
+                        </p>
+                        <div class="asset-table-wrapper">
+                            <table class="asset-table">
+                                <thead>
+                                    <tr>
+                                        <th>Sección Evaluada</th>
+                                        <th>Elementos Cubiertos</th>
+                                        <th>Ubicación / Evidencia</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>01. Alcance</strong></td>
+                                        <td>Misión, Visión, Límites y Servicios Críticos de la UPSLP.</td>
+                                        <td>Fase de Planificación (Tab 1)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>02. Normas</strong></td>
+                                        <td>Referencias de la familia ISO 27000 y Legislación Mexicana.</td>
+                                        <td>Marco Normativo (Tab 2)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>03. Términos</strong></td>
+                                        <td>Conceptos clave y glosario aplicado a la institución.</td>
+                                        <td>Glosario del SGSI (Tab 2)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>04. Contexto & Activos</strong></td>
+                                        <td>Inventario exhaustivo de 40 activos e interesados.</td>
+                                        <td>Base de Datos de Activos (Tab 3)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>05. Liderazgo</strong></td>
+                                        <td>10 políticas con estándar, procedimiento y matriz RACI.</td>
+                                        <td>Políticas y Gobernanza (Tab 4)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>06. Riesgos</strong></td>
+                                        <td>Metodología, Matriz de calor 5x5 y aplicabilidad.</td>
+                                        <td>Mapa y Matriz de Riesgos (Tab 5)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>07. Soporte & Operación</strong></td>
+                                        <td>Minutas del comité, lenguaje y evidencias de consola.</td>
+                                        <td>Soporte y playbooks operativos (Tab 6)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>08. Evaluación</strong></td>
+                                        <td>Auditoría interna, guías de entrevista y plan CAPA.</td>
+                                        <td>Registros de auditorías (Tab 7)</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>09. Mejora</strong></td>
+                                        <td>Simulación de incidente de phishing y campaña educativa.</td>
+                                        <td>Timeline de respuesta y Flyer interactivo (Tab 8)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h2>Conclusión</h2>
+                        <p>
+                            El desarrollo formal de un **Sistema de Gestión de Seguridad de la Información (SGSI)** basado en ISO 27001:2022 dota a la **UPSLP** de un esquema estructurado de gobierno en ciberseguridad. Al conectar los procesos con la criticidad de sus activos y capacitar a la comunidad, la institución reduce de manera proactiva su superficie de exposición digital ante ataques modernos.
+                        </p>
+
+                        <div class="references">
+                            <h3>Referencias Bibliográficas</h3>
+                            <p class="muted" style="font-size: 0.85rem; line-height: 1.4;">
+                                • International Organization for Standardization. (2022). <i>ISO/IEC 27001:2022 Information security, cybersecurity and privacy protection — Information security management systems — Requirements</i>. ISO.<br>
+                                • International Organization for Standardization. (2022). <i>ISO/IEC 27002:2022 Information security, cybersecurity and privacy protection — Information security controls</i>. ISO.<br>
+                                • Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados (LGPDPPSO). (2017). Diario Oficial de la Federación, México.<br>
+                                • López Contreras, S. (2026). <i>CNO V: Seguridad Informática</i>. Lineamientos del proyecto e instrumentación pedagógica. Universidad Politécnica de San Luis Potosí.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
         </section>
     </main>
 
-    <a href="PR03-Equipo5.pdf" class="pdf-btn" title="Descargar PDF" aria-label="Descargar PDF" target="_blank"
-        rel="noopener">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <a href="PR03-Equipo5.pdf" class="pdf-btn no-print" title="Descargar PDF Original" aria-label="Descargar PDF Original" target="_blank" rel="noopener">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
             <polyline points="7 10 12 15 17 10"></polyline>
             <line x1="12" y1="15" x2="12" y2="3"></line>
         </svg>
     </a>
 
+    <script src="pr03.js"></script>
 </body>
 
 </html>
